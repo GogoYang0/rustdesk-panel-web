@@ -1,0 +1,30 @@
+{
+  "name": "rustdesk-panel-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "RustDesk Panel Web 控制台（React 19 + Vite + Semi Design）",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@douyinfe/semi-icons": "^2.0.0",
+    "@douyinfe/semi-ui": "^2.0.0",
+    "@tanstack/react-query": "^5.0.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

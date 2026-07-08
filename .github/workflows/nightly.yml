@@ -1,0 +1,67 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "30 18 * * *" # 每日 UTC 18:30（北京时间次日 02:30）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: web-nightly
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: package
+        run: |
+          VERSION="0.0.0-nightly.$(date -u +%Y%m%d)"
+          NAME="rustdesk-panel-web_${VERSION}_dist"
+          mkdir -p out
+          cp -r dist "${NAME}"
+          tar -czf "out/${NAME}.tar.gz" "${NAME}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: out/*
+          retention-days: 14
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: sha256sums
+        working-directory: out
+        run: |
+          rm -f SHA256SUMS.txt
+          sha256sum *.tar.gz > SHA256SUMS.txt
+      - name: publish nightly prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete nightly --yes --cleanup-tag 2>/dev/null || true
+          gh release create nightly out/* \
+            --prerelease \
+            --title "Web Nightly $(date -u +%Y%m%d)" \
+            --notes "Web 控制台 dist 静态包夜间构建（非稳定版本）。" \
+            --target main

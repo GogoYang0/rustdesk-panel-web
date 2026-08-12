@@ -1,0 +1,3 @@
+/* 由 Semi 官方 Tailwind 接入文档（Tailwind v4 章节）提供，逐字采用，禁止改写。 */
+/* 作用：声明 CSS Cascade Layer 的优先级顺序 —— theme < base(含 Preflight) < semi < utilities */
+@layer theme, base, semi, utilities;

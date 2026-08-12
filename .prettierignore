@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+cypress/videos
+cypress/screenshots
+pnpm-lock.yaml
+src/types/api-types.ts

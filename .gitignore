@@ -3,3 +3,16 @@ dist/
 *.local
 *.log
 .DS_Store
+
+# 测试与工具产物
+coverage/
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+.vite/
+*.tsbuildinfo
+
+# 环境变量
+.env
+.env.*
+!.env.example

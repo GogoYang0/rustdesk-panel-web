@@ -20,6 +20,7 @@ import "./styles/tailwind.css";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api/queryClient";
+import "./i18n"; // i18next 初始化（无副作用依赖 CSS）
 import App from "./App";
 
 const rootElement = document.getElementById("root");

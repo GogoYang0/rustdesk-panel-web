@@ -20,8 +20,14 @@ import "./styles/tailwind.css";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api/queryClient";
-import "./i18n"; // i18next 初始化（无副作用依赖 CSS）
+import i18n from "./i18n"; // i18next 初始化（无副作用依赖 CSS）
 import App from "./App";
+
+// 同步 `<html lang>` 与 i18next 的**初始**语言。
+// 之所以放在入口而非 `useI18n`：`useI18n` 的副作用只在挂载它的布局中执行（当前为 TopBar），
+// 而登录页 / 403 / 404 等公开路由不挂该布局，会导致 `<html lang>` 停留在 index.html 的默认值。
+// 此处覆盖首屏，后续语言**切换**仍由 `useI18n` 负责（其副作用已覆盖全站已挂载场景）。
+document.documentElement.lang = i18n.language;
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {

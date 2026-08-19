@@ -3,6 +3,8 @@
  *
  * 组成：Logo · 面包屑 · 语言切换 · 主题切换 · 用户菜单（个人中心 / 退出）。
  * 组件选型：`Button` / `Dropdown` / `Avatar`（均经 Semi MCP 查证）。
+ *
+ * ★ DEF-02：`displayName` 兜底文案走 i18n（`common:state.unauthenticated`）。
  */
 import { useNavigate } from "react-router";
 import { Avatar, Button, Dropdown } from "@douyinfe/semi-ui";
@@ -28,7 +30,7 @@ export function TopBar() {
   const clearSession = useSessionStore((s) => s.clear);
   const resetPermissions = usePermissionStore((s) => s.reset);
 
-  const displayName = user?.display_name ?? user?.name ?? "未登录";
+  const displayName = user?.display_name ?? user?.name ?? t("state.unauthenticated");
 
   /**
    * 退出登录：清会话 + 清权限快照 + 跳登录。
@@ -60,7 +62,7 @@ export function TopBar() {
           onClick={handleToggleLocale}
           aria-label={t("layout.language")}
         >
-          {locale === "zh-CN" ? "中文" : "EN"}
+          {locale === "zh-CN" ? t("layout.localeZhCN") : t("layout.localeEnUS")}
         </Button>
 
         <Button

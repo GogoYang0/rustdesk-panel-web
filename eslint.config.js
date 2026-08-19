@@ -57,7 +57,13 @@ export default tseslint.config(
   },
   {
     // 纯数据/常量模块（无 React 组件）：关闭 react-refresh 告警
-    files: ["src/router/routes.tsx", "src/router/menuFilter.ts", "src/api/queryKeys.ts"],
+    files: [
+      "src/router/routes.tsx",
+      "src/router/menuFilter.ts",
+      "src/api/queryKeys.ts",
+      "src/utils/errorText.ts",
+      "src/components/ErrorBoundary.tsx",
+    ],
     rules: {
       "react-refresh/only-export-components": "off",
     },

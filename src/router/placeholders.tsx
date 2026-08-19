@@ -4,6 +4,8 @@
  * T03 仅交付路由骨架与守卫，功能域页面在 T04~T06 落地。
  * 本文件仅导出**登录页占位**；功能域占位由 `placeholderFactory.tsx` 的
  * `makePlaceholder` 工厂按标题 key 生成（见 `lazyPages.ts`）。
+ *
+ * ★ DEF-02：文案全部走 i18n（`common:errors.pagePending`）。
  */
 import { useTranslation } from "react-i18next";
 import { Card, Typography } from "@douyinfe/semi-ui";
@@ -23,7 +25,7 @@ export function LoginPlaceholder() {
         <Typography.Title heading={4} className="m-0">
           {t("app.name")}
         </Typography.Title>
-        <Typography.Text type="tertiary">登录页面将在 T04 里程碑落地。</Typography.Text>
+        <Typography.Text type="tertiary">{t("errors.pagePending")}</Typography.Text>
       </div>
     </Card>
   );

@@ -3,6 +3,9 @@
  *
  * 组件选型（OQ-4）：经 Semi MCP 查证后 `Result` 不存在，`Empty` 可用；
  * 为降低依赖面，采用已查证的 `Card` + `Typography` + `Button` 兜底。
+ *
+ * ★ DEF-02：文案全部走 i18n，使用描述符形式 `t("permission.noPermissionTitle")`
+ *   （i18next 在 key 不存在时返回 key 字面量，此写法亦便于静态扫描核对 key）。
  */
 import { useNavigate } from "react-router";
 import { Button, Card, Typography } from "@douyinfe/semi-ui";

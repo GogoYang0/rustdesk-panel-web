@@ -1,5 +1,5 @@
 /**
- * 统一错误包络处理（M4-T02）。
+ * 统一错误包络处理（M4-T02；i18n 化：M4-T02/T03 修复批次 DEV-02 附带项）。
  *
  * ⚠️ 契约：后端统一错误包络为 `{statusCode, message, error}`（`components/schemas/Error`）。
  * `message` 存在**三种形态**：
@@ -7,7 +7,13 @@
  *   ② 字符串数组（class-validator 校验错误）；
  *   ③ 业务对象（结构化错误详情）。
  * 本模块把三形态**归一化为可展示文本** `ApiError.display`（共享知识 15）。
+ *
+ * ★ i18n：本模块属**非 React 上下文**（自定义 Error 类 + 请求层），无法使用
+ *   `useTranslation` Hook，故通过 i18next 实例 `i18n.t()` 直接取文案。
+ *   locale 资源：`common:apiError.*`；i18next 未初始化时 `t()` 会返回 key 字面量，
+ *   故此处对「返回 key 原文」的情况回退为中性英文文案，避免界面暴露 key。
  */
+import i18n from "@/i18n";
 
 /** 后端错误包络（`{statusCode, message, error}`）。 */
 export interface ApiEnvelope {
@@ -20,29 +26,45 @@ export interface ApiEnvelope {
 }
 
 /**
+ * 取翻译文案；若 i18next 未就绪（返回 key 字面量）则回退给定默认值。
+ *
+ * @param key i18n key（`common` 命名空间）
+ * @param fallback 未就绪时的英文兜底文案
+ * @returns 展示文案
+ */
+function translate(key: string, fallback: string): string {
+  try {
+    const text = i18n.t(key, { ns: "common", defaultValue: fallback });
+    return typeof text === "string" && text.length > 0 && text !== key ? text : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+/**
  * 从 HTTP 状态码推导兜底展示文案。
  *
  * @param statusCode HTTP 状态码
- * @returns 兜底中文文案
+ * @returns 本地化兜底文案
  */
 function fallbackMessage(statusCode: number): string {
   switch (statusCode) {
     case 400:
-      return "请求参数有误（400）";
+      return translate("apiError.badRequest", "Bad request (400)");
     case 401:
-      return "未认证或会话已失效（401）";
+      return translate("apiError.unauthorized", "Not authenticated or session expired (401)");
     case 403:
-      return "无权限执行该操作（403）";
+      return translate("apiError.forbidden", "You do not have permission to perform this action (403)");
     case 404:
-      return "资源不存在（404）";
+      return translate("apiError.notFound", "Resource not found (404)");
     case 409:
-      return "资源冲突（409）";
+      return translate("apiError.conflict", "Resource conflict (409)");
     case 429:
-      return "请求过于频繁，请稍后重试（429）";
+      return translate("apiError.tooManyRequests", "Too many requests, please try again later (429)");
     case 500:
-      return "服务器内部错误（500）";
+      return translate("apiError.serverError", "Internal server error (500)");
     default:
-      return `请求失败（${statusCode}）`;
+      return i18n.t("apiError.requestFailed", { ns: "common", statusCode, defaultValue: `Request failed (${statusCode})` });
   }
 }
 
@@ -152,5 +174,5 @@ export function toDisplayMessage(err: unknown): string {
   if (typeof err === "string") {
     return err;
   }
-  return "未知错误";
+  return translate("state.unknownError", "Unknown error");
 }

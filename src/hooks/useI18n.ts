@@ -6,6 +6,7 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { type Locale, SUPPORTED_LOCALES, useUiStore } from "@/stores/uiStore";
+import { setErrorTextResolver } from "@/utils/errorText";
 
 /** `useI18n` 返回值。 */
 export interface UseI18nResult {
@@ -28,6 +29,9 @@ export function useI18n(): UseI18nResult {
   const locale = useUiStore((s) => s.locale);
   const setLocaleStore = useUiStore((s) => s.setLocale);
   const { t, i18n } = useTranslation();
+
+  // 错误边界为类组件，无法用 Hook：在此注入基于 i18n 实例的错误文案提取器
+  useEffect(() => setErrorTextResolver((error) => i18n.t("errors.renderFailedTitle") + ": " + error.message), [i18n]);
 
   useEffect(() => {
     if (i18n.language !== locale) {

@@ -21,8 +21,14 @@ export type SemiButtonProps = ComponentProps<typeof Button>;
 export type PermissionButtonProps = SemiButtonProps & {
   /** 权限码（resource.action） */
   code: string;
-  /** 设备域专用：设备所属设备组 guid（提供后走 device_group 二次判定） */
-  deviceGroupGuid?: string;
+  /**
+   * 设备域专用：设备所属设备组 guid。
+   *
+   * ★ 类型与契约 `DeviceView.deviceGroupGuid`（`string | null`）保持一致：
+   *   无组设备的真实取值是 `null`，可直接透传；`null` / `undefined` / 空串
+   *   一律按「无该组」保守隐藏或禁用（DEV-01）。
+   */
+  deviceGroupGuid?: string | null;
   /** 无权限时的降级策略：hide（不渲染）/ disable（渲染但禁用） */
   fallback?: "hide" | "disable";
 };

@@ -3,6 +3,8 @@
  *
  * 组件选型（OQ-4）：`Result` 不存在、`Empty` 可用；采用已查证的
  * `Card` + `Typography` + `Button` 兜底，避免额外依赖。
+ *
+ * ★ DEF-02：文案全部走 i18n（`common:errors.*` / `common:action.*`）。
  */
 import { useNavigate } from "react-router";
 import { Button, Card, Typography } from "@douyinfe/semi-ui";
@@ -24,9 +26,9 @@ export function NotFound() {
       <Card className="max-w-[560px]">
         <div className="flex flex-col items-start gap-3">
           <Typography.Title heading={4} className="m-0">
-            页面不存在
+            {t("errors.notFoundTitle")}
           </Typography.Title>
-          <Typography.Text type="tertiary">你访问的页面不存在或已被移除。</Typography.Text>
+          <Typography.Text type="tertiary">{t("errors.notFoundDescription")}</Typography.Text>
           <Button type="primary" onClick={() => navigate("/")}>
             {t("action.backHome")}
           </Button>

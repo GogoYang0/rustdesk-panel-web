@@ -11,12 +11,15 @@
 import { type ReactNode, Suspense } from "react";
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Spin } from "@douyinfe/semi-ui";
+import { Button, Spin, Typography } from "@douyinfe/semi-ui";
+import { useTranslation } from "react-i18next";
 import { qk } from "@/api/queryKeys";
 import { currentUser, myPermissions } from "@/api/endpoints/auth";
 import { usePermission } from "@/hooks/usePermission";
+import { ADMIN_GATE } from "@/router/menuFilter";
 import { useSessionStore } from "@/stores/sessionStore";
 import { usePermissionStore } from "@/stores/permissionStore";
+import { getEffectivePermissions } from "@/stores/permissionStore";
 
 /** 首屏加载骨架。 */
 export function FullPageLoading() {
@@ -28,11 +31,37 @@ export function FullPageLoading() {
 }
 
 /**
+ * 权限校验失败态（DEF-05）。
+ *
+ * `permissions/me` 返回非 401 错误（如 500）时，快照永远无法就绪；
+ * 此前会**无限转圈**。本组件给出明确的错误态与重试入口，避免死等。
+ *
+ * @param props 重试回调
+ * @returns 错误卡片
+ */
+export function PermissionErrorState({ onRetry }: { onRetry: () => void }) {
+  const { t } = useTranslation("common");
+  return (
+    <div className="flex h-full min-h-screen items-center justify-center bg-semi-color-bg-0 p-6">
+      <div className="flex max-w-[520px] flex-col items-start gap-3">
+        <Typography.Title heading={4} className="m-0">
+          {t("permission.checkFailedTitle")}
+        </Typography.Title>
+        <Typography.Text type="tertiary">{t("permission.checkFailed")}</Typography.Text>
+        <Button type="primary" onClick={onRetry}>
+          {t("action.retry")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/**
  * 会话门（数据加载 + 就绪门）。
  *
  * 职责：
  * 1. 若本地有 token，则拉取 `currentUser` 与 `permissions/me`，写入 store；
- * 2. 快照未就绪时展示骨架，避免菜单闪烁；
+ * 2. 快照未就绪时展示骨架，避免菜单闪烁（就绪门本身在 `RequirePermission`）；
  * 3. `currentUser` 401（探测态）由请求中间件静默处理，此处不跳转。
  *
  * @param props 子节点
@@ -61,7 +90,7 @@ export function SessionGate({ children }: { children: ReactNode }) {
   if (userQuery.data && useSessionStore.getState().user !== userQuery.data) {
     setUser(userQuery.data);
   }
-  if (permsQuery.data && usePermissionStore.getState().eff !== permsQuery.data) {
+  if (permsQuery.data && getEffectivePermissions() !== permsQuery.data) {
     setEff(permsQuery.data);
   }
 
@@ -103,20 +132,35 @@ export interface RequirePermissionProps {
  * - 其它码 → `canAny` / `canAll` 判定；
  * - 无权限 → 重定向 `/403`。
  *
+ * ★ DEF-05：`permissions/me` 非 401 失败时（如 500）旧实现恒显 `<FullPageLoading />`
+ *   导致**无限转圈**。现改为：已登录 + 快照未就绪 + 查询已失败 → 渲染错误态与
+ *   「重试」入口（重试成功即恢复，且重试失败不再无限等待）。
+ *
  * @param props 权限码、判定模式与子节点
  * @returns 有权限时渲染子节点，否则重定向 403
  */
 export function RequirePermission({ codes, mode = "any", children }: RequirePermissionProps) {
   const { can, canAny, canAll, isAdmin, ready } = usePermission();
+  const token = useSessionStore((s) => s.token);
+  const { refetch, isError } = useQuery({
+    queryKey: qk.permissions,
+    queryFn: myPermissions,
+    enabled: token !== null && !ready,
+    staleTime: 5 * 60 * 1000,
+  });
 
   // 快照未就绪：保守等待（交由 SessionGate 保证就绪；此处兜底）
   if (!ready && !isAdmin) {
+    if (isError) {
+      return <PermissionErrorState onRetry={() => void refetch()} />;
+    }
     return <FullPageLoading />;
   }
 
   if (codes && codes.length > 0) {
-    const hasAdminGate = codes.includes("__admin__");
-    const codesWithoutGate = codes.filter((c) => c !== "__admin__");
+    // DEF-04：引用 ADMIN_GATE 常量而非硬编码 `"__admin__"`，避免常量改名后静默失效
+    const hasAdminGate = codes.includes(ADMIN_GATE);
+    const codesWithoutGate = codes.filter((c) => c !== ADMIN_GATE);
 
     let allowed: boolean;
     if (hasAdminGate) {

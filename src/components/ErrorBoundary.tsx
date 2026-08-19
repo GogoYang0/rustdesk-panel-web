@@ -3,9 +3,17 @@
  *
  * 捕获子树渲染期异常，避免整页白屏；提供「重试」与「返回首页」。
  * 组件选型：`Card` + `Typography` + `Button`（已查证）。
+ *
+ * ★ DEF-02：文案全部走 i18n。本组件为**类组件**（React 目前仅类组件可实现
+ *   componentDidCatch），无法使用 `useTranslation` Hook，故用
+ *   `<I18nextProvider>` + 渲染提取组件（函数组件）的方式绑定 i18n，
+ *   避免在类组件上新增类型字段带来的初始化顺序问题。
  */
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { Button, Card, Typography } from "@douyinfe/semi-ui";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import i18n from "@/i18n";
+import { getErrorText } from "@/utils/errorText";
 
 /** `ErrorBoundary` 属性。 */
 export interface ErrorBoundaryProps {
@@ -21,6 +29,38 @@ export interface ErrorBoundaryProps {
 export interface ErrorBoundaryState {
   /** 捕获到的错误 */
   error: Error | null;
+}
+
+/** 降级 UI 属性。 */
+interface ErrorFallbackProps {
+  /** 捕获到的错误 */
+  error: Error;
+  /** 重试回调（清空边界错误） */
+  reset: () => void;
+}
+
+/**
+ * 降级 UI（函数组件，走 `useTranslation`）。
+ *
+ * @param props 错误与重试回调
+ * @returns 错误卡片
+ */
+function ErrorFallback({ error, reset }: ErrorFallbackProps) {
+  const { t } = useTranslation("common");
+  return (
+    <Card className="m-4">
+      <div className="flex flex-col items-start gap-3">
+        <Typography.Title heading={5} className="m-0">
+          {t("errors.renderFailedTitle")}
+        </Typography.Title>
+        <Typography.Text type="danger">{getErrorText(error)}</Typography.Text>
+        <div className="flex gap-2">
+          <Button onClick={reset}>{t("action.retry")}</Button>
+          <Button onClick={() => window.location.assign("/")}>{t("action.backHome")}</Button>
+        </div>
+      </div>
+    </Card>
+  );
 }
 
 /**
@@ -70,19 +110,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return fallback(error, this.reset);
     }
 
+    // 显式绑定 i18n 实例，使类组件子树也能拿到 t()（语言切换仍可响应）
     return (
-      <Card className="m-4">
-        <div className="flex flex-col items-start gap-3">
-          <Typography.Title heading={5} className="m-0">
-            页面渲染出错
-          </Typography.Title>
-          <Typography.Text type="danger">{error.message}</Typography.Text>
-          <div className="flex gap-2">
-            <Button onClick={this.reset}>重试</Button>
-            <Button onClick={() => window.location.assign("/")}>返回首页</Button>
-          </div>
-        </div>
-      </Card>
+      <I18nextProvider i18n={i18n}>
+        <ErrorFallback error={error} reset={this.reset} />
+      </I18nextProvider>
     );
   }
 }

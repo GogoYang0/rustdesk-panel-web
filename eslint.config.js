@@ -55,5 +55,12 @@ export default tseslint.config(
       "react-refresh/only-export-components": "off",
     },
   },
+  {
+    // 纯数据/常量模块（无 React 组件）：关闭 react-refresh 告警
+    files: ["src/router/routes.tsx", "src/router/menuFilter.ts", "src/api/queryKeys.ts"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
   prettier,
 );

@@ -1,0 +1,40 @@
+{
+  "app": {
+    "name": "RustDesk Panel",
+    "shortName": "RustDesk"
+  },
+  "action": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Submit",
+    "reset": "Reset",
+    "close": "Close",
+    "back": "Back",
+    "backHome": "Back to Home",
+    "search": "Search",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "logout": "Sign out"
+  },
+  "layout": {
+    "profile": "Profile",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "language": "Language",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar"
+  },
+  "state": {
+    "loading": "Loading…",
+    "empty": "No data",
+    "noDescription": "N/A",
+    "unknown": "Unknown"
+  },
+  "permission": {
+    "noPermissionTitle": "Access Denied",
+    "noPermission": "You do not have permission to perform this action.",
+    "buttonDisabledReason": "You do not have permission to perform this action"
+  }
+}

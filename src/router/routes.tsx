@@ -23,12 +23,13 @@ import {
   AuditConnPlaceholder,
   AuditConsolePlaceholder,
   AuditFilePlaceholder,
-  DashboardPlaceholder,
+  DashboardPage,
   DeviceGroupListPlaceholder,
   DeviceListPlaceholder,
-  LoginPlaceholder,
+  InviteAcceptPage,
+  LoginPage,
   NexusPlaceholder,
-  ProfilePlaceholder,
+  ProfilePage,
   RoleListPlaceholder,
   ServerListPlaceholder,
   SettingsFrontendPlaceholder,
@@ -37,6 +38,7 @@ import {
   SettingsOidcPlaceholder,
   SettingsSmtpPlaceholder,
   StrategyListPlaceholder,
+  TwoFactorPage,
   UserGroupListPlaceholder,
   UserListPlaceholder,
 } from "@/router/lazyPages";
@@ -54,19 +56,31 @@ export const appRoutes: readonly RouteItem[] = [
   {
     // 登录页：公开，无壳布局（由 AuthLayout 承载）
     path: "/login",
-    element: LoginPlaceholder,
+    element: LoginPage,
+    codes: [],
+  },
+  {
+    // 独立两步验证页：公开，仅持有后端签发的 secret 时可用（设计 §5.2）
+    path: "/login/2fa",
+    element: TwoFactorPage,
+    codes: [],
+  },
+  {
+    // 邀请接受页：公开，带 token（设计 §5.2）
+    path: "/invite/accept",
+    element: InviteAcceptPage,
     codes: [],
   },
   {
     // 仪表盘：SuperAdmin 语义（后端 RequireSuperAdmin），前端用 is_admin 判定（OQ-8）
     path: "/dashboard",
-    element: DashboardPlaceholder,
+    element: DashboardPage,
     codes: [ADMIN_GATE],
     titleKey: "menu:dashboard",
   },
   {
     path: "/profile",
-    element: ProfilePlaceholder,
+    element: ProfilePage,
     // 仅需登录（自身）
     titleKey: "menu:profile",
   },

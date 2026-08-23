@@ -1,0 +1,370 @@
+{
+  "login": {
+    "title": "登录 RustDesk Panel",
+    "subtitle": "请使用你的账号登录管理控制台",
+    "pending": "正在登录，请稍候…",
+    "tabs": {
+      "password": "账号密码",
+      "passkey": "Passkey 免密"
+    },
+    "account": {
+      "username": "用户名",
+      "usernamePlaceholder": "请输入用户名",
+      "usernameRequired": "请输入用户名",
+      "password": "密码",
+      "passwordPlaceholder": "请输入密码",
+      "passwordRequired": "请输入密码",
+      "autoLogin": "保持登录状态",
+      "submit": "登录"
+    },
+    "tfa": {
+      "title": "两步验证",
+      "hint": "请输入身份验证器中的 6 位验证码",
+      "passkeyHint": "请使用已注册的 Passkey 完成二次验证",
+      "codeLabel": "验证码",
+      "codePlaceholder": "6 位验证码",
+      "codeRequired": "请输入验证码",
+      "submit": "验证并登录",
+      "backToLogin": "返回登录",
+      "missingSecret": "缺少两步验证会话信息，请重新登录。"
+    },
+    "passkey": {
+      "hint": "使用设备上已注册的 Passkey 直接登录，无需输入密码。",
+      "submit": "使用 Passkey 登录"
+    },
+    "oidc": {
+      "title": "或使用单点登录"
+    },
+    "error": {
+      "credentialsRequired": "请输入用户名与密码。",
+      "tfaCodeRequired": "请输入验证码。",
+      "loginFailed": "登录失败，请检查账号信息。",
+      "webauthnUnsupported": "当前浏览器不支持 Passkey 登录。",
+      "passkeyCancelled": "已取消 Passkey 验证。"
+    }
+  },
+  "invite": {
+    "title": "激活账号",
+    "subtitle": "请设置密码以完成账号激活",
+    "missingToken": "邀请链接无效：缺少邀请令牌。",
+    "activated": "账号已激活",
+    "activatedDescription": "即将跳转到登录页…",
+    "field": {
+      "name": "用户名",
+      "displayName": "显示名",
+      "email": "邮箱",
+      "password": "设置密码",
+      "confirm": "确认密码"
+    },
+    "submit": "激活账号",
+    "error": {
+      "passwordRequired": "请输入密码。",
+      "passwordMismatch": "两次输入的密码不一致。",
+      "confirmRequired": "请再次输入密码。",
+      "Invalid invitation token": "邀请令牌无效。",
+      "Invitation has already been used": "该邀请已被使用。",
+      "Invitation has expired": "该邀请已过期。"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "profile": "资料",
+      "password": "密码",
+      "security": "安全",
+      "sessions": "会话"
+    },
+    "field": {
+      "displayName": "显示名",
+      "email": "邮箱",
+      "note": "备注",
+      "username": "用户名",
+      "guid": "用户 GUID",
+      "role": "角色",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码"
+    },
+    "role": {
+      "admin": "超级管理员",
+      "user": "普通用户"
+    },
+    "profileSaved": "资料已保存",
+    "passwordChanged": "密码已修改",
+    "avatar": {
+      "upload": "上传头像",
+      "delete": "删除头像",
+      "uploaded": "头像已更新",
+      "deleted": "头像已删除",
+      "deleteConfirm": "确定删除当前头像？",
+      "hint": "仅支持 webp 格式，大小不超过 2MB。"
+    },
+    "tfa": {
+      "title": "两步验证（TOTP）",
+      "description": "开启后登录需额外输入身份验证器验证码。",
+      "secretLabel": "密钥（请添加到身份验证器）",
+      "codeLabel": "验证码",
+      "codeRequired": "请输入验证码",
+      "verify": "校验并启用",
+      "verified": "两步验证已启用",
+      "disabled": "两步验证已关闭",
+      "confirmDisable": "确认关闭"
+    },
+    "passkey": {
+      "title": "Passkey 凭据",
+      "name": "名称",
+      "deviceType": "设备类型",
+      "createdAt": "创建时间",
+      "actions": "操作",
+      "delete": "删除",
+      "deleteConfirm": "确定删除该 Passkey 凭据？",
+      "deleted": "凭据已删除",
+      "empty": "暂无 Passkey 凭据"
+    },
+    "session": {
+      "device": "设备",
+      "os": "系统",
+      "createdAt": "创建时间",
+      "expiresAt": "过期时间",
+      "actions": "操作",
+      "revoke": "撤销",
+      "revokeConfirm": "确定撤销该会话？",
+      "revoked": "会话已撤销",
+      "empty": "暂无活跃会话"
+    },
+    "error": {
+      "currentPasswordRequired": "请输入当前密码。",
+      "newPasswordRequired": "请输入新密码。"
+    }
+  },
+  "dashboard": {
+    "users": "用户总数",
+    "devices": "设备总数",
+    "connectionsToday": "今日连接",
+    "filesToday": "今日文件",
+    "adminCount": "管理员",
+    "onlineCount": "在线",
+    "success": "成功",
+    "failure": "失败",
+    "upload": "上传",
+    "countsTitle": "资源统计",
+    "count": {
+      "addressBooks": "通讯录",
+      "groups": "群组",
+      "roles": "角色",
+      "strategies": "策略"
+    },
+    "uptime": "运行时长",
+    "systemStatus": "系统状态",
+    "cpu": "CPU",
+    "memory": "内存",
+    "disk": "磁盘",
+    "range": "时间区间",
+    "range_7d": "近 7 天",
+    "range_30d": "近 30 天",
+    "range_90d": "近 90 天",
+    "connectionTrend": "连接趋势",
+    "newUserTrend": "新增用户趋势",
+    "alarmTrend": "告警趋势",
+    "noTrendData": "暂无趋势数据",
+    "noSystemStatus": "暂无系统状态数据",
+    "loadFailed": "仪表盘数据加载失败",
+    "adminOnly": "仅超级管理员可访问仪表盘"
+  },
+  "devices": {
+    "title": "设备",
+    "detailTitle": "设备详情",
+    "field": {
+      "id": "设备 ID",
+      "guid": "设备 GUID",
+      "status": "状态",
+      "online": "在线状态",
+      "deviceName": "主机名",
+      "username": "用户名",
+      "os": "操作系统",
+      "version": "版本",
+      "cpu": "CPU",
+      "memory": "内存",
+      "ip": "IP",
+      "user": "所属用户",
+      "group": "设备组",
+      "strategy": "策略",
+      "note": "备注",
+      "lastOnline": "最后在线"
+    },
+    "filter": {
+      "id": "设备 ID",
+      "deviceName": "主机名",
+      "userName": "所属用户",
+      "deviceGroupName": "设备组",
+      "status": "状态",
+      "isOnline": "在线状态"
+    },
+    "status": {
+      "all": "全部状态",
+      "enabled": "正常",
+      "disabled": "停用",
+      "online": "在线",
+      "offline": "离线"
+    },
+    "action": {
+      "edit": "编辑",
+      "delete": "删除",
+      "disconnect": "断开连接",
+      "enable": "启用",
+      "disable": "停用",
+      "detail": "详情",
+      "batchEnable": "批量启用",
+      "batchDisable": "批量停用"
+    },
+    "deleteConfirm": "确定删除该设备？此操作不可恢复。",
+    "deleted": "设备已删除",
+    "statusUpdated": "设备状态已更新",
+    "disconnected": "断连请求已入队",
+    "disconnectConfirm": "确定断开该设备的活动连接？",
+    "editTitle": "编辑设备",
+    "updated": "设备已更新",
+    "empty": "暂无设备",
+    "backToList": "返回设备列表",
+    "selectedCount": "已选 {{count}} 项",
+    "note": "备注",
+    "notePlaceholder": "请输入备注"
+  },
+  "deviceGroups": {
+    "title": "设备组",
+    "detailTitle": "设备组详情",
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "strategy": "策略",
+      "deviceCount": "设备数",
+      "createdAt": "创建时间",
+      "updatedAt": "更新时间"
+    },
+    "filter": {
+      "name": "设备组名称"
+    },
+    "action": {
+      "create": "新建设备组",
+      "edit": "编辑",
+      "delete": "删除",
+      "detail": "详情",
+      "addDevices": "加入设备",
+      "removeDevices": "移出设备",
+      "backToList": "返回设备组列表"
+    },
+    "createTitle": "新建设备组",
+    "editTitle": "编辑设备组",
+    "deleteConfirm": "确定删除该设备组？",
+    "created": "设备组已创建",
+    "updated": "设备组已更新",
+    "deleted": "设备组已删除",
+    "devicesAdded": "已加入 {{count}} 台设备",
+    "devicesRemoved": "已移出 {{count}} 台设备",
+    "addDevicesTitle": "加入设备（按设备 ID 选择）",
+    "empty": "暂无设备组",
+    "memberEmpty": "该设备组暂无设备",
+    "strategyNone": "未关联策略",
+    "selectStrategy": "选择策略"
+  },
+  "strategies": {
+    "title": "策略",
+    "detailTitle": "策略详情",
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "configOptions": "配置项",
+      "createdAt": "创建时间",
+      "updatedAt": "更新时间",
+      "key": "配置键",
+      "value": "配置值"
+    },
+    "filter": {
+      "name": "策略名称"
+    },
+    "action": {
+      "create": "新建策略",
+      "edit": "编辑",
+      "delete": "删除",
+      "detail": "详情",
+      "assign": "分配",
+      "unassign": "解绑",
+      "backToList": "返回策略列表",
+      "addOption": "新增配置项",
+      "removeOption": "删除"
+    },
+    "createTitle": "新建策略",
+    "editTitle": "编辑策略",
+    "deleteConfirm": "确定删除该策略？",
+    "created": "策略已创建",
+    "updated": "策略已更新",
+    "deleted": "策略已删除",
+    "assigned": "已分配 {{count}} 个目标",
+    "unassigned": "已解绑 {{count}} 个目标",
+    "assignTitle": "分配策略",
+    "targetType": "目标类型",
+    "target": {
+      "device": "设备",
+      "user": "用户",
+      "device_group": "设备组"
+    },
+    "targetPlaceholder": "请选择目标",
+    "empty": "暂无策略",
+    "assignments": "已分配目标",
+    "assignmentsEmpty": "暂未分配任何目标",
+    "partialResult": "成功 {{success}} 个，失败 {{errors}} 个"
+  },
+  "servers": {
+    "title": "服务器",
+    "detailTitle": "服务器详情",
+    "field": {
+      "id": "节点 ID",
+      "name": "节点名称",
+      "reachable": "可达",
+      "services": "服务",
+      "version": "版本",
+      "apiVersion": "API 版本",
+      "error": "错误"
+    },
+    "tabs": {
+      "peers": "设备",
+      "sessions": "会话",
+      "config": "服务配置",
+      "logs": "服务日志",
+      "bans": "封禁名单"
+    },
+    "action": {
+      "detail": "详情",
+      "backToList": "返回服务器列表",
+      "refresh": "刷新",
+      "save": "保存配置",
+      "start": "启动",
+      "stop": "停止",
+      "restart": "重启",
+      "apply": "应用",
+      "disconnect": "断开",
+      "addBan": "新增封禁"
+    },
+    "service": {
+      "hbbs": "hbbs（ID/信令服务）",
+      "hbbr": "hbbr（中继服务）"
+    },
+    "unreachable": "节点不可达",
+    "configSaved": "配置已保存",
+    "actionDone": "操作已提交",
+    "sessionDisconnected": "会话已断开",
+    "empty": "暂无服务器节点",
+    "peersEmpty": "暂无设备数据",
+    "sessionsEmpty": "暂无会话",
+    "logsEmpty": "暂无日志",
+    "bansEmpty": "暂无封禁记录",
+    "bannedDeviceIds": "封禁设备 ID（每行一个）",
+    "bannedIps": "封禁 IP（每行一个）",
+    "bansSaved": "封禁名单已保存",
+    "error": {
+      "400": "请求参数有误：{{message}}",
+      "404": "目标资源不存在：{{message}}",
+      "502": "上游服务返回错误：{{message}}",
+      "503": "服务器当前不可用：{{message}}",
+      "504": "上游服务响应超时：{{message}}"
+    }
+  }
+}

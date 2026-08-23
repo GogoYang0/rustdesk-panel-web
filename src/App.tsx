@@ -21,9 +21,16 @@ import { useUiStore } from "@/stores/uiStore";
 const DEFAULT_ROUTE = "/dashboard";
 
 /**
- * 受保护路由集合（`appRoutes` 中排除公开的 `/login`）。
+ * 公开路由集合（`appRoutes` 中无需登录态者）。
+ *
+ * `/login`、`/login/2fa`、`/invite/accept` 均无壳布局（AuthLayout 承载）。
  */
-const protectedRoutes = appRoutes.filter((item) => item.path !== "/login");
+const PUBLIC_PATHS: readonly string[] = ["/login", "/login/2fa", "/invite/accept"];
+
+/**
+ * 受保护路由集合（`appRoutes` 中排除公开路由）。
+ */
+const protectedRoutes = appRoutes.filter((item) => !PUBLIC_PATHS.includes(item.path));
 
 /**
  * 应用根组件。
@@ -39,7 +46,11 @@ export default function App() {
         <Routes>
           {/* ---------- 公开区：无壳布局 ---------- */}
           <Route element={<AuthLayout />}>
-            <Route path="/login" element={<LoginRoute />} />
+            {appRoutes
+              .filter((item) => PUBLIC_PATHS.includes(item.path))
+              .map((item) => (
+                <Route key={item.path} path={item.path} element={<item.element />} />
+              ))}
           </Route>
 
           {/* ---------- 受保护区：AppLayout + 登录态门槛 ---------- */}
@@ -81,18 +92,4 @@ export default function App() {
       </BrowserRouter>
     </ThemeProvider>
   );
-}
-
-/**
- * `/login` 路由渲染（从 appRoutes 取登录页组件）。
- *
- * @returns 登录页元素
- */
-function LoginRoute() {
-  const login = appRoutes.find((item) => item.path === "/login");
-  const LoginElement = login?.element;
-  if (!LoginElement) {
-    return <Navigate to={DEFAULT_ROUTE} replace />;
-  }
-  return <LoginElement />;
 }

@@ -26,6 +26,10 @@ export const qk = {
   permissions: ["session", "permissions"] as const,
   /** 前端公开配置（GET /api/settings/frontend） */
   frontend: ["settings", "frontend"] as const,
+  /** 当前用户活跃会话列表（GET /api/sessions） */
+  sessions: ["session", "sessions"] as const,
+  /** 当前用户 Passkey 凭据列表（GET /api/passkey/list） */
+  passkeys: ["session", "passkeys"] as const,
 
   // ---------- 设备域 ----------
   devices: (p: QueryParams = {}) => ["devices", "list", p] as const,

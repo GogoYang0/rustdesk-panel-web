@@ -2,7 +2,7 @@
  * i18next 初始化（M4-T03）。
  *
  * 语言集：`zh-CN`（默认）/ `en-US`（OQ-11：自建 key，不逐字对齐参考项目）。
- * 命名空间：`common` | `menu`（T04 起追加 `pages` / `errors`）。
+ * 命名空间：`common` | `menu` | `pages`。
  *
  * 资源直接内联（Vite 静态 import JSON），无需二次请求。
  */
@@ -10,12 +10,16 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import zhCNCommon from "@/i18n/locales/zh-CN/common.json";
+import zhCNErrors from "@/i18n/locales/zh-CN/errors.json";
 import zhCNMenu from "@/i18n/locales/zh-CN/menu.json";
+import zhCNPages from "@/i18n/locales/zh-CN/pages.json";
 import enUSCommon from "@/i18n/locales/en-US/common.json";
+import enUSErrors from "@/i18n/locales/en-US/errors.json";
 import enUSMenu from "@/i18n/locales/en-US/menu.json";
+import enUSPages from "@/i18n/locales/en-US/pages.json";
 
 /** 命名空间列表（顺序即默认加载顺序）。 */
-export const I18N_NAMESPACES = ["common", "menu"] as const;
+export const I18N_NAMESPACES = ["common", "menu", "pages", "errors"] as const;
 
 /** 默认语言。 */
 export const DEFAULT_LOCALE = "zh-CN";
@@ -25,10 +29,14 @@ const resources = {
   "zh-CN": {
     common: zhCNCommon,
     menu: zhCNMenu,
+    pages: zhCNPages,
+    errors: zhCNErrors,
   },
   "en-US": {
     common: enUSCommon,
     menu: enUSMenu,
+    pages: enUSPages,
+    errors: enUSErrors,
   },
 } as const;
 

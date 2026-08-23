@@ -1,0 +1,370 @@
+{
+  "login": {
+    "title": "Sign in to RustDesk Panel",
+    "subtitle": "Use your account to access the admin console",
+    "pending": "Signing in, please wait…",
+    "tabs": {
+      "password": "Account",
+      "passkey": "Passkey"
+    },
+    "account": {
+      "username": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "usernameRequired": "Please enter your username",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "passwordRequired": "Please enter your password",
+      "autoLogin": "Keep me signed in",
+      "submit": "Sign in"
+    },
+    "tfa": {
+      "title": "Two-factor verification",
+      "hint": "Enter the 6-digit code from your authenticator app",
+      "passkeyHint": "Complete verification with your registered Passkey",
+      "codeLabel": "Verification code",
+      "codePlaceholder": "6-digit code",
+      "codeRequired": "Please enter the verification code",
+      "submit": "Verify and sign in",
+      "backToLogin": "Back to sign in",
+      "missingSecret": "Two-factor session is missing. Please sign in again."
+    },
+    "passkey": {
+      "hint": "Sign in with a Passkey registered on this device — no password required.",
+      "submit": "Sign in with Passkey"
+    },
+    "oidc": {
+      "title": "Or continue with single sign-on"
+    },
+    "error": {
+      "credentialsRequired": "Please enter username and password.",
+      "tfaCodeRequired": "Please enter the verification code.",
+      "loginFailed": "Sign-in failed, please check your credentials.",
+      "webauthnUnsupported": "This browser does not support Passkey sign-in.",
+      "passkeyCancelled": "Passkey verification was cancelled."
+    }
+  },
+  "invite": {
+    "title": "Activate account",
+    "subtitle": "Set a password to activate your account",
+    "missingToken": "Invalid invitation link: token is missing.",
+    "activated": "Account activated",
+    "activatedDescription": "Redirecting to the sign-in page…",
+    "field": {
+      "name": "Username",
+      "displayName": "Display name",
+      "email": "Email",
+      "password": "Password",
+      "confirm": "Confirm password"
+    },
+    "submit": "Activate account",
+    "error": {
+      "passwordRequired": "Please enter a password.",
+      "passwordMismatch": "The two passwords do not match.",
+      "confirmRequired": "Please enter the password again.",
+      "Invalid invitation token": "Invalid invitation token.",
+      "Invitation has already been used": "This invitation has already been used.",
+      "Invitation has expired": "This invitation has expired."
+    }
+  },
+  "profile": {
+    "tabs": {
+      "profile": "Profile",
+      "password": "Password",
+      "security": "Security",
+      "sessions": "Sessions"
+    },
+    "field": {
+      "displayName": "Display name",
+      "email": "Email",
+      "note": "Note",
+      "username": "Username",
+      "guid": "User GUID",
+      "role": "Role",
+      "currentPassword": "Current password",
+      "newPassword": "New password"
+    },
+    "role": {
+      "admin": "Super administrator",
+      "user": "Regular user"
+    },
+    "profileSaved": "Profile saved",
+    "passwordChanged": "Password changed",
+    "avatar": {
+      "upload": "Upload avatar",
+      "delete": "Delete avatar",
+      "uploaded": "Avatar updated",
+      "deleted": "Avatar deleted",
+      "deleteConfirm": "Delete the current avatar?",
+      "hint": "Only webp format is supported, up to 2MB."
+    },
+    "tfa": {
+      "title": "Two-factor authentication (TOTP)",
+      "description": "When enabled, sign-in requires a code from your authenticator app.",
+      "secretLabel": "Secret (add it to your authenticator)",
+      "codeLabel": "Verification code",
+      "codeRequired": "Please enter the verification code",
+      "verify": "Verify and enable",
+      "verified": "Two-factor authentication enabled",
+      "disabled": "Two-factor authentication disabled",
+      "confirmDisable": "Confirm disable"
+    },
+    "passkey": {
+      "title": "Passkey credentials",
+      "name": "Name",
+      "deviceType": "Device type",
+      "createdAt": "Created at",
+      "actions": "Actions",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this Passkey credential?",
+      "deleted": "Credential deleted",
+      "empty": "No Passkey credentials"
+    },
+    "session": {
+      "device": "Device",
+      "os": "OS",
+      "createdAt": "Created at",
+      "expiresAt": "Expires at",
+      "actions": "Actions",
+      "revoke": "Revoke",
+      "revokeConfirm": "Revoke this session?",
+      "revoked": "Session revoked",
+      "empty": "No active sessions"
+    },
+    "error": {
+      "currentPasswordRequired": "Please enter your current password.",
+      "newPasswordRequired": "Please enter a new password."
+    }
+  },
+  "dashboard": {
+    "users": "Total users",
+    "devices": "Total devices",
+    "connectionsToday": "Connections today",
+    "filesToday": "Files today",
+    "adminCount": "Admins",
+    "onlineCount": "Online",
+    "success": "Success",
+    "failure": "Failure",
+    "upload": "Uploads",
+    "countsTitle": "Resource statistics",
+    "count": {
+      "addressBooks": "Address books",
+      "groups": "Groups",
+      "roles": "Roles",
+      "strategies": "Strategies"
+    },
+    "uptime": "Uptime",
+    "systemStatus": "System status",
+    "cpu": "CPU",
+    "memory": "Memory",
+    "disk": "Disk",
+    "range": "Time range",
+    "range_7d": "Last 7 days",
+    "range_30d": "Last 30 days",
+    "range_90d": "Last 90 days",
+    "connectionTrend": "Connection trend",
+    "newUserTrend": "New user trend",
+    "alarmTrend": "Alarm trend",
+    "noTrendData": "No trend data",
+    "noSystemStatus": "No system status data",
+    "loadFailed": "Failed to load dashboard data",
+    "adminOnly": "Only super administrators can access the dashboard"
+  },
+  "devices": {
+    "title": "Devices",
+    "detailTitle": "Device detail",
+    "field": {
+      "id": "Device ID",
+      "guid": "Device GUID",
+      "status": "Status",
+      "online": "Online",
+      "deviceName": "Hostname",
+      "username": "Username",
+      "os": "OS",
+      "version": "Version",
+      "cpu": "CPU",
+      "memory": "Memory",
+      "ip": "IP",
+      "user": "Owner",
+      "group": "Device group",
+      "strategy": "Strategy",
+      "note": "Note",
+      "lastOnline": "Last online"
+    },
+    "filter": {
+      "id": "Device ID",
+      "deviceName": "Hostname",
+      "userName": "Owner",
+      "deviceGroupName": "Device group",
+      "status": "Status",
+      "isOnline": "Online"
+    },
+    "status": {
+      "all": "All statuses",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "action": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "disconnect": "Disconnect",
+      "enable": "Enable",
+      "disable": "Disable",
+      "detail": "Detail",
+      "batchEnable": "Enable selected",
+      "batchDisable": "Disable selected"
+    },
+    "deleteConfirm": "Delete this device? This action cannot be undone.",
+    "deleted": "Device deleted",
+    "statusUpdated": "Device status updated",
+    "disconnected": "Disconnect request queued",
+    "disconnectConfirm": "Disconnect active sessions of this device?",
+    "editTitle": "Edit device",
+    "updated": "Device updated",
+    "empty": "No devices",
+    "backToList": "Back to devices",
+    "selectedCount": "{{count}} selected",
+    "note": "Note",
+    "notePlaceholder": "Enter a note"
+  },
+  "deviceGroups": {
+    "title": "Device groups",
+    "detailTitle": "Device group detail",
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "strategy": "Strategy",
+      "deviceCount": "Devices",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at"
+    },
+    "filter": {
+      "name": "Group name"
+    },
+    "action": {
+      "create": "New device group",
+      "edit": "Edit",
+      "delete": "Delete",
+      "detail": "Detail",
+      "addDevices": "Add devices",
+      "removeDevices": "Remove devices",
+      "backToList": "Back to device groups"
+    },
+    "createTitle": "New device group",
+    "editTitle": "Edit device group",
+    "deleteConfirm": "Delete this device group?",
+    "created": "Device group created",
+    "updated": "Device group updated",
+    "deleted": "Device group deleted",
+    "devicesAdded": "Added {{count}} device(s)",
+    "devicesRemoved": "Removed {{count}} device(s)",
+    "addDevicesTitle": "Add devices (select by device ID)",
+    "empty": "No device groups",
+    "memberEmpty": "This group has no devices",
+    "strategyNone": "No strategy linked",
+    "selectStrategy": "Select strategy"
+  },
+  "strategies": {
+    "title": "Strategies",
+    "detailTitle": "Strategy detail",
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "configOptions": "Config options",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at",
+      "key": "Key",
+      "value": "Value"
+    },
+    "filter": {
+      "name": "Strategy name"
+    },
+    "action": {
+      "create": "New strategy",
+      "edit": "Edit",
+      "delete": "Delete",
+      "detail": "Detail",
+      "assign": "Assign",
+      "unassign": "Unassign",
+      "backToList": "Back to strategies",
+      "addOption": "Add option",
+      "removeOption": "Remove"
+    },
+    "createTitle": "New strategy",
+    "editTitle": "Edit strategy",
+    "deleteConfirm": "Delete this strategy?",
+    "created": "Strategy created",
+    "updated": "Strategy updated",
+    "deleted": "Strategy deleted",
+    "assigned": "Assigned to {{count}} target(s)",
+    "unassigned": "Unassigned {{count}} target(s)",
+    "assignTitle": "Assign strategy",
+    "targetType": "Target type",
+    "target": {
+      "device": "Device",
+      "user": "User",
+      "device_group": "Device group"
+    },
+    "targetPlaceholder": "Select targets",
+    "empty": "No strategies",
+    "assignments": "Assigned targets",
+    "assignmentsEmpty": "No targets assigned",
+    "partialResult": "{{success}} succeeded, {{errors}} failed"
+  },
+  "servers": {
+    "title": "Servers",
+    "detailTitle": "Server detail",
+    "field": {
+      "id": "Node ID",
+      "name": "Node name",
+      "reachable": "Reachable",
+      "services": "Services",
+      "version": "Version",
+      "apiVersion": "API version",
+      "error": "Error"
+    },
+    "tabs": {
+      "peers": "Peers",
+      "sessions": "Sessions",
+      "config": "Service config",
+      "logs": "Service logs",
+      "bans": "Bans"
+    },
+    "action": {
+      "detail": "Detail",
+      "backToList": "Back to servers",
+      "refresh": "Refresh",
+      "save": "Save config",
+      "start": "Start",
+      "stop": "Stop",
+      "restart": "Restart",
+      "apply": "Apply",
+      "disconnect": "Disconnect",
+      "addBan": "Add ban"
+    },
+    "service": {
+      "hbbs": "hbbs (ID/signalling service)",
+      "hbbr": "hbbr (relay service)"
+    },
+    "unreachable": "Node unreachable",
+    "configSaved": "Config saved",
+    "actionDone": "Action submitted",
+    "sessionDisconnected": "Session disconnected",
+    "empty": "No server nodes",
+    "peersEmpty": "No peer data",
+    "sessionsEmpty": "No sessions",
+    "logsEmpty": "No logs",
+    "bansEmpty": "No bans",
+    "bannedDeviceIds": "Banned device IDs (one per line)",
+    "bannedIps": "Banned IPs (one per line)",
+    "bansSaved": "Ban list saved",
+    "error": {
+      "400": "Invalid request: {{message}}",
+      "404": "Target resource not found: {{message}}",
+      "502": "Upstream service error: {{message}}",
+      "503": "Server is currently unavailable: {{message}}",
+      "504": "Upstream service timed out: {{message}}"
+    }
+  }
+}

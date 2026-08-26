@@ -40,13 +40,41 @@ export const DashboardPage = lazy(() =>
   import("@/pages/dashboard/Dashboard").then((m) => ({ default: m.Dashboard })),
 );
 
-// ---------- 功能域占位（T05~T06 逐个替换为 lazy(() => import(...))）----------
-/** 服务器。 */
-export const ServerListPlaceholder = makePlaceholder("servers");
-/** 设备。 */
-export const DeviceListPlaceholder = makePlaceholder("devices");
-/** 设备组。 */
-export const DeviceGroupListPlaceholder = makePlaceholder("deviceGroups");
+// ---------- T05：设备域 + 设备组 + 策略 + 服务器 ----------
+/** 设备列表。 */
+export const DeviceListPage = lazy(() =>
+  import("@/pages/devices/DeviceList").then((m) => ({ default: m.DeviceList })),
+);
+/** 设备详情。 */
+export const DeviceDetailPage = lazy(() =>
+  import("@/pages/devices/DeviceDetail").then((m) => ({ default: m.DeviceDetail })),
+);
+/** 设备组列表。 */
+export const DeviceGroupListPage = lazy(() =>
+  import("@/pages/device-groups/DeviceGroupList").then((m) => ({ default: m.DeviceGroupList })),
+);
+/** 设备组详情。 */
+export const DeviceGroupDetailPage = lazy(() =>
+  import("@/pages/device-groups/DeviceGroupDetail").then((m) => ({ default: m.DeviceGroupDetail })),
+);
+/** 策略列表。 */
+export const StrategyListPage = lazy(() =>
+  import("@/pages/strategies/StrategyList").then((m) => ({ default: m.StrategyList })),
+);
+/** 策略详情。 */
+export const StrategyDetailPage = lazy(() =>
+  import("@/pages/strategies/StrategyDetail").then((m) => ({ default: m.StrategyDetail })),
+);
+/** 服务器列表。 */
+export const ServerListPage = lazy(() =>
+  import("@/pages/servers/ServerList").then((m) => ({ default: m.ServerList })),
+);
+/** 服务器详情。 */
+export const ServerDetailPage = lazy(() =>
+  import("@/pages/servers/ServerDetail").then((m) => ({ default: m.ServerDetail })),
+);
+
+// ---------- 功能域占位（T06 逐个替换为 lazy(() => import(...))）----------
 /** 我的通讯录。 */
 export const AbPersonalPlaceholder = makePlaceholder("abPersonal");
 /** 共享通讯录。 */
@@ -59,8 +87,6 @@ export const UserListPlaceholder = makePlaceholder("users");
 export const UserGroupListPlaceholder = makePlaceholder("userGroups");
 /** 角色。 */
 export const RoleListPlaceholder = makePlaceholder("roles");
-/** 策略。 */
-export const StrategyListPlaceholder = makePlaceholder("strategies");
 /** 连接审计。 */
 export const AuditConnPlaceholder = makePlaceholder("auditConn");
 /** 活跃连接。 */

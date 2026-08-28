@@ -24,20 +24,24 @@ import {
   AuditConsolePlaceholder,
   AuditFilePlaceholder,
   DashboardPage,
-  DeviceGroupListPlaceholder,
-  DeviceListPlaceholder,
+  DeviceDetailPage,
+  DeviceGroupDetailPage,
+  DeviceGroupListPage,
+  DeviceListPage,
   InviteAcceptPage,
   LoginPage,
   NexusPlaceholder,
   ProfilePage,
   RoleListPlaceholder,
-  ServerListPlaceholder,
+  ServerDetailPage,
+  ServerListPage,
   SettingsFrontendPlaceholder,
   SettingsGeneralPlaceholder,
   SettingsLdapPlaceholder,
   SettingsOidcPlaceholder,
   SettingsSmtpPlaceholder,
-  StrategyListPlaceholder,
+  StrategyDetailPage,
+  StrategyListPage,
   TwoFactorPage,
   UserGroupListPlaceholder,
   UserListPlaceholder,
@@ -86,22 +90,46 @@ export const appRoutes: readonly RouteItem[] = [
   },
   {
     path: "/servers",
-    element: ServerListPlaceholder,
+    element: ServerListPage,
     codes: ["servers.view"],
     titleKey: "menu:servers",
   },
   {
     path: "/devices",
-    element: DeviceListPlaceholder,
+    element: DeviceListPage,
     // 设备域：路由门槛用 devices.view（行级按钮再按 scope 二次判定）
     codes: ["devices.view"],
     titleKey: "menu:devices",
   },
   {
     path: "/device-groups",
-    element: DeviceGroupListPlaceholder,
+    element: DeviceGroupListPage,
     codes: ["devices.view"],
     titleKey: "menu:deviceGroups",
+  },
+  {
+    // 设备详情（无菜单项，从列表跳入）
+    path: "/devices/:guid",
+    element: DeviceDetailPage,
+    codes: ["devices.view"],
+  },
+  {
+    // 设备组详情（无菜单项，从列表跳入）
+    path: "/device-groups/:guid",
+    element: DeviceGroupDetailPage,
+    codes: ["devices.view"],
+  },
+  {
+    // 策略详情（无菜单项，从列表跳入）
+    path: "/strategies/:guid",
+    element: StrategyDetailPage,
+    codes: ["strategies.view"],
+  },
+  {
+    // 服务器节点详情（无菜单项，从列表跳入）
+    path: "/servers/:node",
+    element: ServerDetailPage,
+    codes: ["servers.view"],
   },
   {
     path: "/address-book/personal",
@@ -139,7 +167,7 @@ export const appRoutes: readonly RouteItem[] = [
   },
   {
     path: "/strategies",
-    element: StrategyListPlaceholder,
+    element: StrategyListPage,
     codes: ["strategies.view"],
     titleKey: "menu:strategies",
   },

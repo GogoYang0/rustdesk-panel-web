@@ -67,5 +67,8 @@
     "checkFailedTitle": "权限校验失败",
     "checkFailed": "无法获取权限信息，请稍后重试。",
     "buttonDisabledReason": "你没有执行该操作的权限"
+  },
+  "table": {
+    "actions": "操作"
   }
 }

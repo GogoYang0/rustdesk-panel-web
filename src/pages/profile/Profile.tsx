@@ -118,8 +118,17 @@ function ProfileForm() {
             limit={1}
             showUploadList={false}
             customRequest={({ file }) => {
-              const raw = file.fileInstance ?? (file as unknown as File);
-              uploadAvatar.mutate(raw as File, {
+              const raw = (file.fileInstance ?? file) as unknown as File;
+              // ★ MIN-01 前端强校验：类型必须为 webp、大小 ≤ 2MB（契约 POST /api/users/me/avatar）
+              if (!(raw instanceof File) || raw.type !== "image/webp") {
+                Toast.error(t("profile.avatar.errorType"));
+                return;
+              }
+              if (raw.size > 2 * 1024 * 1024) {
+                Toast.error(t("profile.avatar.errorSize"));
+                return;
+              }
+              uploadAvatar.mutate(raw, {
                 onSuccess: () => Toast.success(t("profile.avatar.uploaded")),
                 onError: (err) => Toast.error(toDisplayMessage(err)),
               });

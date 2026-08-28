@@ -95,7 +95,9 @@
       "uploaded": "头像已更新",
       "deleted": "头像已删除",
       "deleteConfirm": "确定删除当前头像？",
-      "hint": "仅支持 webp 格式，大小不超过 2MB。"
+      "hint": "仅支持 webp 格式，大小不超过 2MB。",
+      "errorType": "仅支持 WebP 格式的图片。",
+      "errorSize": "头像大小不能超过 2MB。"
     },
     "tfa": {
       "title": "两步验证（TOTP）",
@@ -364,7 +366,8 @@
       "404": "目标资源不存在：{{message}}",
       "502": "上游服务返回错误：{{message}}",
       "503": "服务器当前不可用：{{message}}",
-      "504": "上游服务响应超时：{{message}}"
+      "504": "上游服务响应超时：{{message}}",
+      "unknown": "未知原因"
     }
   }
 }

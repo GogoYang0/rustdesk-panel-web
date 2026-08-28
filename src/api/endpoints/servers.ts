@@ -184,6 +184,32 @@ const SERVER_ERROR_FALLBACK: ReadonlyMap<number, string> = new Map([
 ]);
 
 /**
+ * 取错误插值明细：优先包络 `error` 字段（后端错误标识字符串），
+ * 为空时回退 i18n 中性词 `pages:servers.error.unknown`（zh「未知原因」/ en "unknown reason"）。
+ *
+ * @param envelope 后端错误包络（可能为空）
+ * @returns 非空、不以冒号 / 空白结尾的插值文本
+ */
+function errorDetail(envelope: ApiEnvelope | undefined): string {
+  const errName = envelope?.error;
+  if (typeof errName === "string" && errName.trim().length > 0) {
+    return errName.trim();
+  }
+  try {
+    const text = i18n.t("servers.error.unknown", {
+      ns: "pages",
+      defaultValue: "unknown reason",
+    });
+    if (typeof text === "string" && text.length > 0 && text !== "servers.error.unknown") {
+      return text;
+    }
+  } catch {
+    // i18n 未初始化：使用英文兜底
+  }
+  return "unknown reason";
+}
+
+/**
  * 归一化服务器转发错误的展示文案。
  *
  * 规则（映射矩阵验收）：
@@ -208,10 +234,22 @@ export function describeServerError(err: unknown): string {
   // ② 状态码本地化兜底（i18n 未就绪时回退英文，避免暴露 key 字面量）
   if (typeof status === "number" && SERVER_ERROR_KEYS.has(status)) {
     const key = SERVER_ERROR_KEYS.get(status) as string;
+    // 插值来源优先级：包络 error 字段（后端错误标识）→ i18n 中性词「未知原因」
+    const detail = errorDetail(envelope);
     try {
-      const text = i18n.t(key, { ns: "pages", defaultValue: "" });
-      if (typeof text === "string" && text.length > 0 && text !== key) {
-        return text;
+      const text = i18n.t(key, { ns: "pages", message: detail, defaultValue: "" });
+      if (
+        typeof text === "string" &&
+        text.length > 0 &&
+        text !== key &&
+        // 插值必须生效：残留 `{{` 说明模板未渲染，回退英文兜底
+        !text.includes("{{")
+      ) {
+        // 兜底防御：不得以冒号 / 空白结尾
+        const trimmed = text.replace(/[\s:：]+$/u, "");
+        if (trimmed.length > 0) {
+          return trimmed;
+        }
       }
     } catch {
       // i18n 未初始化：走英文兜底

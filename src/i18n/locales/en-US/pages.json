@@ -95,7 +95,9 @@
       "uploaded": "Avatar updated",
       "deleted": "Avatar deleted",
       "deleteConfirm": "Delete the current avatar?",
-      "hint": "Only webp format is supported, up to 2MB."
+      "hint": "Only webp format is supported, up to 2MB.",
+      "errorType": "Only WebP images are supported.",
+      "errorSize": "The avatar must be no larger than 2MB."
     },
     "tfa": {
       "title": "Two-factor authentication (TOTP)",
@@ -364,7 +366,8 @@
       "404": "Target resource not found: {{message}}",
       "502": "Upstream service error: {{message}}",
       "503": "Server is currently unavailable: {{message}}",
-      "504": "Upstream service timed out: {{message}}"
+      "504": "Upstream service timed out: {{message}}",
+      "unknown": "unknown reason"
     }
   }
 }

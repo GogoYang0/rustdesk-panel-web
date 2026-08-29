@@ -369,5 +369,140 @@
       "504": "上游服务响应超时：{{message}}",
       "unknown": "未知原因"
     }
+  },
+  "users": {
+    "detailTitle": "用户详情",
+    "editTitle": "编辑用户",
+    "securityTitle": "安全设置：{{name}}",
+    "rolesTitle": "角色指派：{{name}}",
+    "batchSecurityTitle": "批量安全设置（{{count}} 个用户）",
+    "deleteConfirm": "确定删除该用户？此操作不可恢复。",
+    "statusUpdated": "用户状态已更新",
+    "securityUpdated": "安全设置已更新",
+    "rolesUpdated": "角色指派已更新",
+    "forcedLogout": "已强制该用户下线",
+    "deleted": "用户已删除",
+    "updated": "用户已更新",
+    "selectedCount": "已选 {{count}} 项",
+    "batchSummary": "共 {{total}} 项：成功 {{success}}，失败 {{failed}}",
+    "batchEnableDone": "批量启用",
+    "batchDisableDone": "批量停用",
+    "batchLogoutDone": "批量强制下线",
+    "batchSecurityDone": "批量安全设置",
+    "filter": {
+      "name": "用户名"
+    },
+    "status": {
+      "all": "全部状态",
+      "active": "活跃",
+      "disabled": "停用",
+      "unverified": "未验证"
+    },
+    "field": {
+      "username": "用户名",
+      "displayName": "显示名",
+      "email": "邮箱",
+      "userGroup": "用户组",
+      "userGroupPlaceholder": "不改变用户组",
+      "roles": "角色",
+      "superAdmin": "超管",
+      "status": "状态",
+      "protected": "受保护",
+      "protectedYes": "是",
+      "guid": "GUID",
+      "strategy": "策略",
+      "createdAt": "创建时间",
+      "note": "备注",
+      "newPassword": "新密码",
+      "newPasswordPlaceholder": "留空表示不修改密码",
+      "tfaEnforce": "强制两步验证",
+      "emailVerification": "强制邮箱验证",
+      "roleName": "角色名",
+      "eligible": "可指派"
+    },
+    "action": {
+      "detail": "详情",
+      "edit": "编辑",
+      "enable": "启用",
+      "disable": "停用",
+      "security": "安全设置",
+      "roles": "角色指派",
+      "forceLogout": "强制下线",
+      "delete": "删除",
+      "batchEnable": "批量启用",
+      "batchDisable": "批量停用",
+      "batchForceLogout": "批量下线",
+      "batchSecurity": "批量安全设置"
+    },
+    "eligible": {
+      "ok": "可指派",
+      "SELF_NOT_ALLOWED": "不能指派给自己",
+      "PROTECTED_ACCOUNT": "受保护账号限制",
+      "HIERARCHY_DENIED": "层级越权限制",
+      "UNKNOWN": "不可指派"
+    }
+  },
+  "userGroups": {
+    "createTitle": "新建用户组",
+    "editTitle": "编辑用户组",
+    "membersTitle": "成员管理：{{name}}",
+    "deleteConfirm": "确定删除该用户组？成员将回落到默认组，组内共享地址簿规则将被级联删除。",
+    "created": "用户组已创建",
+    "updated": "用户组已更新",
+    "deletedWithRules": "用户组已删除：{{moved}} 个成员回落默认组，级联删除 {{rules}} 条共享规则",
+    "membersMoved": "已移动 {{count}} 个用户到该组",
+    "candidateTitle": "候选用户：",
+    "candidatePlaceholder": "选择要移入的用户",
+    "membersHint": "当前组共 {{count}} 个成员",
+    "filter": {
+      "name": "组名称",
+      "member": "成员用户名"
+    },
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "isDefault": "默认组",
+      "defaultYes": "默认",
+      "userCount": "成员数",
+      "memberName": "用户名"
+    },
+    "action": {
+      "create": "新建用户组",
+      "edit": "编辑",
+      "delete": "删除",
+      "members": "成员",
+      "moveIn": "移入 {{count}} 项"
+    }
+  },
+  "roles": {
+    "createTitle": "新建角色",
+    "editTitle": "编辑角色：{{name}}",
+    "deleteConfirm": "确定删除该角色？",
+    "deleteImpact": "该角色当前有 {{count}} 个成员，删除后成员将失去对应权限。",
+    "created": "角色已创建",
+    "updated": "角色已更新",
+    "deleted": "角色已删除",
+    "matrixHint": "提示：system_only 权限码（角色增删改）不可分配；设备组 scope 码的实际生效分档由用户角色指派决定。",
+    "filter": {
+      "name": "角色名称"
+    },
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "protected": "受保护",
+      "protectedYes": "是",
+      "confirmUnprotect": "我确认取消保护该角色",
+      "createdAt": "创建时间",
+      "permCode": "权限码",
+      "permAction": "动作",
+      "permScope": "作用域",
+      "scopeDeviceGroup": "设备组",
+      "scopeGlobal": "全局"
+    },
+    "action": {
+      "create": "新建角色",
+      "edit": "编辑",
+      "delete": "删除"
+    }
   }
 }

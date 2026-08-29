@@ -369,5 +369,140 @@
       "504": "Upstream service timed out: {{message}}",
       "unknown": "unknown reason"
     }
+  },
+  "users": {
+    "detailTitle": "User Detail",
+    "editTitle": "Edit User",
+    "securityTitle": "Security Settings: {{name}}",
+    "rolesTitle": "Role Assignment: {{name}}",
+    "batchSecurityTitle": "Batch Security Settings ({{count}} users)",
+    "deleteConfirm": "Delete this user? This action cannot be undone.",
+    "statusUpdated": "User status updated",
+    "securityUpdated": "Security settings updated",
+    "rolesUpdated": "Role assignments updated",
+    "forcedLogout": "User has been logged out",
+    "deleted": "User deleted",
+    "updated": "User updated",
+    "selectedCount": "{{count}} selected",
+    "batchSummary": "Total {{total}}: {{success}} succeeded, {{failed}} failed",
+    "batchEnableDone": "Batch enable",
+    "batchDisableDone": "Batch disable",
+    "batchLogoutDone": "Batch force logout",
+    "batchSecurityDone": "Batch security settings",
+    "filter": {
+      "name": "Username"
+    },
+    "status": {
+      "all": "All statuses",
+      "active": "Active",
+      "disabled": "Disabled",
+      "unverified": "Unverified"
+    },
+    "field": {
+      "username": "Username",
+      "displayName": "Display name",
+      "email": "Email",
+      "userGroup": "User group",
+      "userGroupPlaceholder": "Keep current group",
+      "roles": "Roles",
+      "superAdmin": "Admin",
+      "status": "Status",
+      "protected": "Protected",
+      "protectedYes": "Yes",
+      "guid": "GUID",
+      "strategy": "Strategy",
+      "createdAt": "Created at",
+      "note": "Note",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Leave empty to keep current password",
+      "tfaEnforce": "Enforce 2FA",
+      "emailVerification": "Enforce email verification",
+      "roleName": "Role",
+      "eligible": "Eligible"
+    },
+    "action": {
+      "detail": "Detail",
+      "edit": "Edit",
+      "enable": "Enable",
+      "disable": "Disable",
+      "security": "Security",
+      "roles": "Roles",
+      "forceLogout": "Force logout",
+      "delete": "Delete",
+      "batchEnable": "Batch enable",
+      "batchDisable": "Batch disable",
+      "batchForceLogout": "Batch logout",
+      "batchSecurity": "Batch security"
+    },
+    "eligible": {
+      "ok": "Eligible",
+      "SELF_NOT_ALLOWED": "Cannot assign to yourself",
+      "PROTECTED_ACCOUNT": "Protected account restriction",
+      "HIERARCHY_DENIED": "Hierarchy restriction",
+      "UNKNOWN": "Not eligible"
+    }
+  },
+  "userGroups": {
+    "createTitle": "New User Group",
+    "editTitle": "Edit User Group",
+    "membersTitle": "Members: {{name}}",
+    "deleteConfirm": "Delete this user group? Members fall back to the default group and shared address book rules of the group are deleted.",
+    "created": "User group created",
+    "updated": "User group updated",
+    "deletedWithRules": "User group deleted: {{moved}} member(s) moved to default group, {{rules}} shared rule(s) deleted",
+    "membersMoved": "Moved {{count}} user(s) into the group",
+    "candidateTitle": "Candidates:",
+    "candidatePlaceholder": "Select users to move in",
+    "membersHint": "{{count}} member(s) in this group",
+    "filter": {
+      "name": "Group name",
+      "member": "Member username"
+    },
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "isDefault": "Default",
+      "defaultYes": "Default",
+      "userCount": "Members",
+      "memberName": "Username"
+    },
+    "action": {
+      "create": "New group",
+      "edit": "Edit",
+      "delete": "Delete",
+      "members": "Members",
+      "moveIn": "Move in {{count}}"
+    }
+  },
+  "roles": {
+    "createTitle": "New Role",
+    "editTitle": "Edit Role: {{name}}",
+    "deleteConfirm": "Delete this role?",
+    "deleteImpact": "This role currently has {{count}} member(s); they will lose the related permissions.",
+    "created": "Role created",
+    "updated": "Role updated",
+    "deleted": "Role deleted",
+    "matrixHint": "Note: system_only codes (role create/edit/delete) are not assignable; actual device_group scoping is resolved at user role assignment time.",
+    "filter": {
+      "name": "Role name"
+    },
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "protected": "Protected",
+      "protectedYes": "Yes",
+      "confirmUnprotect": "I confirm unprotecting this role",
+      "createdAt": "Created at",
+      "permCode": "Permission code",
+      "permAction": "Action",
+      "permScope": "Scope",
+      "scopeDeviceGroup": "Device group",
+      "scopeGlobal": "Global"
+    },
+    "action": {
+      "create": "New role",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
   }
 }

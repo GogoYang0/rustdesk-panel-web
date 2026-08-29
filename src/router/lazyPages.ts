@@ -74,7 +74,21 @@ export const ServerDetailPage = lazy(() =>
   import("@/pages/servers/ServerDetail").then((m) => ({ default: m.ServerDetail })),
 );
 
-// ---------- 功能域占位（T06 逐个替换为 lazy(() => import(...))）----------
+// ---------- T06：用户 / 用户组 / 角色 ----------
+/** 用户列表。 */
+export const UserListPage = lazy(() =>
+  import("@/pages/users/UserList").then((m) => ({ default: m.UserList })),
+);
+/** 用户组列表。 */
+export const UserGroupListPage = lazy(() =>
+  import("@/pages/user-groups/UserGroupList").then((m) => ({ default: m.UserGroupList })),
+);
+/** 角色列表。 */
+export const RoleListPage = lazy(() =>
+  import("@/pages/roles/RoleList").then((m) => ({ default: m.RoleList })),
+);
+
+// ---------- 功能域占位（T06 后续批次逐个替换为 lazy(() => import(...))）----------
 /** 我的通讯录。 */
 export const AbPersonalPlaceholder = makePlaceholder("abPersonal");
 /** 共享通讯录。 */
@@ -83,10 +97,6 @@ export const AbSharedPlaceholder = makePlaceholder("abShared");
 export const AbCustomPlaceholder = makePlaceholder("abCustom");
 /** 用户。 */
 export const UserListPlaceholder = makePlaceholder("users");
-/** 用户组。 */
-export const UserGroupListPlaceholder = makePlaceholder("userGroups");
-/** 角色。 */
-export const RoleListPlaceholder = makePlaceholder("roles");
 /** 连接审计。 */
 export const AuditConnPlaceholder = makePlaceholder("auditConn");
 /** 活跃连接。 */

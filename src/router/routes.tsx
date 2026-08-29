@@ -32,7 +32,7 @@ import {
   LoginPage,
   NexusPlaceholder,
   ProfilePage,
-  RoleListPlaceholder,
+  RoleListPage,
   ServerDetailPage,
   ServerListPage,
   SettingsFrontendPlaceholder,
@@ -43,8 +43,8 @@ import {
   StrategyDetailPage,
   StrategyListPage,
   TwoFactorPage,
-  UserGroupListPlaceholder,
-  UserListPlaceholder,
+  UserGroupListPage,
+  UserListPage,
 } from "@/router/lazyPages";
 import { ADMIN_GATE, type RouteItem } from "@/router/menuFilter";
 
@@ -149,19 +149,19 @@ export const appRoutes: readonly RouteItem[] = [
   },
   {
     path: "/users",
-    element: UserListPlaceholder,
+    element: UserListPage,
     codes: ["users.view"],
     titleKey: "menu:users",
   },
   {
     path: "/user-groups",
-    element: UserGroupListPlaceholder,
+    element: UserGroupListPage,
     codes: ["user_groups.view"],
     titleKey: "menu:userGroups",
   },
   {
     path: "/roles",
-    element: RoleListPlaceholder,
+    element: RoleListPage,
     codes: ["roles.view"],
     titleKey: "menu:roles",
   },

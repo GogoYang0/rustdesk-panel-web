@@ -15,14 +15,14 @@
  * `menuFilter.ts`（纯函数、无 UI 依赖），本文件 re-export 以保持既有引用路径。
  */
 import {
-  AbCustomPlaceholder,
-  AbPersonalPlaceholder,
-  AbSharedPlaceholder,
-  AuditActivePlaceholder,
-  AuditAlarmPlaceholder,
-  AuditConnPlaceholder,
-  AuditConsolePlaceholder,
-  AuditFilePlaceholder,
+  CustomAbPage,
+  PersonalAbPage,
+  SharedAbPage,
+  ActiveConnPage,
+  AlarmAuditPage,
+  ConnAuditPage,
+  ConsoleAuditPage,
+  FileAuditPage,
   DashboardPage,
   DeviceDetailPage,
   DeviceGroupDetailPage,
@@ -133,18 +133,18 @@ export const appRoutes: readonly RouteItem[] = [
   },
   {
     path: "/address-book/personal",
-    element: AbPersonalPlaceholder,
+    element: PersonalAbPage,
     // 仅需登录（owner）
     titleKey: "menu:abPersonal",
   },
   {
     path: "/address-book/shared",
-    element: AbSharedPlaceholder,
+    element: SharedAbPage,
     titleKey: "menu:abShared",
   },
   {
     path: "/address-book/custom",
-    element: AbCustomPlaceholder,
+    element: CustomAbPage,
     titleKey: "menu:abCustom",
   },
   {
@@ -173,32 +173,32 @@ export const appRoutes: readonly RouteItem[] = [
   },
   {
     path: "/audit/connections",
-    element: AuditConnPlaceholder,
+    element: ConnAuditPage,
     codes: ["audit.view"],
     titleKey: "menu:auditConn",
   },
   {
     path: "/audit/active",
-    element: AuditActivePlaceholder,
+    element: ActiveConnPage,
     // 活跃连接需 disconnect 能力（设计 §5.2）
     codes: ["devices.disconnect"],
     titleKey: "menu:auditActive",
   },
   {
     path: "/audit/files",
-    element: AuditFilePlaceholder,
+    element: FileAuditPage,
     codes: ["audit.view"],
     titleKey: "menu:auditFile",
   },
   {
     path: "/audit/alarms",
-    element: AuditAlarmPlaceholder,
+    element: AlarmAuditPage,
     codes: ["audit.view"],
     titleKey: "menu:auditAlarm",
   },
   {
     path: "/audit/console",
-    element: AuditConsolePlaceholder,
+    element: ConsoleAuditPage,
     codes: ["audit.view"],
     titleKey: "menu:auditConsole",
   },

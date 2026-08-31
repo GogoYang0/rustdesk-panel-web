@@ -504,5 +504,148 @@
       "edit": "Edit",
       "delete": "Delete"
     }
+  },
+  "addressBook": {
+    "personalHint": "Personal address book is isolated per account",
+    "sharedWithMe": "Shared with me:",
+    "selectedBook": "Current book: {{name}}",
+    "bookCreateTitle": "New Address Book",
+    "bookEditTitle": "Edit Address Book",
+    "bookDeleteConfirm": "Delete this address book? Peers, tags and rules are cascade deleted.",
+    "bookCreated": "Address book created",
+    "bookUpdated": "Address book updated",
+    "bookDeleted": "Address book deleted",
+    "peerAddTitle": "Add Peer",
+    "peerEditTitle": "Edit Peer",
+    "peerDeleteConfirm": "Delete this peer?",
+    "peerAdded": "Peer added",
+    "peerUpdated": "Peer updated",
+    "peerDeleted": "Peer deleted",
+    "tagsTitle": "Tags",
+    "tagDeleteConfirm": "Delete this tag? References on peers are cleared as well.",
+    "rulesTitle": "Sharing Rules",
+    "ruleDeleteConfirm": "Delete this rule?",
+    "ruleCreated": "Rule created",
+    "ruleDeleted": "Rule deleted",
+    "filter": {
+      "deviceId": "Device ID",
+      "bookName": "Book name"
+    },
+    "field": {
+      "deviceId": "Device ID",
+      "alias": "Alias",
+      "tags": "Tags",
+      "note": "Note",
+      "password": "Password",
+      "passwordPlaceholder": "Leave empty for none",
+      "bookName": "Name",
+      "owner": "Owner",
+      "ruleLevel": "Level",
+      "tagName": "Tag name",
+      "tagColor": "Color",
+      "target": "Target",
+      "targetGuid": "Target GUID"
+    },
+    "rule": {
+      "read": "Read",
+      "readWrite": "Read & Write",
+      "fullControl": "Full Control"
+    },
+    "target": {
+      "everyone": "Everyone",
+      "user": "User",
+      "group": "Group"
+    },
+    "color": {
+      "red": "Red",
+      "blue": "Blue",
+      "green": "Green",
+      "yellow": "Yellow"
+    },
+    "action": {
+      "addPeer": "Add peer",
+      "edit": "Edit",
+      "delete": "Delete",
+      "tags": "Tags",
+      "rules": "Rules",
+      "addTag": "Add tag",
+      "renameTag": "Rename",
+      "deleteTag": "Delete",
+      "addRule": "Add rule",
+      "deleteRule": "Delete",
+      "createBook": "New book",
+      "detail": "Detail"
+    }
+  },
+  "audit": {
+    "detailTitle": "Audit Detail",
+    "noteTitle": "Edit Note (SuperAdmin)",
+    "noteUpdated": "Note updated",
+    "disconnected": "Disconnect request submitted",
+    "disconnectConfirm": "Disconnect this connection?",
+    "cannotDisconnect": "No disconnect permission",
+    "systemAction": "System",
+    "filter": {
+      "peerId": "Peer device ID",
+      "uuid": "Device UUID",
+      "range": "Time range",
+      "userGuid": "Actor GUID"
+    },
+    "type": {
+      "all": "All types",
+      "direct": "Direct",
+      "relay": "Relay"
+    },
+    "fileType": {
+      "upload": "Upload",
+      "download": "Download"
+    },
+    "fileKind": {
+      "file": "File",
+      "dir": "Directory"
+    },
+    "alarmTyp": {
+      "0": "Unknown alarm",
+      "1": "Offline alarm",
+      "2": "Online notice"
+    },
+    "result": {
+      "allowed": "Allowed",
+      "denied": "Denied"
+    },
+    "field": {
+      "deviceId": "Device ID",
+      "deviceUuid": "Device UUID",
+      "connId": "Conn ID",
+      "sessionId": "Session ID",
+      "ip": "IP",
+      "action": "Action",
+      "peer": "Peer chain",
+      "requestedAt": "Requested",
+      "establishedAt": "Established",
+      "closedAt": "Closed",
+      "note": "Note",
+      "type": "Type",
+      "peerId": "Peer ID",
+      "fileType": "Direction",
+      "path": "Path",
+      "isFile": "Kind",
+      "clientIp": "Client IP",
+      "createdAt": "Time",
+      "typ": "Alarm type",
+      "actor": "Actor",
+      "targetType": "Target type",
+      "actionName": "Action",
+      "result": "Result",
+      "reason": "Reason",
+      "requestId": "Request ID",
+      "beforeState": "Before",
+      "afterState": "After"
+    },
+    "action": {
+      "detail": "Detail",
+      "editNote": "Note",
+      "disconnect": "Disconnect"
+    }
   }
 }

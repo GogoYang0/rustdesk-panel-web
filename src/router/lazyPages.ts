@@ -88,25 +88,43 @@ export const RoleListPage = lazy(() =>
   import("@/pages/roles/RoleList").then((m) => ({ default: m.RoleList })),
 );
 
-// ---------- 功能域占位（T06 后续批次逐个替换为 lazy(() => import(...))）----------
+// ---------- T06 第 2 批：通讯录 + 审计 ----------
 /** 我的通讯录。 */
-export const AbPersonalPlaceholder = makePlaceholder("abPersonal");
+export const PersonalAbPage = lazy(() =>
+  import("@/pages/address-book/PersonalAb").then((m) => ({ default: m.PersonalAb })),
+);
 /** 共享通讯录。 */
-export const AbSharedPlaceholder = makePlaceholder("abShared");
+export const SharedAbPage = lazy(() =>
+  import("@/pages/address-book/SharedAb").then((m) => ({ default: m.SharedAb })),
+);
 /** 自定义通讯录。 */
-export const AbCustomPlaceholder = makePlaceholder("abCustom");
+export const CustomAbPage = lazy(() =>
+  import("@/pages/address-book/CustomAb").then((m) => ({ default: m.CustomAb })),
+);
+/** 连接审计。 */
+export const ConnAuditPage = lazy(() =>
+  import("@/pages/audit/ConnAudit").then((m) => ({ default: m.ConnAudit })),
+);
+/** 活跃连接。 */
+export const ActiveConnPage = lazy(() =>
+  import("@/pages/audit/ActiveConn").then((m) => ({ default: m.ActiveConn })),
+);
+/** 文件审计。 */
+export const FileAuditPage = lazy(() =>
+  import("@/pages/audit/FileAudit").then((m) => ({ default: m.FileAudit })),
+);
+/** 告警审计。 */
+export const AlarmAuditPage = lazy(() =>
+  import("@/pages/audit/AlarmAudit").then((m) => ({ default: m.AlarmAudit })),
+);
+/** 控制台审计。 */
+export const ConsoleAuditPage = lazy(() =>
+  import("@/pages/audit/ConsoleAudit").then((m) => ({ default: m.ConsoleAudit })),
+);
+
+// ---------- 功能域占位（T06 第 3 批逐个替换为 lazy(() => import(...))）----------
 /** 用户。 */
 export const UserListPlaceholder = makePlaceholder("users");
-/** 连接审计。 */
-export const AuditConnPlaceholder = makePlaceholder("auditConn");
-/** 活跃连接。 */
-export const AuditActivePlaceholder = makePlaceholder("auditActive");
-/** 文件审计。 */
-export const AuditFilePlaceholder = makePlaceholder("auditFile");
-/** 告警审计。 */
-export const AuditAlarmPlaceholder = makePlaceholder("auditAlarm");
-/** 控制台审计。 */
-export const AuditConsolePlaceholder = makePlaceholder("auditConsole");
 /** Nexus 构建。 */
 export const NexusPlaceholder = makePlaceholder("nexus");
 /** 通用设置。 */

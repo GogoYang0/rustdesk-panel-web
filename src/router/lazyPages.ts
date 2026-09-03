@@ -4,11 +4,9 @@
  * 路由级 `React.lazy` 入口：所有页面组件在此以 `lazy(() => import(...))` 声明，
  * 由 `routes.tsx` 引用，配合路由级 `<Suspense>` 骨架。
  *
- * T04 已落地：登录 / 两步验证 / 邀请接受 / 个人中心 / 仪表盘。
- * 其余功能域（T05~T06）暂指向占位组件，保证路由表引用完整、可构建、可导航。
+ * T04~T06 全部功能域已落地为真实页面；错误页（403/404）同样由此出口。
  */
 import { lazy } from "react";
-import { makePlaceholder } from "@/router/placeholderFactory";
 
 /** 403 页面（路由级懒加载）。 */
 export const ForbiddenPage = lazy(() =>
@@ -74,38 +72,76 @@ export const ServerDetailPage = lazy(() =>
   import("@/pages/servers/ServerDetail").then((m) => ({ default: m.ServerDetail })),
 );
 
-// ---------- 功能域占位（T06 逐个替换为 lazy(() => import(...))）----------
+// ---------- T06：用户 / 用户组 / 角色 ----------
+/** 用户列表。 */
+export const UserListPage = lazy(() =>
+  import("@/pages/users/UserList").then((m) => ({ default: m.UserList })),
+);
+/** 用户组列表。 */
+export const UserGroupListPage = lazy(() =>
+  import("@/pages/user-groups/UserGroupList").then((m) => ({ default: m.UserGroupList })),
+);
+/** 角色列表。 */
+export const RoleListPage = lazy(() =>
+  import("@/pages/roles/RoleList").then((m) => ({ default: m.RoleList })),
+);
+
+// ---------- T06 第 2 批：通讯录 + 审计 ----------
 /** 我的通讯录。 */
-export const AbPersonalPlaceholder = makePlaceholder("abPersonal");
+export const PersonalAbPage = lazy(() =>
+  import("@/pages/address-book/PersonalAb").then((m) => ({ default: m.PersonalAb })),
+);
 /** 共享通讯录。 */
-export const AbSharedPlaceholder = makePlaceholder("abShared");
+export const SharedAbPage = lazy(() =>
+  import("@/pages/address-book/SharedAb").then((m) => ({ default: m.SharedAb })),
+);
 /** 自定义通讯录。 */
-export const AbCustomPlaceholder = makePlaceholder("abCustom");
-/** 用户。 */
-export const UserListPlaceholder = makePlaceholder("users");
-/** 用户组。 */
-export const UserGroupListPlaceholder = makePlaceholder("userGroups");
-/** 角色。 */
-export const RoleListPlaceholder = makePlaceholder("roles");
+export const CustomAbPage = lazy(() =>
+  import("@/pages/address-book/CustomAb").then((m) => ({ default: m.CustomAb })),
+);
 /** 连接审计。 */
-export const AuditConnPlaceholder = makePlaceholder("auditConn");
+export const ConnAuditPage = lazy(() =>
+  import("@/pages/audit/ConnAudit").then((m) => ({ default: m.ConnAudit })),
+);
 /** 活跃连接。 */
-export const AuditActivePlaceholder = makePlaceholder("auditActive");
+export const ActiveConnPage = lazy(() =>
+  import("@/pages/audit/ActiveConn").then((m) => ({ default: m.ActiveConn })),
+);
 /** 文件审计。 */
-export const AuditFilePlaceholder = makePlaceholder("auditFile");
+export const FileAuditPage = lazy(() =>
+  import("@/pages/audit/FileAudit").then((m) => ({ default: m.FileAudit })),
+);
 /** 告警审计。 */
-export const AuditAlarmPlaceholder = makePlaceholder("auditAlarm");
+export const AlarmAuditPage = lazy(() =>
+  import("@/pages/audit/AlarmAudit").then((m) => ({ default: m.AlarmAudit })),
+);
 /** 控制台审计。 */
-export const AuditConsolePlaceholder = makePlaceholder("auditConsole");
+export const ConsoleAuditPage = lazy(() =>
+  import("@/pages/audit/ConsoleAudit").then((m) => ({ default: m.ConsoleAudit })),
+);
+
+// ---------- T06 第 3 批：Nexus + 设置 ----------
 /** Nexus 构建。 */
-export const NexusPlaceholder = makePlaceholder("nexus");
+export const NexusPage = lazy(() =>
+  import("@/pages/nexus/NexusPage").then((m) => ({ default: m.NexusPage })),
+);
 /** 通用设置。 */
-export const SettingsGeneralPlaceholder = makePlaceholder("settingsGeneral");
+export const SettingsGeneralPage = lazy(() =>
+  import("@/pages/settings/SettingsGeneral").then((m) => ({ default: m.SettingsGeneral })),
+);
 /** 邮件设置。 */
-export const SettingsSmtpPlaceholder = makePlaceholder("settingsSmtp");
+export const SettingsSmtpPage = lazy(() =>
+  import("@/pages/settings/SettingsSmtp").then((m) => ({ default: m.SettingsSmtp })),
+);
 /** 单点登录。 */
-export const SettingsOidcPlaceholder = makePlaceholder("settingsOidc");
+export const SettingsOidcPage = lazy(() =>
+  import("@/pages/settings/SettingsOidc").then((m) => ({ default: m.SettingsOidc })),
+);
 /** LDAP 设置。 */
-export const SettingsLdapPlaceholder = makePlaceholder("settingsLdap");
+export const SettingsLdapPage = lazy(() =>
+  import("@/pages/settings/SettingsLdap").then((m) => ({ default: m.SettingsLdap })),
+);
 /** 前端设置。 */
-export const SettingsFrontendPlaceholder = makePlaceholder("settingsFrontend");
+export const SettingsFrontendPage = lazy(() =>
+  import("@/pages/settings/SettingsFrontend").then((m) => ({ default: m.SettingsFrontend })),
+);

@@ -369,5 +369,408 @@
       "504": "Upstream service timed out: {{message}}",
       "unknown": "unknown reason"
     }
+  },
+  "users": {
+    "detailTitle": "User Detail",
+    "editTitle": "Edit User",
+    "securityTitle": "Security Settings: {{name}}",
+    "rolesTitle": "Role Assignment: {{name}}",
+    "batchSecurityTitle": "Batch Security Settings ({{count}} users)",
+    "deleteConfirm": "Delete this user? This action cannot be undone.",
+    "statusUpdated": "User status updated",
+    "securityUpdated": "Security settings updated",
+    "rolesUpdated": "Role assignments updated",
+    "forcedLogout": "User has been logged out",
+    "deleted": "User deleted",
+    "updated": "User updated",
+    "selectedCount": "{{count}} selected",
+    "batchSummary": "Total {{total}}: {{success}} succeeded, {{failed}} failed",
+    "batchEnableDone": "Batch enable",
+    "batchDisableDone": "Batch disable",
+    "batchLogoutDone": "Batch force logout",
+    "batchSecurityDone": "Batch security settings",
+    "filter": {
+      "name": "Username"
+    },
+    "status": {
+      "all": "All statuses",
+      "active": "Active",
+      "disabled": "Disabled",
+      "unverified": "Unverified"
+    },
+    "field": {
+      "username": "Username",
+      "displayName": "Display name",
+      "email": "Email",
+      "userGroup": "User group",
+      "userGroupPlaceholder": "Keep current group",
+      "roles": "Roles",
+      "superAdmin": "Admin",
+      "status": "Status",
+      "protected": "Protected",
+      "protectedYes": "Yes",
+      "guid": "GUID",
+      "strategy": "Strategy",
+      "createdAt": "Created at",
+      "note": "Note",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Leave empty to keep current password",
+      "tfaEnforce": "Enforce 2FA",
+      "emailVerification": "Enforce email verification",
+      "roleName": "Role",
+      "eligible": "Eligible"
+    },
+    "action": {
+      "detail": "Detail",
+      "edit": "Edit",
+      "enable": "Enable",
+      "disable": "Disable",
+      "security": "Security",
+      "roles": "Roles",
+      "forceLogout": "Force logout",
+      "delete": "Delete",
+      "batchEnable": "Batch enable",
+      "batchDisable": "Batch disable",
+      "batchForceLogout": "Batch logout",
+      "batchSecurity": "Batch security"
+    },
+    "eligible": {
+      "ok": "Eligible",
+      "SELF_NOT_ALLOWED": "Cannot assign to yourself",
+      "PROTECTED_ACCOUNT": "Protected account restriction",
+      "HIERARCHY_DENIED": "Hierarchy restriction",
+      "UNKNOWN": "Not eligible"
+    }
+  },
+  "userGroups": {
+    "createTitle": "New User Group",
+    "editTitle": "Edit User Group",
+    "membersTitle": "Members: {{name}}",
+    "deleteConfirm": "Delete this user group? Members fall back to the default group and shared address book rules of the group are deleted.",
+    "created": "User group created",
+    "updated": "User group updated",
+    "deletedWithRules": "User group deleted: {{moved}} member(s) moved to default group, {{rules}} shared rule(s) deleted",
+    "membersMoved": "Moved {{count}} user(s) into the group",
+    "candidateTitle": "Candidates:",
+    "candidatePlaceholder": "Select users to move in",
+    "membersHint": "{{count}} member(s) in this group",
+    "filter": {
+      "name": "Group name",
+      "member": "Member username"
+    },
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "isDefault": "Default",
+      "defaultYes": "Default",
+      "userCount": "Members",
+      "memberName": "Username"
+    },
+    "action": {
+      "create": "New group",
+      "edit": "Edit",
+      "delete": "Delete",
+      "members": "Members",
+      "moveIn": "Move in {{count}}"
+    }
+  },
+  "roles": {
+    "createTitle": "New Role",
+    "editTitle": "Edit Role: {{name}}",
+    "deleteConfirm": "Delete this role?",
+    "deleteImpact": "This role currently has {{count}} member(s); they will lose the related permissions.",
+    "created": "Role created",
+    "updated": "Role updated",
+    "deleted": "Role deleted",
+    "matrixHint": "Note: system_only codes (role create/edit/delete) are not assignable; actual device_group scoping is resolved at user role assignment time.",
+    "filter": {
+      "name": "Role name"
+    },
+    "field": {
+      "name": "Name",
+      "note": "Note",
+      "protected": "Protected",
+      "protectedYes": "Yes",
+      "confirmUnprotect": "I confirm unprotecting this role",
+      "createdAt": "Created at",
+      "permCode": "Permission code",
+      "permAction": "Action",
+      "permScope": "Scope",
+      "scopeDeviceGroup": "Device group",
+      "scopeGlobal": "Global"
+    },
+    "action": {
+      "create": "New role",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "addressBook": {
+    "personalHint": "Personal address book is isolated per account",
+    "sharedWithMe": "Shared with me:",
+    "selectedBook": "Current book: {{name}}",
+    "bookCreateTitle": "New Address Book",
+    "bookEditTitle": "Edit Address Book",
+    "bookDeleteConfirm": "Delete this address book? Peers, tags and rules are cascade deleted.",
+    "bookCreated": "Address book created",
+    "bookUpdated": "Address book updated",
+    "bookDeleted": "Address book deleted",
+    "peerAddTitle": "Add Peer",
+    "peerEditTitle": "Edit Peer",
+    "peerDeleteConfirm": "Delete this peer?",
+    "peerAdded": "Peer added",
+    "peerUpdated": "Peer updated",
+    "peerDeleted": "Peer deleted",
+    "tagsTitle": "Tags",
+    "tagDeleteConfirm": "Delete this tag? References on peers are cleared as well.",
+    "rulesTitle": "Sharing Rules",
+    "ruleDeleteConfirm": "Delete this rule?",
+    "ruleCreated": "Rule created",
+    "ruleDeleted": "Rule deleted",
+    "filter": {
+      "deviceId": "Device ID",
+      "bookName": "Book name"
+    },
+    "field": {
+      "deviceId": "Device ID",
+      "alias": "Alias",
+      "tags": "Tags",
+      "note": "Note",
+      "password": "Password",
+      "passwordPlaceholder": "Leave empty for none",
+      "bookName": "Name",
+      "owner": "Owner",
+      "ruleLevel": "Level",
+      "tagName": "Tag name",
+      "tagColor": "Color",
+      "target": "Target",
+      "targetGuid": "Target GUID"
+    },
+    "rule": {
+      "read": "Read",
+      "readWrite": "Read & Write",
+      "fullControl": "Full Control"
+    },
+    "target": {
+      "everyone": "Everyone",
+      "user": "User",
+      "group": "Group"
+    },
+    "color": {
+      "red": "Red",
+      "blue": "Blue",
+      "green": "Green",
+      "yellow": "Yellow"
+    },
+    "action": {
+      "addPeer": "Add peer",
+      "edit": "Edit",
+      "delete": "Delete",
+      "tags": "Tags",
+      "rules": "Rules",
+      "addTag": "Add tag",
+      "renameTag": "Rename",
+      "deleteTag": "Delete",
+      "addRule": "Add rule",
+      "deleteRule": "Delete",
+      "createBook": "New book",
+      "detail": "Detail"
+    }
+  },
+  "audit": {
+    "detailTitle": "Audit Detail",
+    "noteTitle": "Edit Note (SuperAdmin)",
+    "noteUpdated": "Note updated",
+    "disconnected": "Disconnect request submitted",
+    "disconnectConfirm": "Disconnect this connection?",
+    "cannotDisconnect": "No disconnect permission",
+    "systemAction": "System",
+    "filter": {
+      "peerId": "Peer device ID",
+      "uuid": "Device UUID",
+      "range": "Time range",
+      "userGuid": "Actor GUID"
+    },
+    "type": {
+      "all": "All types",
+      "direct": "Direct",
+      "relay": "Relay"
+    },
+    "fileType": {
+      "upload": "Upload",
+      "download": "Download"
+    },
+    "fileKind": {
+      "file": "File",
+      "dir": "Directory"
+    },
+    "alarmTyp": {
+      "0": "Unknown alarm",
+      "1": "Offline alarm",
+      "2": "Online notice"
+    },
+    "result": {
+      "allowed": "Allowed",
+      "denied": "Denied"
+    },
+    "field": {
+      "deviceId": "Device ID",
+      "deviceUuid": "Device UUID",
+      "connId": "Conn ID",
+      "sessionId": "Session ID",
+      "ip": "IP",
+      "action": "Action",
+      "peer": "Peer chain",
+      "requestedAt": "Requested",
+      "establishedAt": "Established",
+      "closedAt": "Closed",
+      "note": "Note",
+      "type": "Type",
+      "peerId": "Peer ID",
+      "fileType": "Direction",
+      "path": "Path",
+      "isFile": "Kind",
+      "clientIp": "Client IP",
+      "createdAt": "Time",
+      "typ": "Alarm type",
+      "actor": "Actor",
+      "targetType": "Target type",
+      "actionName": "Action",
+      "result": "Result",
+      "reason": "Reason",
+      "requestId": "Request ID",
+      "beforeState": "Before",
+      "afterState": "After"
+    },
+    "action": {
+      "detail": "Detail",
+      "editNote": "Note",
+      "disconnect": "Disconnect"
+    }
+  },
+  "nexus": {
+    "notBound": "Nexus account not bound",
+    "bindSuccess": "Bound successfully",
+    "unbound": "Unbound",
+    "bindRequired": "Bind your nexus account before creating builds",
+    "deviceCodeTitle": "GitHub Device Code Login",
+    "visitUri": "Visit the URL below and enter the code",
+    "pollingHint": "Waiting for authorization (polling every 3s)…",
+    "createTitle": "New Client Build",
+    "filesTitle": "Build Artifacts",
+    "cancelConfirm": "Cancel this build?",
+    "unbindConfirm": "Unbind the nexus account? You won't be able to create new builds.",
+    "created": "Build submitted",
+    "cancelled": "Build cancelled",
+    "field": {
+      "uuid": "Build ID",
+      "os": "OS",
+      "arch": "Arch",
+      "status": "Status",
+      "message": "Message",
+      "createdAt": "Created At",
+      "nexusUser": "Nexus User",
+      "expiresAt": "Expires At",
+      "appName": "App Name",
+      "connType": "Connection Type",
+      "customExtra": "Extra key-values",
+      "filename": "Filename",
+      "size": "Size"
+    },
+    "connType": {
+      "all": "All (direct + relay)",
+      "direct": "Direct only",
+      "relay": "Relay only"
+    },
+    "status": {
+      "pending": "Pending",
+      "building": "Building",
+      "completed": "Completed",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    },
+    "action": {
+      "bind": "Bind Account",
+      "unbind": "Unbind",
+      "create": "New Build",
+      "cancel": "Cancel Build",
+      "files": "Artifacts",
+      "download": "Download"
+    }
+  },
+  "settings": {
+    "saved": "Saved successfully",
+    "generalDesc": "General site settings: watermark, default language, token lifetime, audit retention, etc.",
+    "smtpDesc": "SMTP mail service configuration for invitation emails and alert notifications.",
+    "smtpNotConfigured": "SMTP is not configured yet. Fill in the form and save.",
+    "ldapDesc": "LDAP directory service configuration for external user authentication and group sync.",
+    "ldapNotConfigured": "LDAP is not configured yet. Fill in the form and save.",
+    "oidcDesc": "OIDC SSO providers, sorted by priority and shown on the login page.",
+    "oidcCreateTitle": "Create OIDC Provider",
+    "oidcEditTitle": "Edit OIDC Provider",
+    "oidcCreated": "OIDC provider created",
+    "oidcUpdated": "OIDC provider updated",
+    "oidcDeleted": "OIDC provider deleted",
+    "oidcDeleteConfirm": "Delete this OIDC provider?",
+    "testDone": "Test finished",
+    "testFailed": "Connection failed",
+    "frontendDesc": "Frontend public settings (read-only) and version update check.",
+    "frontendKeys": "Frontend Public Settings",
+    "updateCheck": "Update Check",
+    "updateAvailable": "Update available",
+    "updateUpToDate": "Up to date",
+    "backendBranch": "Backend (Panel Server)",
+    "frontendBranch": "Frontend (Panel Web)",
+    "action": {
+      "testSmtp": "Test SMTP",
+      "testLdap": "Test LDAP",
+      "testOidc": "Test provider",
+      "createOidc": "Create Provider",
+      "edit": "Edit",
+      "delete": "Delete",
+      "moveUp": "Move Up (higher priority)",
+      "checkUpdate": "Check for updates",
+      "download": "Download"
+    },
+    "field": {
+      "watermarkEnabled": "Watermark",
+      "defaultLanguage": "Default language",
+      "jwtExpiryDays": "Token lifetime (days)",
+      "auditRetentionDays": "Audit retention (days)",
+      "siteFrontendUrl": "Frontend URL",
+      "siteBackendUrl": "Backend URL",
+      "webauthnEnabled": "WebAuthn",
+      "webauthnRpName": "WebAuthn RP name",
+      "smtpEnabled": "Enabled",
+      "smtpHost": "SMTP host",
+      "smtpPort": "Port",
+      "smtpSecure": "SSL/TLS",
+      "smtpUser": "Username",
+      "smtpPass": "Password",
+      "smtpFrom": "From address",
+      "ldapEnabled": "Enabled",
+      "ldapUrls": "Server URLs (one per line)",
+      "ldapBindDN": "Bind DN",
+      "ldapBindCredentials": "Bind credentials",
+      "ldapSearchBase": "Search base DN",
+      "ldapSearchFilter": "Search filter",
+      "ldapSearchAttributes": "Search attributes (one per line)",
+      "ldapGroupSearchBase": "Group search base DN",
+      "ldapGroupSearchFilter": "Group search filter",
+      "ldapAdminGroups": "Admin groups (one per line)",
+      "maskedHint": "Saved (leave empty to keep unchanged)",
+      "oidcName": "Display name",
+      "oidcIssuer": "Issuer URL",
+      "oidcClientId": "Client ID",
+      "oidcClientSecret": "Client Secret",
+      "oidcScope": "Scope",
+      "oidcType": "Type",
+      "oidcPriority": "Priority",
+      "oidcEnabled": "Enabled",
+      "currentVersion": "Current version",
+      "latestVersion": "Latest version",
+      "hasUpdate": "Update status",
+      "downloadUrl": "Download URL"
+    }
   }
 }

@@ -4,11 +4,9 @@
  * 路由级 `React.lazy` 入口：所有页面组件在此以 `lazy(() => import(...))` 声明，
  * 由 `routes.tsx` 引用，配合路由级 `<Suspense>` 骨架。
  *
- * T04 已落地：登录 / 两步验证 / 邀请接受 / 个人中心 / 仪表盘。
- * 其余功能域（T05~T06）暂指向占位组件，保证路由表引用完整、可构建、可导航。
+ * T04~T06 全部功能域已落地为真实页面；错误页（403/404）同样由此出口。
  */
 import { lazy } from "react";
-import { makePlaceholder } from "@/router/placeholderFactory";
 
 /** 403 页面（路由级懒加载）。 */
 export const ForbiddenPage = lazy(() =>
@@ -122,18 +120,28 @@ export const ConsoleAuditPage = lazy(() =>
   import("@/pages/audit/ConsoleAudit").then((m) => ({ default: m.ConsoleAudit })),
 );
 
-// ---------- 功能域占位（T06 第 3 批逐个替换为 lazy(() => import(...))）----------
-/** 用户。 */
-export const UserListPlaceholder = makePlaceholder("users");
+// ---------- T06 第 3 批：Nexus + 设置 ----------
 /** Nexus 构建。 */
-export const NexusPlaceholder = makePlaceholder("nexus");
+export const NexusPage = lazy(() =>
+  import("@/pages/nexus/NexusPage").then((m) => ({ default: m.NexusPage })),
+);
 /** 通用设置。 */
-export const SettingsGeneralPlaceholder = makePlaceholder("settingsGeneral");
+export const SettingsGeneralPage = lazy(() =>
+  import("@/pages/settings/SettingsGeneral").then((m) => ({ default: m.SettingsGeneral })),
+);
 /** 邮件设置。 */
-export const SettingsSmtpPlaceholder = makePlaceholder("settingsSmtp");
+export const SettingsSmtpPage = lazy(() =>
+  import("@/pages/settings/SettingsSmtp").then((m) => ({ default: m.SettingsSmtp })),
+);
 /** 单点登录。 */
-export const SettingsOidcPlaceholder = makePlaceholder("settingsOidc");
+export const SettingsOidcPage = lazy(() =>
+  import("@/pages/settings/SettingsOidc").then((m) => ({ default: m.SettingsOidc })),
+);
 /** LDAP 设置。 */
-export const SettingsLdapPlaceholder = makePlaceholder("settingsLdap");
+export const SettingsLdapPage = lazy(() =>
+  import("@/pages/settings/SettingsLdap").then((m) => ({ default: m.SettingsLdap })),
+);
 /** 前端设置。 */
-export const SettingsFrontendPlaceholder = makePlaceholder("settingsFrontend");
+export const SettingsFrontendPage = lazy(() =>
+  import("@/pages/settings/SettingsFrontend").then((m) => ({ default: m.SettingsFrontend })),
+);

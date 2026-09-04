@@ -29,6 +29,11 @@ import {
   useUnbindNexus,
 } from "@/api/hooks/nexus";
 
+/** 设备码轮询间隔（ms）。 */
+const POLL_INTERVAL_MS = 3000;
+/** 载荷未声明 expires_in 时的默认有效期（秒；GitHub device flow 常规值）。 */
+const DEFAULT_POLL_EXPIRES_IN = 300;
+
 /** 构建状态 → StatusTag kind。 */
 function buildStatusKind(status: NexusBuildView["status"]): "active" | "online" | "enabled" | "disabled" | "expired" {
   switch (status) {
@@ -71,14 +76,33 @@ export function NexusPage() {
   const [filesRow, setFilesRow] = useState<NexusBuildView | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const pollTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  // M4-T07 MIN-03：并发防护——上一轮轮询请求未返回前不发起新请求
+  const pollInFlight = useRef(false);
 
   const bound = bindQuery.data?.bound === true;
 
-  // 设备码轮询：登录载荷存在时每 3s 轮询一次，授权完成即清载荷并刷新绑定态
+  // 设备码轮询：登录载荷存在时每 3s 轮询一次，授权完成即清载荷并刷新绑定态。
+  // M4-T07 MIN-02：带过期上限——按载荷 expires_in（缺省 300s）计算截止时间，
+  // 超时后停止轮询并给出提示，避免设备码长期失效后无限空转。
   useEffect(() => {
     if (deviceCode === null || deviceCode.login_id === undefined) return undefined;
     const loginId = deviceCode.login_id;
+    const rawExpiresIn = deviceCode.expires_in;
+    const expiresInSec =
+      typeof rawExpiresIn === "number" && Number.isFinite(rawExpiresIn) && rawExpiresIn > 0
+        ? rawExpiresIn
+        : DEFAULT_POLL_EXPIRES_IN;
+    const expiresAt = Date.now() + expiresInSec * 1000;
     pollTimer.current = setInterval(() => {
+      // MIN-03：上一轮请求未返回时不叠加新请求
+      if (pollInFlight.current) return;
+      // MIN-02：到达过期时间即停止轮询
+      if (Date.now() >= expiresAt) {
+        setDeviceCode(null);
+        Notification.error({ content: t("nexus.deviceCodeExpired"), duration: 4 });
+        return;
+      }
+      pollInFlight.current = true;
       pollLogin.mutate(loginId, {
         onSuccess: (payload) => {
           if (isAuthorized(payload.status)) {
@@ -87,8 +111,11 @@ export function NexusPage() {
             Notification.success({ content: t("nexus.bindSuccess") });
           }
         },
+        onSettled: () => {
+          pollInFlight.current = false;
+        },
       });
-    }, 3000);
+    }, POLL_INTERVAL_MS);
     return () => {
       if (pollTimer.current !== null) clearInterval(pollTimer.current);
       pollTimer.current = null;

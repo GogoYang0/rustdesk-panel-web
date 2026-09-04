@@ -651,6 +651,7 @@
   "nexus": {
     "notBound": "Nexus account not bound",
     "bindSuccess": "Bound successfully",
+    "deviceCodeExpired": "Device code expired, please start binding again",
     "unbound": "Unbound",
     "bindRequired": "Bind your nexus account before creating builds",
     "deviceCodeTitle": "GitHub Device Code Login",

@@ -140,11 +140,16 @@ export const appRoutes: readonly RouteItem[] = [
   {
     path: "/address-book/shared",
     element: SharedAbPage,
+    // 共享通讯录需 address_books.view（页面级权限门槛，M4-T07 MIN-01 修复；
+    // 行级 share/edit 按钮仍按权限码二次判定）
+    codes: ["address_books.view"],
     titleKey: "menu:abShared",
   },
   {
     path: "/address-book/custom",
     element: CustomAbPage,
+    // 自定义通讯录同上（M4-T07 MIN-01 修复）
+    codes: ["address_books.view"],
     titleKey: "menu:abCustom",
   },
   {

@@ -79,6 +79,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # pnpm v10 默认屏蔽依赖 postinstall 脚本，Cypress 二进制需显式安装
+      - run: npx cypress install
       - run: pnpm build
       - name: 全量 P0+P1
         uses: cypress-io/github-action@v6

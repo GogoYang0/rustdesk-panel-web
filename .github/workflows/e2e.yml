@@ -39,6 +39,10 @@ jobs:
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
 
+      # pnpm v10 默认屏蔽依赖 postinstall 脚本，Cypress 二进制需显式安装
+      - name: 安装 Cypress 二进制
+        run: npx cypress install
+
       # 先构建产物，再以 vite preview 提供站点，Cypress 针对 preview 跑
       - name: 构建
         run: pnpm build

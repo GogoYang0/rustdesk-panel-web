@@ -1,0 +1,63 @@
+# E2E（Cypress）工作流（M4-T07，设计 §7 / T07）。
+#
+# 策略（主理人批复：CI 不依赖后端 api 仓库与后端进程）：
+# - E2E 用例全部 cy.intercept mock 后端，`vite preview` 静态产物即可独立跑绿；
+# - PR / push / dispatch：只跑 P0（快速反馈）；
+# - nightly（schedule）：跑 P0 + P1 全量。
+name: E2E
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main, develop]
+  schedule:
+    - cron: "0 19 * * *" # 每日 UTC 19:00（nightly 全量，晚于构建 nightly 18:30）
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出 web 仓库
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      # 先构建产物，再以 vite preview 提供站点，Cypress 针对 preview 跑
+      - name: 构建
+        run: pnpm build
+
+      # schedule（nightly）→ 全量 P0+P1；其余（PR/push/dispatch）→ 仅 P0
+      - name: 运行 Cypress E2E（PR/push 跑 P0，nightly 跑全量）
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: ${{ github.event_name == 'schedule' && 'cypress/e2e/**/*.cy.ts' || 'cypress/e2e/p0/**/*.cy.ts' }}
+          start: pnpm preview --port 4173 --strictPort
+          wait-on: "http://localhost:4173"
+          wait-on-timeout: 60
+
+      - name: 上传失败截图（如有）
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+          if-no-files-found: ignore

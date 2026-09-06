@@ -651,6 +651,7 @@
   "nexus": {
     "notBound": "未绑定 nexus.ghpst.com 账号",
     "bindSuccess": "绑定成功",
+    "deviceCodeExpired": "设备码已过期，请重新发起绑定",
     "unbound": "已解绑",
     "bindRequired": "请先绑定 nexus 账号后再创建构建",
     "deviceCodeTitle": "GitHub 设备码登录",

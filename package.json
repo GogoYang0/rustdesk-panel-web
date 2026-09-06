@@ -16,6 +16,8 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "e2e": "cypress run",
+    "e2e:headless": "cypress run --headless",
+    "e2e:p0": "cypress run --spec \"cypress/e2e/p0/**/*.cy.ts\"",
     "e2e:open": "cypress open"
   },
   "dependencies": {

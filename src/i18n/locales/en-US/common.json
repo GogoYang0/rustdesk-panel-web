@@ -1,0 +1,74 @@
+{
+  "app": {
+    "name": "RustDesk Panel",
+    "shortName": "RustDesk"
+  },
+  "action": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Submit",
+    "reset": "Reset",
+    "close": "Close",
+    "back": "Back",
+    "backHome": "Back to Home",
+    "search": "Search",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "logout": "Sign out"
+  },
+  "layout": {
+    "profile": "Profile",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "language": "Language",
+    "localeZhCN": "中文",
+    "localeEnUS": "EN",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar"
+  },
+  "state": {
+    "loading": "Loading…",
+    "empty": "No data",
+    "noDescription": "N/A",
+    "unknown": "Unknown",
+    "unauthenticated": "Not signed in",
+    "unknownError": "Unknown error"
+  },
+  "apiError": {
+    "badRequest": "Bad request (400)",
+    "unauthorized": "Not authenticated or session expired (401)",
+    "forbidden": "You do not have permission to perform this action (403)",
+    "notFound": "Resource not found (404)",
+    "conflict": "Resource conflict (409)",
+    "tooManyRequests": "Too many requests, please try again later (429)",
+    "serverError": "Internal server error (500)",
+    "requestFailed": "Request failed ({{statusCode}})"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "active": "Active",
+    "expired": "Expired",
+    "unknown": "Unknown"
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you requested does not exist or has been removed.",
+    "renderFailedTitle": "Rendering error",
+    "pagePending": "The sign-in page will be delivered in the T04 milestone."
+  },
+  "permission": {
+    "noPermissionTitle": "Access Denied",
+    "noPermission": "You do not have permission to perform this action.",
+    "checkFailedTitle": "Permission check failed",
+    "checkFailed": "Unable to load your permissions. Please try again later.",
+    "buttonDisabledReason": "You do not have permission to perform this action"
+  },
+  "table": {
+    "actions": "Actions"
+  }
+}

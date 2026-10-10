@@ -12,7 +12,19 @@
     "noEmit": true,
     "isolatedModules": true,
     "useDefineForClassFields": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom", "cypress"]
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "build/**/*.ts",
+    "cypress/**/*.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "cypress.config.ts"
+  ]
 }

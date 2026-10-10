@@ -65,3 +65,28 @@ jobs:
             --title "Web Nightly $(date -u +%Y%m%d)" \
             --notes "Web 控制台 dist 静态包夜间构建（非稳定版本）。" \
             --target main
+
+  # M4-T07：nightly 追加 Cypress P0+P1 全量回归（mock E2E，独立于后端进程）。
+  e2e-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # pnpm v10 默认屏蔽依赖 postinstall 脚本，Cypress 二进制需显式安装
+      - run: npx cypress install
+      - run: pnpm build
+      - name: 全量 P0+P1
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/e2e/**/*.cy.ts
+          start: pnpm preview --port 4173 --strictPort
+          wait-on: "http://localhost:4173"
+          wait-on-timeout: 60

@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main, develop]
@@ -16,7 +17,20 @@ jobs:
   lint-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 检出 web 仓库
+        uses: actions/checkout@v4
+
+      # 契约源（openapi.yaml）位于独立 api 仓库。以第二仓库方式拉取到 ../rustdesk-panel-api，
+      # 与本地工作区布局一致（/workspace/rustdesk-panel-api 与 web 同级）。
+      # 严格离线：拉取失败不阻断，后续新鲜度校验步骤会自行跳过并告警（见 OQ-3）。
+      - name: 检出 api 仓库（契约源）
+        id: checkout-api
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: rustdesk-panel/rustdesk-panel-api
+          path: ../rustdesk-panel-api
+
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -24,9 +38,34 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - name: install
+
+      - name: 安装依赖
         run: pnpm install --frozen-lockfile
-      - name: typecheck
+
+      # ★ 契约新鲜度校验：重新生成 api-types.ts 并比对。
+      # 约束（主理人批复 OQ-3）：web CI 不得因 api 仓库不可达而变红。
+      # 故当 openapi.yaml 缺失时【跳过并告警，不阻断构建】。
+      - name: 契约新鲜度校验（api 仓库缺失时跳过并告警）
+        run: |
+          OPENAPI_FILE="../rustdesk-panel-api/openapi.yaml"
+          if [ ! -f "$OPENAPI_FILE" ]; then
+            echo "::warning title=契约源缺失::未找到 $OPENAPI_FILE（api 仓库不可达）。已跳过契约新鲜度校验，不阻断构建（OQ-3）。"
+            echo "SKIP: openapi.yaml not found, freshness check skipped."
+            exit 0
+          fi
+          echo "契约源存在，执行 pnpm gen:api 并比对生成物..."
+          pnpm gen:api
+          if ! git diff --exit-code src/types/api-types.ts; then
+            echo "::error title=契约漂移::src/types/api-types.ts 与 openapi.yaml 不一致，请执行 pnpm gen:api 后提交生成物。"
+            exit 1
+          fi
+          echo "OK: api-types.ts 与契约一致。"
+
+      - name: 类型检查与 lint
         run: pnpm lint
-      - name: build
+
+      - name: 单元测试
+        run: pnpm test
+
+      - name: 构建
         run: pnpm build

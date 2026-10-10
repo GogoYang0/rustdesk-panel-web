@@ -18,3 +18,17 @@ pnpm build      # 产物 dist/
 
 - `rustdesk-panel-web_<version>_dist.tar.gz`（release / pre-release 附件）
 - nightly 为覆盖式 Prerelease（保留最近 14 天 artifact）
+
+## 稳定性提醒
+
+> ⚠️ 本项目主版本号目前为 **0**，处于开发阶段，**不保证稳定性**。如遇 bug 或其他影响使用的问题，欢迎提出 issue。
+
+## 测试
+
+- 单元测试：`pnpm test`（Vitest）。
+- E2E（Cypress，全 mock 后端、可独立运行）：
+  - `pnpm e2e:headless`：headless 跑全量（需先 `pnpm build && pnpm preview --port 4173`）；
+  - `pnpm e2e:p0`：仅 P0 关键链路；
+  - 浏览器基线：Chrome / Edge 现代版本（Chromium 99+，OQ-6：不引入 CSS layer polyfill）；CI 使用 Chrome。
+  - 根容器环境运行 Cypress 需 X server（`xvfb-run -a`）；Chrome 需 `--no-sandbox`（可用包装脚本后 `--browser <脚本路径>`）。
+- 契约生成：`pnpm gen:api`（依赖同级目录 `../rustdesk-panel-api/openapi.yaml`）。

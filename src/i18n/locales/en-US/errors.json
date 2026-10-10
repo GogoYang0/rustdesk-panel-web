@@ -1,0 +1,10 @@
+{
+  "server": {
+    "400": "The target server rejected the request (400): {{message}}",
+    "404": "The resource does not exist on the server (404): {{message}}",
+    "502": "Upstream service failure (502): {{message}}",
+    "503": "Server is currently unavailable (503): {{message}}",
+    "504": "Upstream service timed out (504): {{message}}"
+  },
+  "serverUnreachable": "Node unreachable, please retry later."
+}

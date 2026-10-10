@@ -1,0 +1,74 @@
+{
+  "app": {
+    "name": "RustDesk Panel",
+    "shortName": "RustDesk"
+  },
+  "action": {
+    "confirm": "确定",
+    "cancel": "取消",
+    "save": "保存",
+    "submit": "提交",
+    "reset": "重置",
+    "close": "关闭",
+    "back": "返回",
+    "backHome": "返回首页",
+    "search": "搜索",
+    "refresh": "刷新",
+    "retry": "重试",
+    "logout": "退出登录"
+  },
+  "layout": {
+    "profile": "个人中心",
+    "theme": "主题",
+    "themeLight": "浅色",
+    "themeDark": "深色",
+    "language": "语言",
+    "localeZhCN": "中文",
+    "localeEnUS": "EN",
+    "collapse": "折叠侧栏",
+    "expand": "展开侧栏"
+  },
+  "state": {
+    "loading": "加载中…",
+    "empty": "暂无数据",
+    "noDescription": "无",
+    "unknown": "未知",
+    "unauthenticated": "未登录",
+    "unknownError": "未知错误"
+  },
+  "apiError": {
+    "badRequest": "请求参数有误（400）",
+    "unauthorized": "未认证或会话已失效（401）",
+    "forbidden": "无权限执行该操作（403）",
+    "notFound": "资源不存在（404）",
+    "conflict": "资源冲突（409）",
+    "tooManyRequests": "请求过于频繁，请稍后重试（429）",
+    "serverError": "服务器内部错误（500）",
+    "requestFailed": "请求失败（{{statusCode}}）"
+  },
+  "status": {
+    "online": "在线",
+    "offline": "离线",
+    "enabled": "启用",
+    "disabled": "停用",
+    "active": "活跃",
+    "expired": "已过期",
+    "unknown": "未知"
+  },
+  "errors": {
+    "notFoundTitle": "页面不存在",
+    "notFoundDescription": "你访问的页面不存在或已被移除。",
+    "renderFailedTitle": "页面渲染出错",
+    "pagePending": "登录页面将在 T04 里程碑落地。"
+  },
+  "permission": {
+    "noPermissionTitle": "无访问权限",
+    "noPermission": "你没有执行该操作的权限。",
+    "checkFailedTitle": "权限校验失败",
+    "checkFailed": "无法获取权限信息，请稍后重试。",
+    "buttonDisabledReason": "你没有执行该操作的权限"
+  },
+  "table": {
+    "actions": "操作"
+  }
+}

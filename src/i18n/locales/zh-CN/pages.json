@@ -1,0 +1,777 @@
+{
+  "login": {
+    "title": "登录 RustDesk Panel",
+    "subtitle": "请使用你的账号登录管理控制台",
+    "pending": "正在登录，请稍候…",
+    "tabs": {
+      "password": "账号密码",
+      "passkey": "Passkey 免密"
+    },
+    "account": {
+      "username": "用户名",
+      "usernamePlaceholder": "请输入用户名",
+      "usernameRequired": "请输入用户名",
+      "password": "密码",
+      "passwordPlaceholder": "请输入密码",
+      "passwordRequired": "请输入密码",
+      "autoLogin": "保持登录状态",
+      "submit": "登录"
+    },
+    "tfa": {
+      "title": "两步验证",
+      "hint": "请输入身份验证器中的 6 位验证码",
+      "passkeyHint": "请使用已注册的 Passkey 完成二次验证",
+      "codeLabel": "验证码",
+      "codePlaceholder": "6 位验证码",
+      "codeRequired": "请输入验证码",
+      "submit": "验证并登录",
+      "backToLogin": "返回登录",
+      "missingSecret": "缺少两步验证会话信息，请重新登录。"
+    },
+    "passkey": {
+      "hint": "使用设备上已注册的 Passkey 直接登录，无需输入密码。",
+      "submit": "使用 Passkey 登录"
+    },
+    "oidc": {
+      "title": "或使用单点登录"
+    },
+    "error": {
+      "credentialsRequired": "请输入用户名与密码。",
+      "tfaCodeRequired": "请输入验证码。",
+      "loginFailed": "登录失败，请检查账号信息。",
+      "webauthnUnsupported": "当前浏览器不支持 Passkey 登录。",
+      "passkeyCancelled": "已取消 Passkey 验证。"
+    }
+  },
+  "invite": {
+    "title": "激活账号",
+    "subtitle": "请设置密码以完成账号激活",
+    "missingToken": "邀请链接无效：缺少邀请令牌。",
+    "activated": "账号已激活",
+    "activatedDescription": "即将跳转到登录页…",
+    "field": {
+      "name": "用户名",
+      "displayName": "显示名",
+      "email": "邮箱",
+      "password": "设置密码",
+      "confirm": "确认密码"
+    },
+    "submit": "激活账号",
+    "error": {
+      "passwordRequired": "请输入密码。",
+      "passwordMismatch": "两次输入的密码不一致。",
+      "confirmRequired": "请再次输入密码。",
+      "Invalid invitation token": "邀请令牌无效。",
+      "Invitation has already been used": "该邀请已被使用。",
+      "Invitation has expired": "该邀请已过期。"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "profile": "资料",
+      "password": "密码",
+      "security": "安全",
+      "sessions": "会话"
+    },
+    "field": {
+      "displayName": "显示名",
+      "email": "邮箱",
+      "note": "备注",
+      "username": "用户名",
+      "guid": "用户 GUID",
+      "role": "角色",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码"
+    },
+    "role": {
+      "admin": "超级管理员",
+      "user": "普通用户"
+    },
+    "profileSaved": "资料已保存",
+    "passwordChanged": "密码已修改",
+    "avatar": {
+      "upload": "上传头像",
+      "delete": "删除头像",
+      "uploaded": "头像已更新",
+      "deleted": "头像已删除",
+      "deleteConfirm": "确定删除当前头像？",
+      "hint": "仅支持 webp 格式，大小不超过 2MB。",
+      "errorType": "仅支持 WebP 格式的图片。",
+      "errorSize": "头像大小不能超过 2MB。"
+    },
+    "tfa": {
+      "title": "两步验证（TOTP）",
+      "description": "开启后登录需额外输入身份验证器验证码。",
+      "secretLabel": "密钥（请添加到身份验证器）",
+      "codeLabel": "验证码",
+      "codeRequired": "请输入验证码",
+      "verify": "校验并启用",
+      "verified": "两步验证已启用",
+      "disabled": "两步验证已关闭",
+      "confirmDisable": "确认关闭"
+    },
+    "passkey": {
+      "title": "Passkey 凭据",
+      "name": "名称",
+      "deviceType": "设备类型",
+      "createdAt": "创建时间",
+      "actions": "操作",
+      "delete": "删除",
+      "deleteConfirm": "确定删除该 Passkey 凭据？",
+      "deleted": "凭据已删除",
+      "empty": "暂无 Passkey 凭据"
+    },
+    "session": {
+      "device": "设备",
+      "os": "系统",
+      "createdAt": "创建时间",
+      "expiresAt": "过期时间",
+      "actions": "操作",
+      "revoke": "撤销",
+      "revokeConfirm": "确定撤销该会话？",
+      "revoked": "会话已撤销",
+      "empty": "暂无活跃会话"
+    },
+    "error": {
+      "currentPasswordRequired": "请输入当前密码。",
+      "newPasswordRequired": "请输入新密码。"
+    }
+  },
+  "dashboard": {
+    "users": "用户总数",
+    "devices": "设备总数",
+    "connectionsToday": "今日连接",
+    "filesToday": "今日文件",
+    "adminCount": "管理员",
+    "onlineCount": "在线",
+    "success": "成功",
+    "failure": "失败",
+    "upload": "上传",
+    "countsTitle": "资源统计",
+    "count": {
+      "addressBooks": "通讯录",
+      "groups": "群组",
+      "roles": "角色",
+      "strategies": "策略"
+    },
+    "uptime": "运行时长",
+    "systemStatus": "系统状态",
+    "cpu": "CPU",
+    "memory": "内存",
+    "disk": "磁盘",
+    "range": "时间区间",
+    "range_7d": "近 7 天",
+    "range_30d": "近 30 天",
+    "range_90d": "近 90 天",
+    "connectionTrend": "连接趋势",
+    "newUserTrend": "新增用户趋势",
+    "alarmTrend": "告警趋势",
+    "noTrendData": "暂无趋势数据",
+    "noSystemStatus": "暂无系统状态数据",
+    "loadFailed": "仪表盘数据加载失败",
+    "adminOnly": "仅超级管理员可访问仪表盘"
+  },
+  "devices": {
+    "title": "设备",
+    "detailTitle": "设备详情",
+    "field": {
+      "id": "设备 ID",
+      "guid": "设备 GUID",
+      "status": "状态",
+      "online": "在线状态",
+      "deviceName": "主机名",
+      "username": "用户名",
+      "os": "操作系统",
+      "version": "版本",
+      "cpu": "CPU",
+      "memory": "内存",
+      "ip": "IP",
+      "user": "所属用户",
+      "group": "设备组",
+      "strategy": "策略",
+      "note": "备注",
+      "lastOnline": "最后在线"
+    },
+    "filter": {
+      "id": "设备 ID",
+      "deviceName": "主机名",
+      "userName": "所属用户",
+      "deviceGroupName": "设备组",
+      "status": "状态",
+      "isOnline": "在线状态"
+    },
+    "status": {
+      "all": "全部状态",
+      "enabled": "正常",
+      "disabled": "停用",
+      "online": "在线",
+      "offline": "离线"
+    },
+    "action": {
+      "edit": "编辑",
+      "delete": "删除",
+      "disconnect": "断开连接",
+      "enable": "启用",
+      "disable": "停用",
+      "detail": "详情",
+      "batchEnable": "批量启用",
+      "batchDisable": "批量停用"
+    },
+    "deleteConfirm": "确定删除该设备？此操作不可恢复。",
+    "deleted": "设备已删除",
+    "statusUpdated": "设备状态已更新",
+    "disconnected": "断连请求已入队",
+    "disconnectConfirm": "确定断开该设备的活动连接？",
+    "editTitle": "编辑设备",
+    "updated": "设备已更新",
+    "empty": "暂无设备",
+    "backToList": "返回设备列表",
+    "selectedCount": "已选 {{count}} 项",
+    "note": "备注",
+    "notePlaceholder": "请输入备注"
+  },
+  "deviceGroups": {
+    "title": "设备组",
+    "detailTitle": "设备组详情",
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "strategy": "策略",
+      "deviceCount": "设备数",
+      "createdAt": "创建时间",
+      "updatedAt": "更新时间"
+    },
+    "filter": {
+      "name": "设备组名称"
+    },
+    "action": {
+      "create": "新建设备组",
+      "edit": "编辑",
+      "delete": "删除",
+      "detail": "详情",
+      "addDevices": "加入设备",
+      "removeDevices": "移出设备",
+      "backToList": "返回设备组列表"
+    },
+    "createTitle": "新建设备组",
+    "editTitle": "编辑设备组",
+    "deleteConfirm": "确定删除该设备组？",
+    "created": "设备组已创建",
+    "updated": "设备组已更新",
+    "deleted": "设备组已删除",
+    "devicesAdded": "已加入 {{count}} 台设备",
+    "devicesRemoved": "已移出 {{count}} 台设备",
+    "addDevicesTitle": "加入设备（按设备 ID 选择）",
+    "empty": "暂无设备组",
+    "memberEmpty": "该设备组暂无设备",
+    "strategyNone": "未关联策略",
+    "selectStrategy": "选择策略"
+  },
+  "strategies": {
+    "title": "策略",
+    "detailTitle": "策略详情",
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "configOptions": "配置项",
+      "createdAt": "创建时间",
+      "updatedAt": "更新时间",
+      "key": "配置键",
+      "value": "配置值"
+    },
+    "filter": {
+      "name": "策略名称"
+    },
+    "action": {
+      "create": "新建策略",
+      "edit": "编辑",
+      "delete": "删除",
+      "detail": "详情",
+      "assign": "分配",
+      "unassign": "解绑",
+      "backToList": "返回策略列表",
+      "addOption": "新增配置项",
+      "removeOption": "删除"
+    },
+    "createTitle": "新建策略",
+    "editTitle": "编辑策略",
+    "deleteConfirm": "确定删除该策略？",
+    "created": "策略已创建",
+    "updated": "策略已更新",
+    "deleted": "策略已删除",
+    "assigned": "已分配 {{count}} 个目标",
+    "unassigned": "已解绑 {{count}} 个目标",
+    "assignTitle": "分配策略",
+    "targetType": "目标类型",
+    "target": {
+      "device": "设备",
+      "user": "用户",
+      "device_group": "设备组"
+    },
+    "targetPlaceholder": "请选择目标",
+    "empty": "暂无策略",
+    "assignments": "已分配目标",
+    "assignmentsEmpty": "暂未分配任何目标",
+    "partialResult": "成功 {{success}} 个，失败 {{errors}} 个"
+  },
+  "servers": {
+    "title": "服务器",
+    "detailTitle": "服务器详情",
+    "field": {
+      "id": "节点 ID",
+      "name": "节点名称",
+      "reachable": "可达",
+      "services": "服务",
+      "version": "版本",
+      "apiVersion": "API 版本",
+      "error": "错误"
+    },
+    "tabs": {
+      "peers": "设备",
+      "sessions": "会话",
+      "config": "服务配置",
+      "logs": "服务日志",
+      "bans": "封禁名单"
+    },
+    "action": {
+      "detail": "详情",
+      "backToList": "返回服务器列表",
+      "refresh": "刷新",
+      "save": "保存配置",
+      "start": "启动",
+      "stop": "停止",
+      "restart": "重启",
+      "apply": "应用",
+      "disconnect": "断开",
+      "addBan": "新增封禁"
+    },
+    "service": {
+      "hbbs": "hbbs（ID/信令服务）",
+      "hbbr": "hbbr（中继服务）"
+    },
+    "unreachable": "节点不可达",
+    "configSaved": "配置已保存",
+    "actionDone": "操作已提交",
+    "sessionDisconnected": "会话已断开",
+    "empty": "暂无服务器节点",
+    "peersEmpty": "暂无设备数据",
+    "sessionsEmpty": "暂无会话",
+    "logsEmpty": "暂无日志",
+    "bansEmpty": "暂无封禁记录",
+    "bannedDeviceIds": "封禁设备 ID（每行一个）",
+    "bannedIps": "封禁 IP（每行一个）",
+    "bansSaved": "封禁名单已保存",
+    "error": {
+      "400": "请求参数有误：{{message}}",
+      "404": "目标资源不存在：{{message}}",
+      "502": "上游服务返回错误：{{message}}",
+      "503": "服务器当前不可用：{{message}}",
+      "504": "上游服务响应超时：{{message}}",
+      "unknown": "未知原因"
+    }
+  },
+  "users": {
+    "detailTitle": "用户详情",
+    "editTitle": "编辑用户",
+    "securityTitle": "安全设置：{{name}}",
+    "rolesTitle": "角色指派：{{name}}",
+    "batchSecurityTitle": "批量安全设置（{{count}} 个用户）",
+    "deleteConfirm": "确定删除该用户？此操作不可恢复。",
+    "statusUpdated": "用户状态已更新",
+    "securityUpdated": "安全设置已更新",
+    "rolesUpdated": "角色指派已更新",
+    "forcedLogout": "已强制该用户下线",
+    "deleted": "用户已删除",
+    "updated": "用户已更新",
+    "selectedCount": "已选 {{count}} 项",
+    "batchSummary": "共 {{total}} 项：成功 {{success}}，失败 {{failed}}",
+    "batchEnableDone": "批量启用",
+    "batchDisableDone": "批量停用",
+    "batchLogoutDone": "批量强制下线",
+    "batchSecurityDone": "批量安全设置",
+    "filter": {
+      "name": "用户名"
+    },
+    "status": {
+      "all": "全部状态",
+      "active": "活跃",
+      "disabled": "停用",
+      "unverified": "未验证"
+    },
+    "field": {
+      "username": "用户名",
+      "displayName": "显示名",
+      "email": "邮箱",
+      "userGroup": "用户组",
+      "userGroupPlaceholder": "不改变用户组",
+      "roles": "角色",
+      "superAdmin": "超管",
+      "status": "状态",
+      "protected": "受保护",
+      "protectedYes": "是",
+      "guid": "GUID",
+      "strategy": "策略",
+      "createdAt": "创建时间",
+      "note": "备注",
+      "newPassword": "新密码",
+      "newPasswordPlaceholder": "留空表示不修改密码",
+      "tfaEnforce": "强制两步验证",
+      "emailVerification": "强制邮箱验证",
+      "roleName": "角色名",
+      "eligible": "可指派"
+    },
+    "action": {
+      "detail": "详情",
+      "edit": "编辑",
+      "enable": "启用",
+      "disable": "停用",
+      "security": "安全设置",
+      "roles": "角色指派",
+      "forceLogout": "强制下线",
+      "delete": "删除",
+      "batchEnable": "批量启用",
+      "batchDisable": "批量停用",
+      "batchForceLogout": "批量下线",
+      "batchSecurity": "批量安全设置"
+    },
+    "eligible": {
+      "ok": "可指派",
+      "SELF_NOT_ALLOWED": "不能指派给自己",
+      "PROTECTED_ACCOUNT": "受保护账号限制",
+      "HIERARCHY_DENIED": "层级越权限制",
+      "UNKNOWN": "不可指派"
+    }
+  },
+  "userGroups": {
+    "createTitle": "新建用户组",
+    "editTitle": "编辑用户组",
+    "membersTitle": "成员管理：{{name}}",
+    "deleteConfirm": "确定删除该用户组？成员将回落到默认组，组内共享地址簿规则将被级联删除。",
+    "created": "用户组已创建",
+    "updated": "用户组已更新",
+    "deletedWithRules": "用户组已删除：{{moved}} 个成员回落默认组，级联删除 {{rules}} 条共享规则",
+    "membersMoved": "已移动 {{count}} 个用户到该组",
+    "candidateTitle": "候选用户：",
+    "candidatePlaceholder": "选择要移入的用户",
+    "membersHint": "当前组共 {{count}} 个成员",
+    "filter": {
+      "name": "组名称",
+      "member": "成员用户名"
+    },
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "isDefault": "默认组",
+      "defaultYes": "默认",
+      "userCount": "成员数",
+      "memberName": "用户名"
+    },
+    "action": {
+      "create": "新建用户组",
+      "edit": "编辑",
+      "delete": "删除",
+      "members": "成员",
+      "moveIn": "移入 {{count}} 项"
+    }
+  },
+  "roles": {
+    "createTitle": "新建角色",
+    "editTitle": "编辑角色：{{name}}",
+    "deleteConfirm": "确定删除该角色？",
+    "deleteImpact": "该角色当前有 {{count}} 个成员，删除后成员将失去对应权限。",
+    "created": "角色已创建",
+    "updated": "角色已更新",
+    "deleted": "角色已删除",
+    "matrixHint": "提示：system_only 权限码（角色增删改）不可分配；设备组 scope 码的实际生效分档由用户角色指派决定。",
+    "filter": {
+      "name": "角色名称"
+    },
+    "field": {
+      "name": "名称",
+      "note": "备注",
+      "protected": "受保护",
+      "protectedYes": "是",
+      "confirmUnprotect": "我确认取消保护该角色",
+      "createdAt": "创建时间",
+      "permCode": "权限码",
+      "permAction": "动作",
+      "permScope": "作用域",
+      "scopeDeviceGroup": "设备组",
+      "scopeGlobal": "全局"
+    },
+    "action": {
+      "create": "新建角色",
+      "edit": "编辑",
+      "delete": "删除"
+    }
+  },
+  "addressBook": {
+    "personalHint": "个人通讯录按登录用户隔离",
+    "sharedWithMe": "被共享给我的地址簿：",
+    "selectedBook": "当前地址簿：{{name}}",
+    "bookCreateTitle": "新建地址簿",
+    "bookEditTitle": "编辑地址簿",
+    "bookDeleteConfirm": "确定删除该地址簿？其联系人、标签与规则将被级联删除。",
+    "bookCreated": "地址簿已创建",
+    "bookUpdated": "地址簿已更新",
+    "bookDeleted": "地址簿已删除",
+    "peerAddTitle": "添加联系人",
+    "peerEditTitle": "编辑联系人",
+    "peerDeleteConfirm": "确定删除该联系人？",
+    "peerAdded": "联系人已添加",
+    "peerUpdated": "联系人已更新",
+    "peerDeleted": "联系人已删除",
+    "tagsTitle": "标签管理",
+    "tagDeleteConfirm": "确定删除该标签？将同时清除联系人上的引用。",
+    "rulesTitle": "共享规则管理",
+    "ruleDeleteConfirm": "确定删除该规则？",
+    "ruleCreated": "规则已创建",
+    "ruleDeleted": "规则已删除",
+    "filter": {
+      "deviceId": "设备 ID",
+      "bookName": "地址簿名称"
+    },
+    "field": {
+      "deviceId": "设备 ID",
+      "alias": "别名",
+      "tags": "标签",
+      "note": "备注",
+      "password": "连接密码",
+      "passwordPlaceholder": "留空表示不设置",
+      "bookName": "名称",
+      "owner": "所有者",
+      "ruleLevel": "权限级别",
+      "tagName": "标签名",
+      "tagColor": "颜色",
+      "target": "共享对象",
+      "targetGuid": "对象 GUID"
+    },
+    "rule": {
+      "read": "只读",
+      "readWrite": "读写",
+      "fullControl": "完全控制"
+    },
+    "target": {
+      "everyone": "所有人",
+      "user": "用户",
+      "group": "用户组"
+    },
+    "color": {
+      "red": "红色",
+      "blue": "蓝色",
+      "green": "绿色",
+      "yellow": "黄色"
+    },
+    "action": {
+      "addPeer": "添加联系人",
+      "edit": "编辑",
+      "delete": "删除",
+      "tags": "标签管理",
+      "rules": "共享规则",
+      "addTag": "添加标签",
+      "renameTag": "改名",
+      "deleteTag": "删除",
+      "addRule": "添加规则",
+      "deleteRule": "删除",
+      "createBook": "新建地址簿",
+      "detail": "详情"
+    }
+  },
+  "audit": {
+    "detailTitle": "审计详情",
+    "noteTitle": "修改备注（超管）",
+    "noteUpdated": "备注已更新",
+    "disconnected": "断连请求已提交",
+    "disconnectConfirm": "确定断开该连接？",
+    "cannotDisconnect": "无断连权限",
+    "systemAction": "系统动作",
+    "filter": {
+      "peerId": "对端设备 ID",
+      "uuid": "设备 UUID",
+      "range": "时间范围",
+      "userGuid": "操作者 GUID"
+    },
+    "type": {
+      "all": "全部类型",
+      "direct": "直连",
+      "relay": "中继"
+    },
+    "fileType": {
+      "upload": "上传",
+      "download": "下载"
+    },
+    "fileKind": {
+      "file": "文件",
+      "dir": "目录"
+    },
+    "alarmTyp": {
+      "0": "未知告警",
+      "1": "失联告警",
+      "2": "上线通知"
+    },
+    "result": {
+      "allowed": "允许",
+      "denied": "拒绝"
+    },
+    "field": {
+      "deviceId": "设备 ID",
+      "deviceUuid": "设备 UUID",
+      "connId": "连接 ID",
+      "sessionId": "会话 ID",
+      "ip": "IP",
+      "action": "动作",
+      "peer": "对端链路",
+      "requestedAt": "请求时间",
+      "establishedAt": "建立时间",
+      "closedAt": "关闭时间",
+      "note": "备注",
+      "type": "连接类型",
+      "peerId": "对端设备 ID",
+      "fileType": "方向",
+      "path": "路径",
+      "isFile": "类型",
+      "clientIp": "客户端 IP",
+      "createdAt": "时间",
+      "typ": "告警类型",
+      "actor": "操作者",
+      "targetType": "目标类型",
+      "actionName": "动作",
+      "result": "结果",
+      "reason": "原因",
+      "requestId": "请求 ID",
+      "beforeState": "变更前",
+      "afterState": "变更后"
+    },
+    "action": {
+      "detail": "详情",
+      "editNote": "改备注",
+      "disconnect": "断开"
+    }
+  },
+  "nexus": {
+    "notBound": "未绑定 nexus.ghpst.com 账号",
+    "bindSuccess": "绑定成功",
+    "deviceCodeExpired": "设备码已过期，请重新发起绑定",
+    "unbound": "已解绑",
+    "bindRequired": "请先绑定 nexus 账号后再创建构建",
+    "deviceCodeTitle": "GitHub 设备码登录",
+    "visitUri": "请访问以下地址并输入设备码",
+    "pollingHint": "正在等待授权确认（每 3 秒轮询）…",
+    "createTitle": "新建客户端构建",
+    "filesTitle": "构建产物",
+    "cancelConfirm": "确定取消该构建？",
+    "unbindConfirm": "确定解绑 nexus 账号？解绑后无法创建新构建。",
+    "created": "构建已提交",
+    "cancelled": "构建已取消",
+    "field": {
+      "uuid": "构建 ID",
+      "os": "操作系统",
+      "arch": "架构",
+      "status": "状态",
+      "message": "消息",
+      "createdAt": "创建时间",
+      "nexusUser": "nexus 用户",
+      "expiresAt": "过期时间",
+      "appName": "应用名称",
+      "connType": "连接类型",
+      "customExtra": "扩展键值",
+      "filename": "文件名",
+      "size": "大小"
+    },
+    "connType": {
+      "all": "全部（直连+中继）",
+      "direct": "仅直连",
+      "relay": "仅中继"
+    },
+    "status": {
+      "pending": "排队中",
+      "building": "构建中",
+      "completed": "已完成",
+      "failed": "失败",
+      "cancelled": "已取消"
+    },
+    "action": {
+      "bind": "绑定账号",
+      "unbind": "解绑",
+      "create": "新建构建",
+      "cancel": "取消构建",
+      "files": "查看产物",
+      "download": "下载"
+    }
+  },
+  "settings": {
+    "saved": "保存成功",
+    "generalDesc": "站点通用配置：水印、默认语言、令牌有效期、审计留存等。",
+    "smtpDesc": "SMTP 邮件服务配置，用于邀请邮件与告警通知。",
+    "smtpNotConfigured": "尚未配置 SMTP，填写后保存即可。",
+    "ldapDesc": "LDAP 目录服务配置，用于外部用户认证与组同步。",
+    "ldapNotConfigured": "尚未配置 LDAP，填写后保存即可。",
+    "oidcDesc": "OIDC 单点登录提供者，按优先级排序展示于登录页。",
+    "oidcCreateTitle": "新建 OIDC 提供者",
+    "oidcEditTitle": "编辑 OIDC 提供者",
+    "oidcCreated": "OIDC 提供者已创建",
+    "oidcUpdated": "OIDC 提供者已更新",
+    "oidcDeleted": "OIDC 提供者已删除",
+    "oidcDeleteConfirm": "确定删除该 OIDC 提供者？",
+    "testDone": "测试完成",
+    "testFailed": "连接失败",
+    "frontendDesc": "前端公开设置（只读展示）与版本更新检查。",
+    "frontendKeys": "前端公开设置",
+    "updateCheck": "版本更新检查",
+    "updateAvailable": "有可用更新",
+    "updateUpToDate": "已是最新版本",
+    "backendBranch": "后端（Panel Server）",
+    "frontendBranch": "前端（Panel Web）",
+    "action": {
+      "testSmtp": "测试 SMTP 连接",
+      "testLdap": "测试 LDAP 连接",
+      "testOidc": "测试该提供者",
+      "createOidc": "新建提供者",
+      "edit": "编辑",
+      "delete": "删除",
+      "moveUp": "上移（提高优先级）",
+      "checkUpdate": "检查更新",
+      "download": "下载"
+    },
+    "field": {
+      "watermarkEnabled": "水印",
+      "defaultLanguage": "默认语言",
+      "jwtExpiryDays": "令牌有效期（天）",
+      "auditRetentionDays": "审计留存（天）",
+      "siteFrontendUrl": "前端站点地址",
+      "siteBackendUrl": "后端站点地址",
+      "webauthnEnabled": "WebAuthn",
+      "webauthnRpName": "WebAuthn 站点名称",
+      "smtpEnabled": "启用",
+      "smtpHost": "SMTP 主机",
+      "smtpPort": "端口",
+      "smtpSecure": "SSL/TLS",
+      "smtpUser": "用户名",
+      "smtpPass": "密码",
+      "smtpFrom": "发件人地址",
+      "ldapEnabled": "启用",
+      "ldapUrls": "服务器地址（每行一条）",
+      "ldapBindDN": "绑定 DN",
+      "ldapBindCredentials": "绑定凭据",
+      "ldapSearchBase": "搜索基准 DN",
+      "ldapSearchFilter": "搜索过滤器",
+      "ldapSearchAttributes": "返回属性（每行一条）",
+      "ldapGroupSearchBase": "组搜索基准 DN",
+      "ldapGroupSearchFilter": "组搜索过滤器",
+      "ldapAdminGroups": "管理员组（每行一条）",
+      "maskedHint": "已保存（留空保持不变）",
+      "oidcName": "显示名称",
+      "oidcIssuer": "Issuer 地址",
+      "oidcClientId": "Client ID",
+      "oidcClientSecret": "Client Secret",
+      "oidcScope": "Scope",
+      "oidcType": "类型",
+      "oidcPriority": "优先级",
+      "oidcEnabled": "启用",
+      "currentVersion": "当前版本",
+      "latestVersion": "最新版本",
+      "hasUpdate": "更新状态",
+      "downloadUrl": "下载地址"
+    }
+  }
+}

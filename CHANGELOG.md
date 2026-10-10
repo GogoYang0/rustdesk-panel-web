@@ -4,6 +4,12 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 简化版。
 
+## v0.1.1（2026-10-10）
+
+### 修复
+
+- **[fix] 官方客户端登录 type 兼容**：随 api 契约变更重新生成 `src/types/api-types.ts`（成功登录响应 `type` 改为 `access_token`，`account` 为弃用的历史兼容值）；前端登录收口以 `access_token` 非空判定，天然兼容新旧服务端响应 type。
+
 ## v0.1.0（2026-10-11）
 
 首个发布版本。RustDesk 管理平台前端（React 19 + Semi Design + TailwindCSS v4），由 rustdesk-panel-api 的 openapi.yaml 契约生成 API client。

@@ -102,6 +102,14 @@ describe("authMiddleware.onResponse —— 401 处理", () => {
     expect(assign).not.toHaveBeenCalled();
   });
 
+  it("★ 改密端点 401（当前密码错误，业务语义）：不清会话、不跳转", async () => {
+    const assign = spyOnAssign();
+    useSessionStore.getState().login("tok", null);
+    await runOnResponse(401, "http://localhost/api/users/me/password");
+    expect(useSessionStore.getState().token).toBe("tok");
+    expect(assign).not.toHaveBeenCalled();
+  });
+
   it("★ 已在 /login：不重复跳转（防循环）", async () => {
     const assign = vi.fn();
     Object.defineProperty(window, "location", {

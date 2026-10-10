@@ -16,9 +16,12 @@ describe("P0 权限守卫：菜单过滤与 403", () => {
   it("受限用户侧边菜单按权限过滤", () => {
     cy.loginAsScopedUser();
     cy.visit("/devices");
-    // 可见：设备域 + 无门槛项（我的通讯录 / Nexus 构建 / 个人中心）
+    // 可见：设备域（v0.1.2 起聚合为「设备管理」分组，当前路由所在分组自动展开）
+    // + 无门槛项（通讯录分组 / Nexus 构建 / 个人中心）
     cy.get("aside").contains("设备").should("exist");
     cy.get("aside").contains("设备组").should("exist");
+    // 通讯录分组默认收起：展开后再断言成员可见
+    cy.get("aside").contains("通讯录").click();
     cy.get("aside").contains("我的通讯录").should("exist");
     cy.get("aside").contains("个人中心").should("exist");
     // 隐藏：无权限项（用户 / 角色 / 审计 / 系统设置 / 仪表盘 / 服务器）

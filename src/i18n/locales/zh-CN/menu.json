@@ -23,5 +23,10 @@
   "settingsOidc": "单点登录",
   "settingsLdap": "LDAP 设置",
   "settingsFrontend": "前端设置",
-  "profile": "个人中心"
+  "profile": "个人中心",
+  "groupDevices": "设备管理",
+  "groupUsers": "用户管理",
+  "groupAddressBook": "通讯录",
+  "groupAudit": "审计",
+  "groupSettings": "系统设置"
 }

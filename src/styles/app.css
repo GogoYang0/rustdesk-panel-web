@@ -1,0 +1,13 @@
+/*
+ * 全站补充样式（v0.1.2）。
+ *
+ * 仅存放 Semi 主题令牌层面的少量布局修正；组件视觉一律以 Semi + Tailwind
+ * 工具类为准，避免散落内联样式。
+ */
+
+/* 侧边菜单：允许菜单内容自然撑开高度，由 AppLayout 的
+   overflow-y-auto 容器承担滚动（修复菜单超高无法滚动）。 */
+.side-menu-nav.semi-navigation-vertical {
+  height: auto;
+  min-height: 100%;
+}

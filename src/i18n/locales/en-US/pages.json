@@ -135,7 +135,8 @@
     "error": {
       "currentPasswordRequired": "Please enter your current password.",
       "newPasswordRequired": "Please enter a new password."
-    }
+    },
+    "passwordChangedRelogin": "Password changed, please sign in again"
   },
   "dashboard": {
     "users": "Total users",
@@ -277,7 +278,9 @@
       "createdAt": "Created at",
       "updatedAt": "Updated at",
       "key": "Key",
-      "value": "Value"
+      "value": "Value",
+      "searchTarget": "Search target name",
+      "isProtected": "Protected"
     },
     "filter": {
       "name": "Strategy name"
@@ -291,7 +294,8 @@
       "unassign": "Unassign",
       "backToList": "Back to strategies",
       "addOption": "Add option",
-      "removeOption": "Remove"
+      "removeOption": "Remove",
+      "pickTarget": "Add Targets"
     },
     "createTitle": "New strategy",
     "editTitle": "Edit strategy",
@@ -312,7 +316,9 @@
     "empty": "No strategies",
     "assignments": "Assigned targets",
     "assignmentsEmpty": "No targets assigned",
-    "partialResult": "{{success}} succeeded, {{errors}} failed"
+    "partialResult": "{{success}} succeeded, {{errors}} failed",
+    "pickTargetTitle": "Select targets to assign",
+    "optionsHint": "Config options are delivered to devices/users as key-value pairs"
   },
   "servers": {
     "title": "Servers",
@@ -418,7 +424,10 @@
       "tfaEnforce": "Enforce 2FA",
       "emailVerification": "Enforce email verification",
       "roleName": "Role",
-      "eligible": "Eligible"
+      "eligible": "Eligible",
+      "password": "Initial Password",
+      "passwordPlaceholder": "At least 6 characters",
+      "userGroupCreatePlaceholder": "Optional"
     },
     "action": {
       "detail": "Detail",
@@ -432,7 +441,8 @@
       "batchEnable": "Batch enable",
       "batchDisable": "Batch disable",
       "batchForceLogout": "Batch logout",
-      "batchSecurity": "Batch security"
+      "batchSecurity": "Batch security",
+      "create": "Create User"
     },
     "eligible": {
       "ok": "Eligible",
@@ -440,6 +450,16 @@
       "PROTECTED_ACCOUNT": "Protected account restriction",
       "HIERARCHY_DENIED": "Hierarchy restriction",
       "UNKNOWN": "Not eligible"
+    },
+    "createTitle": "Create User",
+    "created": "User created",
+    "error": {
+      "usernameRequired": "Username is required",
+      "usernameMin": "Username must be at least 3 characters",
+      "nameRequired": "Display name is required",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Initial password is required",
+      "passwordMin": "Password must be at least 6 characters"
     }
   },
   "userGroups": {

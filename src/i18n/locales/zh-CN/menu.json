@@ -28,5 +28,9 @@
   "groupUsers": "用户管理",
   "groupAddressBook": "通讯录",
   "groupAudit": "审计",
-  "groupSettings": "系统设置"
+  "groupSettings": "系统设置",
+  "myDevices": "我的设备",
+  "auditLogin": "登录审计",
+  "settingsMfa": "MFA 强制策略",
+  "groupProfile": "个人中心"
 }

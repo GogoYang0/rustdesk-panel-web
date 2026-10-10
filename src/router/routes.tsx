@@ -30,6 +30,9 @@ import {
   DeviceListPage,
   InviteAcceptPage,
   LoginPage,
+  LoginAuditPage,
+  MfaEnrollPage,
+  MyDevicesPage,
   NexusPage,
   ProfilePage,
   RoleListPage,
@@ -38,6 +41,7 @@ import {
   SettingsFrontendPage,
   SettingsGeneralPage,
   SettingsLdapPage,
+  SettingsMfaPage,
   SettingsOidcPage,
   SettingsSmtpPage,
   StrategyDetailPage,
@@ -76,6 +80,12 @@ export const appRoutes: readonly RouteItem[] = [
     codes: [],
   },
   {
+    // GAP2 强制 MFA 绑定页：公开（凭 mfa_enroll 步会话 secret，无 token 不可跳过）
+    path: "/mfa-enroll",
+    element: MfaEnrollPage,
+    codes: [],
+  },
+  {
     // 仪表盘：SuperAdmin 语义（后端 RequireSuperAdmin），前端用 is_admin 判定（OQ-8）
     path: "/dashboard",
     element: DashboardPage,
@@ -87,6 +97,12 @@ export const appRoutes: readonly RouteItem[] = [
     element: ProfilePage,
     // 仅需登录（自身）
     titleKey: "menu:profile",
+  },
+  {
+    // GAP2 我的设备（auth 档：登录即用，不设权限码）
+    path: "/my-devices",
+    element: MyDevicesPage,
+    titleKey: "menu:myDevices",
   },
   {
     path: "/servers",
@@ -208,6 +224,13 @@ export const appRoutes: readonly RouteItem[] = [
     titleKey: "menu:auditConsole",
   },
   {
+    // GAP2 登录审计（audit.view）
+    path: "/audit/login",
+    element: LoginAuditPage,
+    codes: ["audit.view"],
+    titleKey: "menu:auditLogin",
+  },
+  {
     path: "/nexus",
     element: NexusPage,
     // 仅需登录（自身）
@@ -236,6 +259,13 @@ export const appRoutes: readonly RouteItem[] = [
     element: SettingsLdapPage,
     codes: [ADMIN_GATE],
     titleKey: "menu:settingsLdap",
+  },
+  {
+    // GAP2 强制 MFA 策略（AdminGuard）
+    path: "/settings/mfa",
+    element: SettingsMfaPage,
+    codes: [ADMIN_GATE],
+    titleKey: "menu:settingsMfa",
   },
   {
     path: "/settings/frontend",

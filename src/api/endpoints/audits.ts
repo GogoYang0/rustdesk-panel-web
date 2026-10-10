@@ -65,7 +65,10 @@ export async function listActiveConns(): Promise<ConnActiveList> {
 
 /** 更新连接审计备注（SuperAdmin；仅 note）。 */
 export async function updateConnAuditNote(id: number, note: string): Promise<unknown> {
-  const res = await api.PATCH("/api/audits/conn/{id}", { params: { path: { id } }, body: { note } });
+  const res = await api.PATCH("/api/audits/conn/{id}", {
+    params: { path: { id } },
+    body: { note },
+  });
   return unwrap(res);
 }
 
@@ -125,5 +128,38 @@ export async function listConsoleAudits(params: ConsoleAuditQuery): Promise<Cons
     if (v !== undefined && v !== "") query[k] = v;
   }
   const res = await api.GET("/api/audits/console", { params: { query: query as never } });
+  return unwrap(res);
+}
+
+// ---------------------------------------------------------------------------
+// GAP2 登录审计（新表 login_audits 查询端）
+// ---------------------------------------------------------------------------
+
+/** 登录审计行。 */
+export type LoginAuditRow = components["schemas"]["LoginAuditRow"];
+/** 登录审计分页。 */
+export type LoginAuditPage = components["schemas"]["LoginAuditPage"];
+
+/** 登录审计 result 六枚举。 */
+export type LoginAuditResult = LoginAuditRow["result"];
+
+/** 登录审计查询参数（UI 形态 page + 过滤）。 */
+export interface LoginAuditQuery extends Record<string, unknown> {
+  page: number;
+  pageSize: number;
+  result?: string;
+  username?: string;
+  start?: string;
+  end?: string;
+}
+
+/** 登录审计分页查询（GET /api/audits/login；audit.view）。 */
+export async function listLoginAudits(params: LoginAuditQuery): Promise<LoginAuditPage> {
+  const { page, pageSize, ...filters } = params;
+  const query: Record<string, unknown> = { ...toPageParams({ page, pageSize }) };
+  for (const [k, v] of Object.entries(filters)) {
+    if (v !== undefined && v !== "") query[k] = v;
+  }
+  const res = await api.GET("/api/audits/login", { params: { query: query as never } });
   return unwrap(res);
 }

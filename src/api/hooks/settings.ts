@@ -16,6 +16,9 @@ import {
   type LdapConfig,
   type SmtpConfig,
   type UpdateGeneralSettings,
+  getMfaSettings,
+  updateMfaSettings,
+  type UpdateMfaSettings,
 } from "@/api/endpoints/settings";
 import {
   createOidcProvider,
@@ -153,5 +156,25 @@ export function useOidcMutation() {
       }
     },
     onSuccess: () => invalidateSettings(queryClient),
+  });
+}
+
+/** 强制 MFA 策略读取（GET /api/settings/mfa；AdminGuard；GAP2）。 */
+export function useMfaSettings(enabled = true) {
+  return useQuery({
+    queryKey: qk.mfaSettings(),
+    queryFn: () => getMfaSettings(),
+    enabled,
+  });
+}
+
+/** 强制 MFA 策略更新（PUT /api/settings/mfa）→ 失效设置前缀。 */
+export function useUpdateMfaSettings() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: UpdateMfaSettings) => updateMfaSettings(body),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "mfa"] });
+    },
   });
 }

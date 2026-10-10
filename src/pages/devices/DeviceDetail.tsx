@@ -24,6 +24,7 @@ import {
   useUpdateDeviceStatus,
 } from "@/api/hooks/devices";
 import { toDisplayMessage } from "@/api/error";
+import { AssignUserModal } from "@/pages/devices/AssignUserModal";
 
 /**
  * 设备详情页。
@@ -45,6 +46,8 @@ export function DeviceDetail() {
   const updateDevice = useUpdateDevice();
   const updateStatus = useUpdateDeviceStatus();
   const [noteOpen, setNoteOpen] = useState(false);
+  // GAP2：归属操作弹窗（分配/转移/解绑共用）。
+  const [assignOpen, setAssignOpen] = useState(false);
 
   const onError = (err: unknown): void => {
     Notification.error({ content: toDisplayMessage(err), duration: 4 });
@@ -116,6 +119,14 @@ export function DeviceDetail() {
         >
           {t("devices.action.edit")}
         </PermissionButton>
+        {/* GAP2：分配给用户（devices.assign；转移/解绑共用同一弹窗） */}
+        <PermissionButton
+          code="devices.assign"
+          deviceGroupGuid={groupGuid}
+          onClick={() => setAssignOpen(true)}
+        >
+          {t("devices.action.assign")}
+        </PermissionButton>
         <PermissionButton
           code="devices.disconnect"
           deviceGroupGuid={groupGuid}
@@ -171,6 +182,15 @@ export function DeviceDetail() {
           placeholder={t("devices.notePlaceholder")}
         />
       </FormModal>
+
+      {/* GAP2：归属操作弹窗（关闭后刷新详情） */}
+      <AssignUserModal
+        device={assignOpen ? row : null}
+        onClose={() => {
+          setAssignOpen(false);
+          void query.refetch();
+        }}
+      />
     </div>
   );
 }

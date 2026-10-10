@@ -4,6 +4,24 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 简化版。
 
+## v0.2.0（2026-10-11）
+
+### 新增
+
+- **[feature] 设备个人归属 UI**：设备列表 / 详情「分配用户」弹窗（用户搜索选择、解除归属，`devices.assign` 按设备组二次判定）；「我的设备」页 `/my-devices`（侧边栏个人中心组，精简视图）；用户列表「查看设备」侧滑抽屉（`GET /api/users/{guid}/devices`）。
+- **[feature] 强制 MFA UI**：设置域新增「MFA 强制策略」页 `/settings/mfa`（系统级开关 + 用户组多选 + 开启二次确认）；登录流识别 `type=mfa_enroll` → 跳转 `/mfa-enroll` 强制绑定页（otpauth 二维码 + 手动密钥 + 验证码 verify 进站，不可跳过）；passkey 免密登录分支同步接入。
+- **[feature] 登录审计页**：审计域第 6 页 `/audit/login`（result 六枚举彩色 Tag、时间区间、用户名筛选、分页）。
+
+### 变更
+
+- RBAC 权限码目录 36 → **37 条**（镜像 `devices.assign`，device_group 档）。
+- `src/types/api-types.ts` 随 api 契约（172 operation）重新生成；新增 `qrcode` 依赖（TOTP 绑定二维码本地渲染）。
+
+### 兼容性
+
+- 权限码 37 由 `GET /api/permissions` 目录驱动，旧角色不受影响；`devices.assign` 需重新指派给需要的角色。
+- 服务端 < v0.2.0 时 `mfa_enroll` 分支不会出现，登录流行为与旧版完全一致。
+
 ## v0.1.1（2026-10-10）
 
 ### 修复

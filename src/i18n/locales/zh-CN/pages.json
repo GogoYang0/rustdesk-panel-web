@@ -135,7 +135,8 @@
     "error": {
       "currentPasswordRequired": "请输入当前密码。",
       "newPasswordRequired": "请输入新密码。"
-    }
+    },
+    "passwordChangedRelogin": "密码已修改，请重新登录"
   },
   "dashboard": {
     "users": "用户总数",
@@ -277,7 +278,9 @@
       "createdAt": "创建时间",
       "updatedAt": "更新时间",
       "key": "配置键",
-      "value": "配置值"
+      "value": "配置值",
+      "searchTarget": "搜索目标名称",
+      "isProtected": "保护账号"
     },
     "filter": {
       "name": "策略名称"
@@ -291,7 +294,8 @@
       "unassign": "解绑",
       "backToList": "返回策略列表",
       "addOption": "新增配置项",
-      "removeOption": "删除"
+      "removeOption": "删除",
+      "pickTarget": "添加目标"
     },
     "createTitle": "新建策略",
     "editTitle": "编辑策略",
@@ -312,7 +316,9 @@
     "empty": "暂无策略",
     "assignments": "已分配目标",
     "assignmentsEmpty": "暂未分配任何目标",
-    "partialResult": "成功 {{success}} 个，失败 {{errors}} 个"
+    "partialResult": "成功 {{success}} 个，失败 {{errors}} 个",
+    "pickTargetTitle": "选择要分配的目标",
+    "optionsHint": "配置项以键值对形式下发到设备/用户"
   },
   "servers": {
     "title": "服务器",
@@ -418,7 +424,10 @@
       "tfaEnforce": "强制两步验证",
       "emailVerification": "强制邮箱验证",
       "roleName": "角色名",
-      "eligible": "可指派"
+      "eligible": "可指派",
+      "password": "初始密码",
+      "passwordPlaceholder": "至少 6 位",
+      "userGroupCreatePlaceholder": "可不选择"
     },
     "action": {
       "detail": "详情",
@@ -432,7 +441,8 @@
       "batchEnable": "批量启用",
       "batchDisable": "批量停用",
       "batchForceLogout": "批量下线",
-      "batchSecurity": "批量安全设置"
+      "batchSecurity": "批量安全设置",
+      "create": "新增用户"
     },
     "eligible": {
       "ok": "可指派",
@@ -440,6 +450,16 @@
       "PROTECTED_ACCOUNT": "受保护账号限制",
       "HIERARCHY_DENIED": "层级越权限制",
       "UNKNOWN": "不可指派"
+    },
+    "createTitle": "新增用户",
+    "created": "用户已创建",
+    "error": {
+      "usernameRequired": "请输入用户名",
+      "usernameMin": "用户名至少 3 个字符",
+      "nameRequired": "请输入显示名",
+      "emailRequired": "请输入邮箱",
+      "passwordRequired": "请输入初始密码",
+      "passwordMin": "密码至少 6 位"
     }
   },
   "userGroups": {

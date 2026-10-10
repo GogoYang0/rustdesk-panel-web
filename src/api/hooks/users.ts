@@ -8,6 +8,7 @@ import {
   batchForceUserLogout,
   batchUpdateUserSecurity,
   batchUpdateUserStatus,
+  createUser,
   deleteUser,
   forceUserLogout,
   getUser,
@@ -21,6 +22,7 @@ import {
   type BatchResult,
   type MessageResult,
   type BatchSecurityRequest,
+  type CreateUserRequest,
   type ReplaceRolesRequest,
   type UpdateUserRequest,
   type UpdateUserSecurityRequest,
@@ -83,6 +85,15 @@ export function useRoleProtectionImpact(guid: string, enabled = true) {
 
 function invalidateUsers(queryClient: ReturnType<typeof useQueryClient>): void {
   void queryClient.invalidateQueries({ queryKey: ["users"] });
+}
+
+/** 创建用户（users.create；重名/邮箱冲突 400）。 */
+export function useCreateUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: CreateUserRequest) => createUser(body),
+    onSuccess: () => invalidateUsers(queryClient),
+  });
 }
 
 /** 更新用户 → 失效用户前缀。 */

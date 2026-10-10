@@ -12,7 +12,7 @@
  */
 import { useMemo, useState } from "react";
 import { Descriptions, Form, Modal, Notification, Popconfirm, Select, Tag } from "@douyinfe/semi-ui";
-import { IconRefresh } from "@douyinfe/semi-icons";
+import { IconPlus, IconRefresh } from "@douyinfe/semi-icons";
 import { useTranslation } from "react-i18next";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
 import { DataTable } from "@/components/DataTable";
@@ -27,6 +27,7 @@ import {
   useBatchForceUserLogout,
   useBatchUpdateUserSecurity,
   useBatchUpdateUserStatus,
+  useCreateUser,
   useDeleteUser,
   useForceUserLogout,
   useReplaceUserRoles,
@@ -82,6 +83,7 @@ export function UserList() {
   const [securityRow, setSecurityRow] = useState<AdminUserRow | null>(null);
   const [rolesRow, setRolesRow] = useState<AdminUserRow | null>(null);
   const [batchSecurityOpen, setBatchSecurityOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const query = useAdminUsers({
@@ -102,6 +104,7 @@ export function UserList() {
   const batchStatus = useBatchUpdateUserStatus();
   const batchSecurity = useBatchUpdateUserSecurity();
   const batchSessions = useBatchForceUserLogout();
+  const createUser = useCreateUser();
 
   const onError = (err: unknown): void => {
     Notification.error({ content: toDisplayMessage(err), duration: 4 });
@@ -222,6 +225,35 @@ export function UserList() {
     );
   };
 
+  /** 新增用户提交（users.create；契约必填 username/email/name/password）。 */
+  const submitCreate = (values: Record<string, unknown>): void => {
+    setSubmitting(true);
+    createUser.mutate(
+      {
+        username: String(values.username ?? ""),
+        name: String(values.name ?? ""),
+        email: String(values.email ?? ""),
+        password: String(values.password ?? ""),
+        note: typeof values.note === "string" && values.note.length > 0 ? values.note : undefined,
+        user_group_guid:
+          typeof values.user_group_guid === "string" && values.user_group_guid.length > 0
+            ? values.user_group_guid
+            : undefined,
+      },
+      {
+        onSuccess: () => {
+          Notification.success({ content: t("users.created") });
+          setSubmitting(false);
+          setCreating(false);
+        },
+        onError: (err) => {
+          onError(err);
+          setSubmitting(false);
+        },
+      },
+    );
+  };
+
   /** 安全设置提交（重置口令 / 2FA 强制 / 邮箱验证）。 */
   const submitSecurity = (values: Record<string, unknown>): void => {
     if (!securityRow) return;
@@ -258,10 +290,15 @@ export function UserList() {
       <PageHeader
         titleKey="menu:users"
         extra={
-          <PermissionButton icon={<IconRefresh />} theme="borderless" code="users.view"
-            onClick={() => void query.refetch()}>
-            {tc("action.refresh")}
-          </PermissionButton>
+          <div className="flex items-center gap-2">
+            <PermissionButton icon={<IconPlus />} theme="solid" code="users.create" onClick={() => setCreating(true)}>
+              {t("users.action.create")}
+            </PermissionButton>
+            <PermissionButton icon={<IconRefresh />} theme="borderless" code="users.view"
+              onClick={() => void query.refetch()}>
+              {tc("action.refresh")}
+            </PermissionButton>
+          </div>
         }
       />
 
@@ -357,6 +394,52 @@ export function UserList() {
           />
         ) : null}
       </Modal>
+
+      {/* 新增用户弹窗（契约：POST /api/users，required = username/email/name/password） */}
+      <FormModal
+        visible={creating}
+        title={t("users.createTitle")}
+        submitting={submitting}
+        onClose={() => setCreating(false)}
+        onSubmit={submitCreate}
+        initialValues={{ username: "", name: "", email: "", password: "", note: "", user_group_guid: "" }}
+      >
+        <Form.Input
+          field="username"
+          label={t("users.field.username")}
+          maxLength={50}
+          rules={[
+            { required: true, message: t("users.error.usernameRequired") },
+            { min: 3, message: t("users.error.usernameMin") },
+          ]}
+        />
+        <Form.Input
+          field="name"
+          label={t("users.field.displayName")}
+          maxLength={100}
+          rules={[{ required: true, message: t("users.error.nameRequired") }]}
+        />
+        <Form.Input
+          field="email"
+          label={t("users.field.email")}
+          type="email"
+          rules={[{ required: true, message: t("users.error.emailRequired") }]}
+        />
+        <Form.Input
+          field="password"
+          label={t("users.field.password")}
+          mode="password"
+          placeholder={t("users.field.passwordPlaceholder")}
+          rules={[
+            { required: true, message: t("users.error.passwordRequired") },
+            { min: 6, message: t("users.error.passwordMin") },
+          ]}
+        />
+        <Form.TextArea field="note" label={t("users.field.note")} rows={2} maxCount={255} />
+        <Form.Select field="user_group_guid" label={t("users.field.userGroup")} style={{ width: "100%" }} showClear
+          optionList={(groupsQuery.data?.data ?? []).map((g) => ({ value: g.guid, label: g.name }))}
+          placeholder={t("users.field.userGroupCreatePlaceholder")} />
+      </FormModal>
 
       {/* 编辑弹窗 */}
       <FormModal

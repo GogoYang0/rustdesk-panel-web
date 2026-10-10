@@ -41,6 +41,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/mfa/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 强制 MFA 绑定·生成 TOTP（公开；凭 mfa_enroll 步会话 secret）
+         * @description 登录返回 type=mfa_enroll 后调用（用户此时无 access_token，GAP2 设计 §3.2）。凭 10 分钟步会话 secret 生成 TOTP key：pending secret 存 login_sessions.code 列（users.info 不动，状态随会话单次存活）， 返回 pending secret 与 otpauth URL（前端渲染二维码）。步会话单次 使用，重新调用覆盖旧 pending。
+         */
+        post: operations["beginMfaEnroll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/mfa/enroll/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 强制 MFA 绑定·校验并签发（公开；凭步会话 secret + tfaCode）
+         * @description 验码通过：users.tfaSecret 落 pending 值 + 步会话 MarkUsed + 签发 access_token（completeLogin 收敛）；失败 401 固定文案并记登录审计 （result=tfa_failed）。步会话单次使用。
+         */
+        post: operations["verifyMfaEnroll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/login-options": {
         parameters: {
             query?: never;
@@ -423,6 +463,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/users/me/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 我的设备列表（auth 档：登录即用，不设权限码）
+         * @description 仅 peers.userGuid = 当前用户（GAP2 设计 §2.3 #2）；行形状为精简 MyDeviceView（不含 strategyGuid/username 等管理字段，OQ-4）。
+         */
+        get: operations["listMyDevices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/avatars/{filename}": {
         parameters: {
             query?: never;
@@ -565,6 +625,26 @@ export interface paths {
          * @description 关联字段（userName/deviceGroupName/strategyName，按名称匹配）变更需 super administrator；空串表示解绑；note 任意 devices.edit 操作者可改。
          */
         patch: operations["updateDevice"];
+        trace?: never;
+    };
+    "/api/devices/{guid}/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 分配/解绑设备个人归属（devices.assign；guid = peer.uuid）
+         * @description 单属主模型（GAP2 G5）：写入 peers.userGuid。userGuid 空/缺省 = 解绑（置 NULL）；重复 assign = 转移（before/after 在 console_audits 留痕，action=device.assign/device.unassign）。目标用户不存在 400 User not found；设备越出操作者授权设备组并集 403 Device is not in an authorized device group。旧 PATCH /api/devices/{guid} 的 userName 路径保留不动（超管档），本端点为推荐写入口。
+         */
+        patch: operations["assignDevice"];
         trace?: never;
     };
     "/api/devices/{uuid}/disconnect": {
@@ -1286,6 +1366,26 @@ export interface paths {
          * @description revokeActiveTokens 语义（共享知识 23）。
          */
         delete: operations["forceUserLogout"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/{guid}/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 按用户查设备（users.view 只读反查；OQ-8）
+         * @description 管理端「按用户查设备」：仅 peers.userGuid = 目标用户（GAP2 设计 §2.3 #3）；目标用户不存在 404；行形状复用 DeviceView 分页。
+         */
+        get: operations["listUserDevices"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2019,6 +2119,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/audits/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 登录审计查询（audit.view；GAP2 新表 login_audits 查询端）
+         * @description 过滤 result（六枚举：success/failed/tfa_required/tfa_failed/ mfa_enroll_required/mfa_enroll_completed）/username（LIKE）/ start/end（createdAt 闭区间）；分页。username/displayName 由 users LEFT JOIN 补齐展示名。
+         */
+        get: operations["listLoginAudits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/dashboard": {
         parameters: {
             query?: never;
@@ -2435,6 +2555,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/settings/mfa": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 强制 MFA 策略读取（AdminGuard）
+         * @description 键 mfa.enforceGlobal / mfa.enforceUserGroupGuids（category=mfa， GAP2 G4）；策略缺省双关（不强制）。
+         */
+        get: operations["getMfaSettings"];
+        /**
+         * 强制 MFA 策略更新（AdminGuard）
+         * @description enforceGlobal 必填；userGroupGuids 换行列表存储。
+         */
+        put: operations["updateMfaSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/settings/smtp": {
         parameters: {
             query?: never;
@@ -2733,13 +2877,32 @@ export interface components {
         /** @description 分支结构：成功登录返回 type=access_token（兼容官方 RustDesk 客户端， 客户端以 type==access_token 且 access_token 非空作为登录完成条件）， 并带 access_token+user； 两步验证带 type=email_check + tfa_type + secret； passkey_tfa 第一步复用 email_check 类型位并附 passkey_options。 */
         LoginResponse: {
             /** @enum {string} */
-            type: "access_token" | "account" | "email_check";
+            type: "access_token" | "account" | "email_check" | "mfa_enroll";
             access_token?: string;
             user?: components["schemas"]["UserPayload"];
             /** @enum {string} */
             tfa_type?: "tfa_check" | "passkey_check";
+            /** @description 分支承载：email_check/passkey_tfa 为步会话 guid； mfa_enroll 分支为 10 分钟绑定步会话 guid（GAP2 G2）。 */
             secret?: string;
             passkey_options?: Record<string, never>;
+        };
+        /** @description 强制 MFA 绑定第一步载荷（登录响应 type=mfa_enroll 的 secret 即步会话 guid）。 */
+        MfaEnrollRequest: {
+            secret: string;
+        };
+        /** @description TOTP 绑定材料（pending secret 存步会话 code 列， users.info 不动——GAP2 G2）。 */
+        MfaEnrollResult: {
+            /** @description pending TOTP secret（base32） */
+            secret: string;
+            /** @description otpauth:// 迁移 URL（前端渲染二维码） */
+            otpauthUrl: string;
+        };
+        /** @description 强制 MFA 绑定第二步载荷（验证通过即签发 access_token）。 */
+        MfaEnrollVerifyRequest: {
+            /** @description mfa_enroll 步会话 guid */
+            secret: string;
+            /** @description 6 位 TOTP 验证码 */
+            tfaCode: string;
         };
         LogoutRequest: {
             id?: string;
@@ -2883,6 +3046,26 @@ export interface components {
         };
         DevicePage: {
             data: components["schemas"]["DeviceView"][];
+            total: number;
+        };
+        /** @description 设备个人归属分配载荷（GAP2 设计 §2.3 #1）：userGuid 缺省/空 = 解绑 （置 NULL）；非空 = 分配/转移（目标用户必须存在）。body 整体可省略 （等价解绑）。 */
+        DeviceAssignRequest: {
+            /** @description 目标用户 guid（空/缺省 = 解绑） */
+            userGuid?: string | null;
+        };
+        /** @description 我的设备精简视图（GAP2 OQ-4）：仅当前归属用户可见的自身设备， 不暴露 strategyGuid/username 等管理面字段。is_online = lastHeartbeat > now-60s。 */
+        MyDeviceView: {
+            uuid: string;
+            id: string;
+            note: string;
+            status: number;
+            isOnline: boolean;
+            /** Format: date-time */
+            lastHeartbeat?: string | null;
+            deviceGroupGuid?: string | null;
+        };
+        MyDevicePage: {
+            data: components["schemas"]["MyDeviceView"][];
             total: number;
         };
         DeviceStatusUpdateRequest: {
@@ -3624,6 +3807,29 @@ export interface components {
             data: components["schemas"]["ConsoleAuditRow"][];
             total: number;
         };
+        /** @description 登录审计行（GAP2 新表 login_audits 查询端，形状对齐表）：userGuid 可空（登录尝试不对应既有用户）；displayName 由 users LEFT JOIN 补齐（无对应用户为 null）；username 为登录尝试输入原文（审计锚点）。 */
+        LoginAuditRow: {
+            guid: string;
+            userGuid?: string | null;
+            username: string;
+            displayName?: string | null;
+            /** @enum {string} */
+            result: "success" | "failed" | "tfa_required" | "tfa_failed" | "mfa_enroll_required" | "mfa_enroll_completed";
+            /** @enum {string} */
+            method: "password" | "tfa_code" | "email_code" | "passkey" | "oidc";
+            ip?: string | null;
+            userAgent?: string | null;
+            deviceId?: string | null;
+            deviceUuid?: string | null;
+            /** @description 固定文案（如 bad_credentials/tfa_code_invalid） */
+            reason?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        LoginAuditPage: {
+            data: components["schemas"]["LoginAuditRow"][];
+            total: number;
+        };
         /** @description SuperAdmin 仪表盘聚合：devices.online=lastHeartbeat≥now-60s AND status=1； connections.success=establishedAt/closedAt 双非空、failure=closedAt 非空且 establishedAt 空；counts.groups=user_groups+device_groups 合并。 */
         DashboardOverview: {
             users: {
@@ -3767,6 +3973,18 @@ export interface components {
             siteBackendUrl?: string;
             webauthnEnabled?: boolean;
             webauthnRpName?: string;
+        };
+        /** @description 强制 MFA 策略视图（GAP2 G4；键 mfa.enforceGlobal / mfa.enforceUserGroupGuids，category=mfa）。 */
+        MfaSettings: {
+            /** @description 系统级强制：所有用户登录必须已有 2FA */
+            enforceGlobal: boolean;
+            /** @description 组级强制：命中用户组的用户登录必须已有 2FA */
+            userGroupGuids: string[];
+        };
+        /** @description 强制 MFA 策略更新载荷（AdminGuard，OQ-5）。 */
+        UpdateMfaSettings: {
+            enforceGlobal: boolean;
+            userGroupGuids?: string[];
         };
         /** @description SMTP 配置（pass 回读恒 '******'，PUT 命中掩码跳过更新； 无配置时 GET 404 SMTP configuration does not exist）。 */
         SmtpConfig: {
@@ -3996,6 +4214,76 @@ export interface operations {
             };
             /** @description 限流 */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    beginMfaEnroll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MfaEnrollRequest"];
+            };
+        };
+        responses: {
+            /** @description TOTP 绑定材料 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MfaEnrollResult"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            /** @description 步会话无效或已过期 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    verifyMfaEnroll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MfaEnrollVerifyRequest"];
+            };
+        };
+        responses: {
+            /** @description 绑定完成并签发登录响应 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginResponse"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            /** @description 步会话无效或验证码错误 */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4597,6 +4885,33 @@ export interface operations {
             default: components["responses"]["Error"];
         };
     };
+    listMyDevices: {
+        parameters: {
+            query?: {
+                /** @description 页码（1~100000，默认 1；camelCase 契约，禁止规范化） */
+                current?: components["parameters"]["CurrentParam"];
+                /** @description 每页条数（1~100，默认 20；camelCase 契约，禁止规范化） */
+                pageSize?: components["parameters"]["PageSizeParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 我的设备分页 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyDevicePage"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            default: components["responses"]["Error"];
+        };
+    };
     getAvatar: {
         parameters: {
             query?: never;
@@ -4842,6 +5157,37 @@ export interface operations {
         };
         responses: {
             /** @description 更新后的设备视图 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeviceView"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            default: components["responses"]["Error"];
+        };
+    };
+    assignDevice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                guid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeviceAssignRequest"];
+            };
+        };
+        responses: {
+            /** @description 分配后的设备视图 */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -6257,6 +6603,37 @@ export interface operations {
             default: components["responses"]["Error"];
         };
     };
+    listUserDevices: {
+        parameters: {
+            query?: {
+                /** @description 页码（1~100000，默认 1；camelCase 契约，禁止规范化） */
+                current?: components["parameters"]["CurrentParam"];
+                /** @description 每页条数（1~100，默认 20；camelCase 契约，禁止规范化） */
+                pageSize?: components["parameters"]["PageSizeParam"];
+            };
+            header?: never;
+            path: {
+                guid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 用户名下设备分页 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DevicePage"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            default: components["responses"]["Error"];
+        };
+    };
     listAdminUsers: {
         parameters: {
             query?: {
@@ -7417,6 +7794,39 @@ export interface operations {
             default: components["responses"]["Error"];
         };
     };
+    listLoginAudits: {
+        parameters: {
+            query?: {
+                /** @description 页码（1~100000，默认 1；camelCase 契约，禁止规范化） */
+                current?: components["parameters"]["CurrentParam"];
+                /** @description 每页条数（1~100，默认 20；camelCase 契约，禁止规范化） */
+                pageSize?: components["parameters"]["PageSizeParam"];
+                result?: "success" | "failed" | "tfa_required" | "tfa_failed" | "mfa_enroll_required" | "mfa_enroll_completed";
+                /** @description LIKE 匹配（登录尝试输入原文锚点） */
+                username?: string;
+                start?: string;
+                end?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 登录审计分页 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginAuditPage"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            default: components["responses"]["Error"];
+        };
+    };
     getDashboardOverview: {
         parameters: {
             query?: never;
@@ -8052,6 +8462,57 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GeneralSettings"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            default: components["responses"]["Error"];
+        };
+    };
+    getMfaSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description MFA 强制策略 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MfaSettings"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            default: components["responses"]["Error"];
+        };
+    };
+    updateMfaSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMfaSettings"];
+            };
+        };
+        responses: {
+            /** @description 更新后策略 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MfaSettings"];
                 };
             };
             400: components["responses"]["BadRequest"];

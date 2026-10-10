@@ -32,7 +32,9 @@ import { queryClient } from "@/api/queryClient";
 const DEFAULT_ROUTE = "/dashboard";
 
 /** `Button` 的 htmlType 推断（Semi 未导出该字面量类型）。 */
-type SubmitButton = React.ComponentProps<typeof Button> & { htmlType?: "submit" | "button" | "reset" };
+type SubmitButton = React.ComponentProps<typeof Button> & {
+  htmlType?: "submit" | "button" | "reset";
+};
 
 /**
  * 登录页。
@@ -66,6 +68,14 @@ export function Login() {
       navigate(returnTo, { replace: true });
     }
   }, [state.ok, passkeyState.ok, navigate, returnTo]);
+
+  // GAP2：type=mfa_enroll → 跳强制绑定页（不可跳过；secret 为 10 分钟步会话）
+  useEffect(() => {
+    if (activeState.step === "mfa_enroll" && activeState.secret !== null) {
+      const params = new URLSearchParams({ secret: activeState.secret, returnTo });
+      navigate(`/mfa-enroll?${params.toString()}`, { replace: true });
+    }
+  }, [activeState.step, activeState.secret, navigate, returnTo]);
 
   // 拉取公开登录方式（OIDC provider 列表）；失败静默（不影响账号密码登录）
   useEffect(() => {
@@ -173,7 +183,10 @@ export function Login() {
                 autoComplete="current-password"
                 rules={[{ required: true, message: t("login.account.passwordRequired") }]}
               />
-              <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked === true)}>
+              <Checkbox
+                checked={autoLogin}
+                onChange={(e) => setAutoLogin(e.target.checked === true)}
+              >
                 {t("login.account.autoLogin")}
               </Checkbox>
               <Button
@@ -226,7 +239,9 @@ export function Login() {
                 key={provider.name}
                 theme="borderless"
                 onClick={() => {
-                  window.location.assign(`/oidc/authorize?provider=${encodeURIComponent(provider.name)}`);
+                  window.location.assign(
+                    `/oidc/authorize?provider=${encodeURIComponent(provider.name)}`,
+                  );
                 }}
               >
                 {provider.name}

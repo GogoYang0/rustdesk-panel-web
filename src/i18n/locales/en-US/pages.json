@@ -220,7 +220,8 @@
       "disable": "Disable",
       "detail": "Detail",
       "batchEnable": "Enable selected",
-      "batchDisable": "Disable selected"
+      "batchDisable": "Disable selected",
+      "assign": "Assign user"
     },
     "deleteConfirm": "Delete this device? This action cannot be undone.",
     "deleted": "Device deleted",
@@ -233,7 +234,16 @@
     "backToList": "Back to devices",
     "selectedCount": "{{count}} selected",
     "note": "Note",
-    "notePlaceholder": "Enter a note"
+    "notePlaceholder": "Enter a note",
+    "assign": {
+      "title": "Assign device {{id}} to user",
+      "userLabel": "Target user",
+      "userPlaceholder": "Search and select a user",
+      "noUsers": "No matching users",
+      "hint": "Clear the selection and confirm = unassign; selecting another user = transfer. Assignment does not change device-group authorization.",
+      "assigned": "Device owner updated",
+      "unassigned": "Device owner cleared"
+    }
   },
   "deviceGroups": {
     "title": "Device groups",
@@ -447,7 +457,8 @@
       "batchForceLogout": "Batch logout",
       "batchSecurity": "Batch security",
       "create": "Create User",
-      "invite": "Invite User"
+      "invite": "Invite User",
+      "devices": "Devices"
     },
     "eligible": {
       "ok": "Eligible",
@@ -469,7 +480,9 @@
     "inviteTitle": "Invite User",
     "inviteHint": "Creates an unverified user and sends a 7-day invitation email; the invitee sets a password via the link to finish registration.",
     "inviteLinkHint": "Email delivery failed. Please forward the invitation link below manually:",
-    "inviteLink": "Invitation link (with token)"
+    "inviteLink": "Invitation link (with token)",
+    "devicesTitle": "Devices of {{name}}",
+    "devicesCount": "{{count}} devices"
   },
   "userGroups": {
     "createTitle": "New User Group",
@@ -801,7 +814,65 @@
       "currentVersion": "Current version",
       "latestVersion": "Latest version",
       "hasUpdate": "Update status",
-      "downloadUrl": "Download URL"
+      "downloadUrl": "Download URL",
+      "mfaEnforceGlobal": "Enforce MFA globally",
+      "mfaUserGroupGuids": "Enforced user groups",
+      "mfaUserGroupGuidsPlaceholder": "Select user groups to enforce (multi-select)"
+    },
+    "mfaDesc": "Enforced MFA policy: users matched by the policy must bind TOTP before signing in.",
+    "mfaHint": "Users with TOTP or Passkey 2FA already satisfy the policy; the owner/admins are NOT exempt (OQ-2). Rescue path: edit system_settings keys directly.",
+    "mfaGroupHint": "Enforce by user group: users in the selected groups must bind TOTP first.",
+    "mfaConfirmTitle": "Enable global enforcement?",
+    "mfaConfirmBody": "Once enabled, all users without 2FA (including admins) will be required to bind TOTP at login. Continue?"
+  },
+  "myDevices": {
+    "desc": "Devices assigned to the current user (personal ownership view).",
+    "field": {
+      "id": "Device ID",
+      "uuid": "UUID",
+      "note": "Note",
+      "online": "Online",
+      "status": "Status",
+      "lastHeartbeat": "Last heartbeat"
+    }
+  },
+  "auditLogin": {
+    "desc": "Login event audit: success/failure, two-factor and enforced MFA enrollment.",
+    "field": {
+      "username": "Username",
+      "displayName": "Display name",
+      "result": "Result",
+      "method": "Method",
+      "ip": "IP",
+      "userAgent": "User-Agent",
+      "reason": "Reason",
+      "createdAt": "Time"
+    },
+    "result": {
+      "all": "All",
+      "success": "Success",
+      "failed": "Failed",
+      "tfa_required": "2FA required",
+      "tfa_failed": "2FA failed",
+      "mfa_enroll_required": "MFA enrollment required",
+      "mfa_enroll_completed": "MFA enrollment completed"
+    },
+    "filter": {
+      "username": "Search by username"
+    }
+  },
+  "mfaEnroll": {
+    "title": "Enroll two-factor authentication",
+    "subtitle": "MFA is enforced on this system. Bind TOTP before entering the console.",
+    "missingSecret": "Missing enrollment session. Please return to the login page and sign in again.",
+    "loading": "Generating enrollment QR code…",
+    "qrcodeAlt": "TOTP enrollment QR code",
+    "manualEntry": "Cannot scan? Enter this key manually in your authenticator:",
+    "codeLabel": "6-digit code",
+    "submit": "Verify and continue",
+    "backToLogin": "Back to login",
+    "error": {
+      "noToken": "Enrollment session expired. Please return to the login page and retry."
     }
   }
 }

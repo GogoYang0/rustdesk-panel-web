@@ -164,3 +164,6 @@ export async function userRoleEligibility(guid: string): Promise<{ data: Eligibi
   const res = await api.GET("/api/users/{guid}/roles/eligibility", { params: { path: { guid } } });
   return unwrap(res);
 }
+
+/** 按用户查设备分页（GET /api/users/{guid}/devices；users.view；GAP2）。 */
+export type UserDevicePage = components["schemas"]["DevicePage"];

@@ -28,5 +28,9 @@
   "groupUsers": "User Management",
   "groupAddressBook": "Address Book",
   "groupAudit": "Audit",
-  "groupSettings": "Settings"
+  "groupSettings": "Settings",
+  "myDevices": "My Devices",
+  "auditLogin": "Login Audit",
+  "settingsMfa": "MFA Enforcement",
+  "groupProfile": "Account"
 }

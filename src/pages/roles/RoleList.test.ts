@@ -29,20 +29,22 @@ describe("groupPermissionsByResource", () => {
     expect(g?.codes[0]?.assignable).toBe(true);
   });
 
-  it("★ 与 36 码静态目录对齐：分组数 = 资源数（7），总数恒 36，且 system_only 码仅 3 条", () => {
+  it("★ 与 37 码静态目录对齐：分组数 = 资源数（7），总数恒 37，且 system_only 码仅 3 条（GAP2 增 devices.assign）", () => {
     const groups = groupPermissionsByResource(PERMISSION_CATALOG);
     const total = groups.reduce((acc, g) => acc + g.codes.length, 0);
-    expect(total).toBe(36);
-    expect(groups.map((g) => g.resource)).toEqual([
-      "users",
-      "user_groups",
-      "devices",
-      "address_books",
-      "strategies",
-      "audit",
-      "roles",
-      "servers",
-    ].filter((r) => groups.some((g) => g.resource === r)));
+    expect(total).toBe(37);
+    expect(groups.map((g) => g.resource)).toEqual(
+      [
+        "users",
+        "user_groups",
+        "devices",
+        "address_books",
+        "strategies",
+        "audit",
+        "roles",
+        "servers",
+      ].filter((r) => groups.some((g) => g.resource === r)),
+    );
     const systemOnly = groups.flatMap((g) => g.codes).filter((c) => isSystemOnlyCode(c.code));
     expect(systemOnly.map((c) => c.code)).toEqual(["roles.create", "roles.edit", "roles.delete"]);
   });

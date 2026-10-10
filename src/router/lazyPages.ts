@@ -20,7 +20,9 @@ export const NotFoundPage = lazy(() =>
 
 // ---------- T04：认证域 + 个人中心 + 仪表盘 ----------
 /** 登录页（含 2FA / Passkey / OIDC 入口）。 */
-export const LoginPage = lazy(() => import("@/pages/auth/Login").then((m) => ({ default: m.Login })));
+export const LoginPage = lazy(() =>
+  import("@/pages/auth/Login").then((m) => ({ default: m.Login })),
+);
 /** 独立两步验证页。 */
 export const TwoFactorPage = lazy(() =>
   import("@/pages/auth/TwoFactor").then((m) => ({ default: m.TwoFactor })),
@@ -144,4 +146,22 @@ export const SettingsLdapPage = lazy(() =>
 /** 前端设置。 */
 export const SettingsFrontendPage = lazy(() =>
   import("@/pages/settings/SettingsFrontend").then((m) => ({ default: m.SettingsFrontend })),
+);
+
+// ---------- GAP2：设备个人归属 + 强制 MFA + 登录审计 ----------
+/** 我的设备（auth 档）。 */
+export const MyDevicesPage = lazy(() =>
+  import("@/pages/my/MyDevices").then((m) => ({ default: m.MyDevices })),
+);
+/** 强制 MFA 绑定页（公开凭步会话 secret）。 */
+export const MfaEnrollPage = lazy(() =>
+  import("@/pages/auth/MfaEnroll").then((m) => ({ default: m.MfaEnroll })),
+);
+/** 强制 MFA 策略设置（AdminGuard）。 */
+export const SettingsMfaPage = lazy(() =>
+  import("@/pages/settings/SettingsMfa").then((m) => ({ default: m.SettingsMfa })),
+);
+/** 登录审计（audit.view）。 */
+export const LoginAuditPage = lazy(() =>
+  import("@/pages/audit/LoginAudit").then((m) => ({ default: m.LoginAudit })),
 );

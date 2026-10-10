@@ -40,22 +40,39 @@ interface MenuGroup {
  * 菜单分组（声明式，路由归属以此为准；未命中的路由保持顶层平铺）。
  *
  * 顺序即展示顺序：仪表盘 → 设备管理 → 用户管理 → 个人中心 → 通讯录
- * → Nexus → 审计 → 系统设置。
+ * → Nexus → 审计 → 系统设置（GAP2：个人中心组新增我的设备；
+ * 审计组新增登录审计；设置组新增 MFA 强制策略）。
  */
 const MENU_GROUPS: readonly MenuGroup[] = [
   { key: "groupDevices", members: ["/devices", "/device-groups", "/strategies", "/servers"] },
   { key: "groupUsers", members: ["/users", "/user-groups", "/roles"] },
+  // GAP2：个人中心组（我的设备入口挂在本组，设计 §2.5）。
+  { key: "groupProfile", members: ["/profile", "/my-devices"] },
   {
     key: "groupAddressBook",
     members: ["/address-book/personal", "/address-book/shared", "/address-book/custom"],
   },
   {
     key: "groupAudit",
-    members: ["/audit/connections", "/audit/active", "/audit/files", "/audit/alarms", "/audit/console"],
+    members: [
+      "/audit/connections",
+      "/audit/active",
+      "/audit/files",
+      "/audit/alarms",
+      "/audit/console",
+      "/audit/login",
+    ],
   },
   {
     key: "groupSettings",
-    members: ["/settings/general", "/settings/smtp", "/settings/oidc", "/settings/ldap", "/settings/frontend"],
+    members: [
+      "/settings/general",
+      "/settings/smtp",
+      "/settings/oidc",
+      "/settings/ldap",
+      "/settings/mfa",
+      "/settings/frontend",
+    ],
   },
 ];
 

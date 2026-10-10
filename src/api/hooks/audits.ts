@@ -15,6 +15,7 @@ import {
   type FileAuditQuery,
 } from "@/api/endpoints/audits";
 import { qk } from "@/api/queryKeys";
+import { listLoginAudits, type LoginAuditQuery } from "@/api/endpoints/audits";
 
 /** 连接审计分页。 */
 export function useConnAudits(params: ConnAuditQuery, enabled = true) {
@@ -73,5 +74,15 @@ export function useUpdateConnAuditNote() {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["audits"] });
     },
+  });
+}
+
+/** 登录审计分页（GET /api/audits/login；audit.view；GAP2）。 */
+export function useLoginAudits(params: LoginAuditQuery, enabled = true) {
+  return useQuery({
+    queryKey: qk.loginAudits(params),
+    queryFn: () => listLoginAudits(params),
+    enabled,
+    placeholderData: (prev) => prev,
   });
 }

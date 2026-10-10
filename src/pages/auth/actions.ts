@@ -19,15 +19,21 @@
  * ⚠️ 权限红线：前端只做 UI 拦截，**不是安全边界**；后端每次请求实时查库为准。
  */
 import type { LoginRequest, LoginResponse } from "@/api/endpoints/auth";
-import { currentUser, login, myPermissions, passkeyAuthBegin, passkeyAuthVerify } from "@/api/endpoints/auth";
+import {
+  currentUser,
+  login,
+  myPermissions,
+  passkeyAuthBegin,
+  passkeyAuthVerify,
+} from "@/api/endpoints/auth";
 import { toDisplayMessage } from "@/api/error";
 import { queryClient } from "@/api/queryClient";
 import { qk } from "@/api/queryKeys";
 import { usePermissionStore } from "@/stores/permissionStore";
 import { useSessionStore } from "@/stores/sessionStore";
 
-/** 登录 action 的步骤。 */
-export type LoginStep = "account" | "tfa" | "passkey";
+/** 登录 action 的步骤（GAP2：mfa_enroll = 被强制 MFA 且无 2FA，跳绑定页）。 */
+export type LoginStep = "account" | "tfa" | "passkey" | "mfa_enroll";
 
 /** 登录 action 状态（内建于 `useActionState`）。 */
 export interface LoginState {
@@ -80,6 +86,19 @@ async function establishSession(token: string): Promise<void> {
 }
 
 /**
+ * 读取强制 MFA 绑定分支（GAP2 G1：type=mfa_enroll + 步会话 secret）。
+ *
+ * @param res 登录响应
+ * @returns 步会话 secret（非 mfa_enroll 分支返回 null）
+ */
+function readMfaEnrollChallenge(res: LoginResponse): string | null {
+  if (res.type === "mfa_enroll" && typeof res.secret === "string" && res.secret.length > 0) {
+    return res.secret;
+  }
+  return null;
+}
+
+/**
  * 从 `LoginResponse` 分支判定下一步 step。
  *
  * @param res 登录响应
@@ -126,6 +145,11 @@ export async function loginAction(prev: LoginState, formData: FormData): Promise
         // 罕见：后端再次要求挑战（如 verifier 变更），保持 tfa 步骤并更新 secret
         return { ...prev, ...challenge, error: null };
       }
+      // GAP2：保守兜底（绑定完成后再命中即跳绑定页）
+      const enrollChallenge2 = readMfaEnrollChallenge(res);
+      if (enrollChallenge2 !== null) {
+        return { ...initialLoginState, step: "mfa_enroll", secret: enrollChallenge2 };
+      }
       if (typeof res.access_token !== "string" || res.access_token.length === 0) {
         return { ...prev, error: "loginFailed" };
       }
@@ -150,6 +174,11 @@ export async function loginAction(prev: LoginState, formData: FormData): Promise
         tfaType: challenge.tfaType,
         hint: null,
       };
+    }
+    // GAP2：强制 MFA 分支 → 跳绑定页（/mfa-enroll，公开凭步会话 secret）
+    const enrollChallenge = readMfaEnrollChallenge(res);
+    if (enrollChallenge !== null) {
+      return { ...initialLoginState, step: "mfa_enroll", secret: enrollChallenge };
     }
     if (typeof res.access_token !== "string" || res.access_token.length === 0) {
       return { ...initialLoginState, error: "loginFailed" };
@@ -180,6 +209,11 @@ export async function passkeyLoginAction(prev: LoginState): Promise<LoginState> 
       if (challenge !== null) {
         return { step: "tfa", ok: false, error: null, ...challenge, hint: null };
       }
+      // GAP2 OQ-3：passkey 免密通道同样执行强制 MFA（转绑定页）。
+      const enrollChallenge = readMfaEnrollChallenge(res);
+      if (enrollChallenge !== null) {
+        return { ...initialLoginState, step: "mfa_enroll", secret: enrollChallenge };
+      }
       return { ...prev, error: "loginFailed" };
     }
     await establishSession(res.access_token);
@@ -200,7 +234,9 @@ export async function passkeyLoginAction(prev: LoginState): Promise<LoginState> 
  * @param options 后端返回的请求选项 JSON
  * @returns 可直接回传后端的断言响应 JSON
  */
-async function runPasskeyAssertion(options: Record<string, unknown>): Promise<Record<string, unknown>> {
+async function runPasskeyAssertion(
+  options: Record<string, unknown>,
+): Promise<Record<string, unknown>> {
   if (typeof navigator === "undefined" || !navigator.credentials) {
     throw new Error("webauthnUnsupported");
   }

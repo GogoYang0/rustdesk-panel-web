@@ -116,3 +116,24 @@ export async function getUpdateCheck(frontendVersion?: string): Promise<UpdateCh
   });
   return unwrap(res);
 }
+
+// ---------------------------------------------------------------------------
+// GAP2 强制 MFA 策略（mfa.* 键目录；AdminGuard）
+// ---------------------------------------------------------------------------
+
+/** 强制 MFA 策略视图。 */
+export type MfaSettings = components["schemas"]["MfaSettings"];
+/** 强制 MFA 策略更新载荷。 */
+export type UpdateMfaSettings = components["schemas"]["UpdateMfaSettings"];
+
+/** 读取强制 MFA 策略（GET /api/settings/mfa）。 */
+export async function getMfaSettings(): Promise<MfaSettings> {
+  const res = await api.GET("/api/settings/mfa");
+  return unwrap(res);
+}
+
+/** 更新强制 MFA 策略（PUT /api/settings/mfa）。 */
+export async function updateMfaSettings(body: UpdateMfaSettings): Promise<MfaSettings> {
+  const res = await api.PUT("/api/settings/mfa", { body });
+  return unwrap(res);
+}

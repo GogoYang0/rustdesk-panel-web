@@ -350,7 +350,41 @@ export async function verifyInvitation(token: string): Promise<InvitationInfo> {
  * @param body 邀请 token 与密码
  * @returns 接受结果 `{message}`
  */
-export async function acceptInvitation(body: InvitationAcceptRequest): Promise<{ message: string }> {
+export async function acceptInvitation(
+  body: InvitationAcceptRequest,
+): Promise<{ message: string }> {
   const res = await api.POST("/api/invitations/accept", { body });
+  return unwrap(res);
+}
+
+// ---------------------------------------------------------------------------
+// GAP2 强制 MFA 绑定（公开端点，凭 mfa_enroll 步会话 secret）
+// ---------------------------------------------------------------------------
+
+/** 绑定第一步载荷（secret = 登录响应 type=mfa_enroll 的步会话 guid）。 */
+export type MfaEnrollRequest = Schemas["MfaEnrollRequest"];
+/** TOTP 绑定材料（pending secret + otpauth URL）。 */
+export type MfaEnrollResult = Schemas["MfaEnrollResult"];
+/** 绑定第二步载荷。 */
+export type MfaEnrollVerifyRequest = Schemas["MfaEnrollVerifyRequest"];
+
+/**
+ * 强制 MFA 绑定·生成 TOTP（POST /api/auth/mfa/enroll，公开）。
+ *
+ * @param secret mfa_enroll 步会话 secret
+ */
+export async function beginMfaEnroll(secret: string): Promise<MfaEnrollResult> {
+  const res = await api.POST("/api/auth/mfa/enroll", { body: { secret } });
+  return unwrap(res);
+}
+
+/**
+ * 强制 MFA 绑定·校验并签发（POST /api/auth/mfa/enroll/verify，公开）。
+ *
+ * @param body 步会话 secret + 6 位验证码
+ * @returns 登录响应（type=access_token）
+ */
+export async function verifyMfaEnroll(body: MfaEnrollVerifyRequest): Promise<LoginResponse> {
+  const res = await api.POST("/api/auth/mfa/enroll/verify", { body });
   return unwrap(res);
 }

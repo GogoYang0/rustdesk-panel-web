@@ -37,6 +37,9 @@ export const qk = {
   deviceGroups: (p: QueryParams = {}) => ["device-groups", "list", p] as const,
   deviceGroup: (guid: string) => ["device-groups", "detail", guid] as const,
   peers: (p: QueryParams = {}) => ["peers", "list", p] as const,
+  // GAP2 设备个人归属
+  myDevices: (p: QueryParams = {}) => ["devices", "my", p] as const,
+  userDevices: (guid: string, p: QueryParams = {}) => ["users", guid, "devices", p] as const,
 
   // ---------- 用户 / 用户组 / 角色 ----------
   users: (p: QueryParams = {}) => ["users", "list", p] as const,
@@ -44,7 +47,8 @@ export const qk = {
   user: (guid: string) => ["users", "detail", guid] as const,
   userGroups: (p: QueryParams = {}) => ["user-groups", "list", p] as const,
   userGroup: (guid: string) => ["user-groups", "detail", guid] as const,
-  userGroupMembers: (guid: string, p: QueryParams = {}) => ["user-groups", guid, "members", p] as const,
+  userGroupMembers: (guid: string, p: QueryParams = {}) =>
+    ["user-groups", guid, "members", p] as const,
   roles: (p: QueryParams = {}) => ["roles", "list", p] as const,
   role: (guid: string) => ["roles", "detail", guid] as const,
   userRoles: (guid: string) => ["roles", "user", guid] as const,
@@ -63,6 +67,8 @@ export const qk = {
   fileAudits: (p: QueryParams = {}) => ["audits", "file", p] as const,
   alarmAudits: (p: QueryParams = {}) => ["audits", "alarm", p] as const,
   consoleAudits: (p: QueryParams = {}) => ["audits", "console", p] as const,
+  // GAP2 登录审计
+  loginAudits: (p: QueryParams = {}) => ["audits", "login", p] as const,
 
   // ---------- 策略 / 服务器 ----------
   strategies: (p: QueryParams = {}) => ["strategies", "list", p] as const,
@@ -86,6 +92,8 @@ export const qk = {
   generalSettings: () => ["settings", "general"] as const,
   smtpSettings: () => ["settings", "smtp"] as const,
   ldapSettings: () => ["settings", "ldap"] as const,
+  // GAP2 强制 MFA 策略
+  mfaSettings: () => ["settings", "mfa"] as const,
   oidcProviders: (p: QueryParams = {}) => ["settings", "oidc-providers", p] as const,
   oidcProvider: (guid: string) => ["settings", "oidc-providers", guid] as const,
   updateCheck: (v?: string) => ["settings", "update-check", v ?? "-"] as const,

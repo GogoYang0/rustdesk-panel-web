@@ -16,6 +16,9 @@ import "@douyinfe/semi-ui/react19-adapter";
 //    官方要求：semi-layer.css 必须位于「任何含 @import "tailwindcss"; 的文件」之前 —— 已由第 1 行满足。
 import "./styles/tailwind.css";
 
+// 3.5) 全站补充样式（依赖 Tailwind/已就绪的层顺序，位于业务入口之前）。
+import "./styles/app.css";
+
 // 4) 业务入口。此后方可引入 Semi 组件与其它 CSS。
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";

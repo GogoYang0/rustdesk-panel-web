@@ -119,7 +119,11 @@
       "delete": "Delete",
       "deleteConfirm": "Delete this Passkey credential?",
       "deleted": "Credential deleted",
-      "empty": "No Passkey credentials"
+      "empty": "No Passkey credentials",
+      "tfaTitle": "Use Passkey as second factor",
+      "tfaDescription": "When enabled, client sign-in can complete 2FA with a Passkey (contract has no read endpoint; the switch reflects your last setting)",
+      "tfaEnabled": "Passkey second factor enabled",
+      "tfaDisabled": "Passkey second factor disabled"
     },
     "session": {
       "device": "Device",
@@ -442,7 +446,8 @@
       "batchDisable": "Batch disable",
       "batchForceLogout": "Batch logout",
       "batchSecurity": "Batch security",
-      "create": "Create User"
+      "create": "Create User",
+      "invite": "Invite User"
     },
     "eligible": {
       "ok": "Eligible",
@@ -460,7 +465,11 @@
       "emailRequired": "Email is required",
       "passwordRequired": "Initial password is required",
       "passwordMin": "Password must be at least 6 characters"
-    }
+    },
+    "inviteTitle": "Invite User",
+    "inviteHint": "Creates an unverified user and sends a 7-day invitation email; the invitee sets a password via the link to finish registration.",
+    "inviteLinkHint": "Email delivery failed. Please forward the invitation link below manually:",
+    "inviteLink": "Invitation link (with token)"
   },
   "userGroups": {
     "createTitle": "New User Group",
@@ -595,7 +604,8 @@
       "deleteRule": "Delete",
       "createBook": "New book",
       "detail": "Detail"
-    }
+    },
+    "ruleUpdated": "Rule updated"
   },
   "audit": {
     "detailTitle": "Audit Detail",

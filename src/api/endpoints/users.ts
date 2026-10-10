@@ -31,6 +31,9 @@ export type UpdateUserSecurityRequest = components["schemas"]["UpdateUserSecurit
 export type CreateUserRequest = components["schemas"]["CreateUserRequest"];
 /** 邀请用户请求。 */
 export type InviteUserRequest = components["schemas"]["InviteUserRequest"];
+
+/** 邀请结果（message 必返；邮件发送失败时降级带 token 明文）。 */
+export type InviteResult = components["schemas"]["InviteResult"];
 /** 用户角色指派列表。 */
 export type UserRolesResult = components["schemas"]["UserRolesResult"];
 /** 全量替换用户角色指派请求。 */

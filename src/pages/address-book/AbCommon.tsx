@@ -9,7 +9,7 @@
  *
  * 组件选型（Semi 已查证）：Table / Form / Modal / Select / Tag / Popconfirm / Notification。
  */
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, Form, Input, Modal, Notification, Popconfirm, Select, Tag } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
@@ -26,6 +26,7 @@ import {
   useAbTagMutation,
   useAbRuleMutation,
   useDeleteAbPeer,
+  useShareCandidates,
   useUpsertAbPeer,
   type AbTag,
 } from "@/api/hooks/addressBook";
@@ -61,13 +62,6 @@ const RULE_LEVELS: readonly { value: AbRule["rule"]; key: string }[] = [
   { value: 2, key: "addressBook.rule.readWrite" },
   { value: 3, key: "addressBook.rule.fullControl" },
 ];
-
-/** 规则级别 Tag 颜色。 */
-const RULE_COLOR: Record<AbRule["rule"], "grey" | "blue" | "green"> = {
-  1: "grey",
-  2: "blue",
-  3: "green",
-};
 
 /** AbPeersSection 属性。 */
 export interface AbPeersSectionProps {
@@ -334,11 +328,12 @@ function colorName(argb: number): "red" | "blue" | "green" | "yellow" {
   return "yellow";
 }
 
-/** 规则管理弹窗（列出该地址簿规则 + 新建 + 删除）。 */
+/** 规则管理弹窗（列出该地址簿规则 + 候选选择新建 + 等级即改 + 删除）。 */
 function RulesModal({ abGuid, onClose }: { abGuid: string; onClose: () => void }) {
   const { t } = useTranslation("pages");
   const { t: tc } = useTranslation("common");
   const rulesQuery = useAbRules();
+  const candidatesQuery = useShareCandidates(abGuid);
   const ruleMutation = useAbRuleMutation();
 
   const onError = (err: unknown): void => {
@@ -350,7 +345,7 @@ function RulesModal({ abGuid, onClose }: { abGuid: string; onClose: () => void }
   return (
     <Modal title={t("addressBook.rulesTitle")} visible width={640} onCancel={onClose} footer={null}>
       <div className="flex flex-col gap-3">
-        <RuleCreateForm abGuid={abGuid} />
+        <RuleCreateForm abGuid={abGuid} candidates={candidatesQuery.data} />
         <DataTable<AbRule>
           columns={[
             { title: t("addressBook.field.target"), dataIndex: "target_user_id",
@@ -359,10 +354,27 @@ function RulesModal({ abGuid, onClose }: { abGuid: string; onClose: () => void }
                   : row.target_group_id ? `${t("addressBook.target.group")}: ${row.target_group_id.slice(0, 8)}…`
                     : t("addressBook.target.everyone") },
             { title: t("addressBook.field.ruleLevel"), dataIndex: "rule",
-              render: (v: AbRule["rule"]) => {
-                const item = RULE_LEVELS.find((l) => l.value === v);
-                return <Tag color={RULE_COLOR[v]}>{item ? t(item.key) : String(v)}</Tag>;
-              } },
+              render: (v: AbRule["rule"], row: AbRule) => (
+                <Select
+                  value={v}
+                  size="small"
+                  style={{ width: 130 }}
+                  disabled={ruleMutation.isPending}
+                  aria-label={t("addressBook.field.ruleLevel")}
+                  onChange={(next) => {
+                    const level = Number(next) as AbRule["rule"];
+                    if (level === row.rule) return;
+                    ruleMutation.mutate(
+                      { op: "update", body: { guid: row.guid, rule: level } },
+                      {
+                        onSuccess: () => Notification.success({ content: t("addressBook.ruleUpdated") }),
+                        onError,
+                      },
+                    );
+                  }}
+                  optionList={RULE_LEVELS.map((l) => ({ value: l.value, label: t(l.key) }))}
+                />
+              ) },
             {
               title: tc("table.actions"),
               width: 100,
@@ -388,8 +400,19 @@ function RulesModal({ abGuid, onClose }: { abGuid: string; onClose: () => void }
   );
 }
 
-/** 规则新建表单（user/group 互斥；everyone = 双空）。 */
-function RuleCreateForm({ abGuid }: { abGuid: string }) {
+/**
+ * 规则新建表单（user/group 互斥；everyone = 双空）。
+ *
+ * 目标从分享候选（GET /api/ab/shared/{guid}/share-candidates，users + groups 两源）
+ * 中搜索选择，替代裸 guid 输入；提交仍传目标 guid（后端按 username/guid 双兼容复核）。
+ */
+function RuleCreateForm({
+  abGuid,
+  candidates,
+}: {
+  abGuid: string;
+  candidates?: { users: { guid: string; username: string; name?: string }[]; groups: { guid: string; name: string }[] };
+}) {
   const { t } = useTranslation("pages");
   const ruleMutation = useAbRuleMutation();
   const [target, setTarget] = useState<"everyone" | "user" | "group">("everyone");
@@ -400,11 +423,27 @@ function RuleCreateForm({ abGuid }: { abGuid: string }) {
     Notification.error({ content: toDisplayMessage(err), duration: 4 });
   };
 
+  /** 候选选项：value = `user:{guid}` / `group:{guid}`，label 按名称展示。 */
+  const candidateOptions = useMemo(() => {
+    const users = (candidates?.users ?? []).map((u) => ({
+      value: `user:${u.guid}`,
+      label: `${t("addressBook.target.user")}: ${u.username}${u.name && u.name.length > 0 ? ` (${u.name})` : ""}`,
+    }));
+    const groups = (candidates?.groups ?? []).map((g) => ({
+      value: `group:${g.guid}`,
+      label: `${t("addressBook.target.group")}: ${g.name}`,
+    }));
+    return [...users, ...groups];
+  }, [candidates, t]);
+
   return (
     <div className="flex flex-wrap items-end gap-2">
       <div className="flex flex-wrap items-end gap-2">
         <Select value={target} style={{ width: 140 }} aria-label={t("addressBook.field.target")}
-          onChange={(v) => setTarget(v as typeof target)}
+          onChange={(v) => {
+            setTarget(v as typeof target);
+            setTargetId("");
+          }}
           optionList={[
             { value: "everyone", label: t("addressBook.target.everyone") },
             { value: "user", label: t("addressBook.target.user") },
@@ -412,9 +451,15 @@ function RuleCreateForm({ abGuid }: { abGuid: string }) {
           ]}
         />
         {target !== "everyone" ? (
-          <Input value={targetId} onChange={(v) => setTargetId(v)}
-            placeholder={t("addressBook.field.targetGuid")} style={{ width: 240 }}
-            aria-label={t("addressBook.field.targetGuid")} />
+          <Select
+            value={targetId}
+            filter
+            style={{ width: 260 }}
+            aria-label={t("addressBook.field.targetGuid")}
+            placeholder={t("addressBook.field.targetGuid")}
+            onChange={(v) => setTargetId(typeof v === "string" ? v : "")}
+            optionList={candidateOptions.filter((o) => o.value.startsWith(`${target}:`))}
+          />
         ) : null}
         <Select value={level} style={{ width: 140 }} aria-label={t("addressBook.field.ruleLevel")}
           onChange={(v) => setLevel(Number(v) as AbRule["rule"])}
@@ -422,15 +467,15 @@ function RuleCreateForm({ abGuid }: { abGuid: string }) {
         />
       </div>
       <PermissionButton theme="solid" size="small" code="address_books.share"
-        disabled={target !== "everyone" && targetId.trim().length === 0}
+        disabled={target !== "everyone" && targetId.length === 0}
         onClick={() =>
           ruleMutation.mutate(
             {
               op: "create",
               body: {
                 guid: abGuid,
-                user: target === "user" ? targetId.trim() : undefined,
-                group: target === "group" ? targetId.trim() : undefined,
+                user: target === "user" && targetId.startsWith("user:") ? targetId.slice(5) : undefined,
+                group: target === "group" && targetId.startsWith("group:") ? targetId.slice(6) : undefined,
                 rule: level,
               },
             },

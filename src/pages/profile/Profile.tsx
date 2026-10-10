@@ -15,6 +15,8 @@
  * ⚠️ 权限红线：前端只做 UI 拦截，**不是安全边界**；后端每次请求实时查库为准。
  */
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Avatar,
   Button,
@@ -212,10 +214,16 @@ function ProfileForm() {
 /**
  * 修改密码表单。
  *
+ * 成功后后端撤销该用户全部会话（旧 token 一律失效），
+ * 前端清空本地会话并跳转登录页强制重新登录。
+ *
  * @returns 密码分页内容
  */
 function PasswordForm() {
   const { t } = useTranslation("pages");
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const logout = useSessionStore((s) => s.logout);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -228,8 +236,13 @@ function PasswordForm() {
             current_password: String(values.current_password ?? ""),
             new_password: String(values.new_password ?? ""),
           });
-          Toast.success(t("profile.passwordChanged"));
+          // 改密成功：本地会话与缓存一并清空，跳登录页重新认证。
+          logout();
+          queryClient.clear();
+          Toast.success(t("profile.passwordChangedRelogin"));
+          navigate("/login", { replace: true });
         } catch (err) {
+          // 当前密码错误（401）为业务校验失败：仅 Toast，不跳转。
           Toast.error(toDisplayMessage(err));
         } finally {
           setSubmitting(false);

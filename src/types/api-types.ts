@@ -2730,10 +2730,10 @@ export interface components {
             user_group_guid?: string;
             strategy_guid?: string;
         };
-        /** @description 分支结构：account 带 access_token+user； 两步验证带 type=email_check + tfa_type + secret； passkey_tfa 第一步复用 email_check 类型位并附 passkey_options。 */
+        /** @description 分支结构：成功登录返回 type=access_token（兼容官方 RustDesk 客户端， 客户端以 type==access_token 且 access_token 非空作为登录完成条件）， 并带 access_token+user； 两步验证带 type=email_check + tfa_type + secret； passkey_tfa 第一步复用 email_check 类型位并附 passkey_options。 */
         LoginResponse: {
             /** @enum {string} */
-            type: "account" | "email_check";
+            type: "access_token" | "account" | "email_check";
             access_token?: string;
             user?: components["schemas"]["UserPayload"];
             /** @enum {string} */

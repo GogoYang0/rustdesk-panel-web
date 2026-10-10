@@ -41,6 +41,7 @@ import {
   useDeletePasskey,
   useDisableTfa,
   usePasskeys,
+  usePasskeyTfaToggle,
   useRevokeSession,
   useSessions,
   useSetupTfa,
@@ -288,6 +289,9 @@ function SecurityPanel() {
   const disableTfa = useDisableTfa();
   const passkeys = usePasskeys();
   const deletePasskey = useDeletePasskey();
+  const passkeyTfaToggle = usePasskeyTfaToggle();
+  // 契约无 passkey_tfa 读取端点（状态仅由客户端登录流程消费），初始态保守置否
+  const [passkeyTfaOn, setPasskeyTfaOn] = useState<boolean>(false);
 
   const [setupResult, setSetupResult] = useState<{ secret: string; otpauth_url: string } | null>(null);
   const [tfaEnabled, setTfaEnabled] = useState<boolean>(user?.tfa_enabled === true);
@@ -452,6 +456,24 @@ function SecurityPanel() {
           pagination={false}
           empty={t("profile.passkey.empty")}
         />
+        <div className="flex items-center gap-3">
+          <Switch
+            checked={passkeyTfaOn}
+            loading={passkeyTfaToggle.isPending}
+            onChange={(next) =>
+              passkeyTfaToggle.mutate(next, {
+                onSuccess: () => {
+                  setPasskeyTfaOn(next);
+                  Toast.success(t(next ? "profile.passkey.tfaEnabled" : "profile.passkey.tfaDisabled"));
+                },
+                onError: (err) => Toast.error(toDisplayMessage(err)),
+              })
+            }
+            aria-label={t("profile.passkey.tfaTitle")}
+          />
+          <Typography.Text>{t("profile.passkey.tfaTitle")}</Typography.Text>
+          <Typography.Text type="tertiary">{t("profile.passkey.tfaDescription")}</Typography.Text>
+        </div>
       </div>
     </div>
   );

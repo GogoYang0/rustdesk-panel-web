@@ -11,6 +11,7 @@ import {
   disableTfa,
   listPasskeys,
   listSessions,
+  passkeyTfaToggle,
   revokeSession,
   setupTfa,
   updateMe,
@@ -154,5 +155,12 @@ export function useDeletePasskey() {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: qk.passkeys });
     },
+  });
+}
+
+/** Passkey 作为二次验证开关（POST /api/passkey/tfa）。 */
+export function usePasskeyTfaToggle() {
+  return useMutation({
+    mutationFn: (enabled: boolean) => passkeyTfaToggle(enabled),
   });
 }

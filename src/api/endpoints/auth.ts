@@ -216,6 +216,19 @@ export async function deletePasskey(guid: string): Promise<{ message: string }> 
   return unwrap(res);
 }
 
+/**
+ * Passkey 作为二次验证开关（POST /api/passkey/tfa；写 users.info.other.passkey_tfa_enabled）。
+ *
+ * 契约无读取端点（状态仅由客户端登录流程消费），面板侧为「切换型」开关。
+ *
+ * @param enabled 是否启用
+ * @returns 操作结果 `{message}`
+ */
+export async function passkeyTfaToggle(enabled: boolean): Promise<{ message: string }> {
+  const res = await api.POST("/api/passkey/tfa", { body: { enabled } });
+  return unwrap(res);
+}
+
 // ---------------------------------------------------------------------------
 // 个人中心
 // ---------------------------------------------------------------------------

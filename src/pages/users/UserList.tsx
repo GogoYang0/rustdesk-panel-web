@@ -11,8 +11,8 @@
  * 组件选型（Semi 已查证）：Table / Form / Modal / Select / Popconfirm / Tag / Notification / Descriptions / Switch。
  */
 import { useMemo, useState } from "react";
-import { Descriptions, Form, Modal, Notification, Popconfirm, Select, Tag } from "@douyinfe/semi-ui";
-import { IconPlus, IconRefresh } from "@douyinfe/semi-icons";
+import { Banner, Descriptions, Form, Modal, Notification, Popconfirm, Select, Tag, Typography } from "@douyinfe/semi-ui";
+import { IconPlus, IconRefresh, IconSend } from "@douyinfe/semi-icons";
 import { useTranslation } from "react-i18next";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
 import { DataTable } from "@/components/DataTable";
@@ -30,11 +30,13 @@ import {
   useCreateUser,
   useDeleteUser,
   useForceUserLogout,
+  useInviteUser,
   useReplaceUserRoles,
   useUpdateUser,
   useUpdateUserSecurity,
   type AdminUserRow,
   type EligibilityRow,
+  type InviteResult,
 } from "@/api/hooks/users";
 import { useUserGroups } from "@/api/hooks/userGroups";
 import { useUserRoles, useUserRoleEligibility } from "@/api/hooks/users";
@@ -84,6 +86,8 @@ export function UserList() {
   const [rolesRow, setRolesRow] = useState<AdminUserRow | null>(null);
   const [batchSecurityOpen, setBatchSecurityOpen] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [inviting, setInviting] = useState(false);
+  const [inviteDone, setInviteDone] = useState<InviteResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const query = useAdminUsers({
@@ -105,6 +109,7 @@ export function UserList() {
   const batchSecurity = useBatchUpdateUserSecurity();
   const batchSessions = useBatchForceUserLogout();
   const createUser = useCreateUser();
+  const inviteUserMutation = useInviteUser();
 
   const onError = (err: unknown): void => {
     Notification.error({ content: toDisplayMessage(err), duration: 4 });
@@ -253,6 +258,36 @@ export function UserList() {
       },
     );
   };
+  /** 邀请用户提交（users.create 语义 + 组内成员资格；成功展示 message / 降级 token 链接）。 */
+  const submitInvite = (values: Record<string, unknown>): void => {
+    setSubmitting(true);
+    inviteUserMutation.mutate(
+      {
+        email: String(values.email ?? ""),
+        name: String(values.name ?? ""),
+        display_name:
+          typeof values.display_name === "string" && values.display_name.length > 0
+            ? values.display_name
+            : undefined,
+        note: typeof values.note === "string" && values.note.length > 0 ? values.note : undefined,
+        user_group_guid:
+          typeof values.user_group_guid === "string" && values.user_group_guid.length > 0
+            ? values.user_group_guid
+            : undefined,
+      },
+      {
+        onSuccess: (result) => {
+          setSubmitting(false);
+          setInviteDone(result);
+          void query.refetch();
+        },
+        onError: (err) => {
+          onError(err);
+          setSubmitting(false);
+        },
+      },
+    );
+  };
 
   /** 安全设置提交（重置口令 / 2FA 强制 / 邮箱验证）。 */
   const submitSecurity = (values: Record<string, unknown>): void => {
@@ -293,6 +328,12 @@ export function UserList() {
           <div className="flex items-center gap-2">
             <PermissionButton icon={<IconPlus />} theme="solid" code="users.create" onClick={() => setCreating(true)}>
               {t("users.action.create")}
+            </PermissionButton>
+            <PermissionButton icon={<IconSend />} theme="light" code="users.create" onClick={() => {
+              setInviteDone(null);
+              setInviting(true);
+            }}>
+              {t("users.action.invite")}
             </PermissionButton>
             <PermissionButton icon={<IconRefresh />} theme="borderless" code="users.view"
               onClick={() => void query.refetch()}>
@@ -440,6 +481,66 @@ export function UserList() {
           optionList={(groupsQuery.data?.data ?? []).map((g) => ({ value: g.guid, label: g.name }))}
           placeholder={t("users.field.userGroupCreatePlaceholder")} />
       </FormModal>
+
+      {/* 邀请用户弹窗（契约：POST /api/users/invite；邮件失败降级返回 token 明文） */}
+      <FormModal
+        visible={inviting && inviteDone === null}
+        title={t("users.inviteTitle")}
+        submitting={submitting}
+        onClose={() => setInviting(false)}
+        onSubmit={submitInvite}
+        initialValues={{ name: "", display_name: "", email: "", note: "", user_group_guid: "" }}
+      >
+        <Banner
+          type="info"
+          closeIcon={null}
+          description={t("users.inviteHint")}
+          className="!mb-2"
+        />
+        <Form.Input
+          field="name"
+          label={t("users.field.username")}
+          maxLength={100}
+          rules={[
+            { required: true, message: t("users.error.usernameRequired") },
+            { min: 3, message: t("users.error.usernameMin") },
+          ]}
+        />
+        <Form.Input field="display_name" label={t("users.field.displayName")} maxLength={100} />
+        <Form.Input
+          field="email"
+          label={t("users.field.email")}
+          type="email"
+          rules={[{ required: true, message: t("users.error.emailRequired") }]}
+        />
+        <Form.TextArea field="note" label={t("users.field.note")} rows={2} maxCount={255} />
+        <Form.Select field="user_group_guid" label={t("users.field.userGroup")} style={{ width: "100%" }} showClear
+          optionList={(groupsQuery.data?.data ?? []).map((g) => ({ value: g.guid, label: g.name }))}
+          placeholder={t("users.field.userGroupCreatePlaceholder")} />
+      </FormModal>
+
+      {/* 邀请结果弹窗（邮件发送失败时降级展示邀请链接供手动转交） */}
+      <Modal
+        title={t("users.inviteTitle")}
+        visible={inviting && inviteDone !== null}
+        onCancel={() => setInviting(false)}
+        footer={null}
+        width={560}
+      >
+        {inviteDone !== null ? (
+          <div className="flex flex-col gap-3">
+            <Banner type="success" closeIcon={null} description={inviteDone.message} />
+            {typeof inviteDone.token === "string" && inviteDone.token.length > 0 ? (
+              <div className="flex flex-col gap-1">
+                <Typography.Text type="secondary">{t("users.inviteLinkHint")}</Typography.Text>
+                <Typography.Text copyable={{ content: `${window.location.origin}/invite/accept?token=${inviteDone.token}` }}>
+                  {t("users.inviteLink")}
+                </Typography.Text>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </Modal>
 
       {/* 编辑弹窗 */}
       <FormModal

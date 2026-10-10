@@ -265,7 +265,14 @@ export async function listAddressBookTags(abGuid: string): Promise<AbTagList> {
   return unwrap(res);
 }
 
-/** 地址簿 tags 全量替换（含 tag_colors）。 */
+/**
+ * 地址簿 tags 全量替换（含 tag_colors）。
+ *
+ * 注意：当前无任何调用方——AbCommon 标签条只走 add/rename/update/delete
+ * 单标签端点。保留封装的原因：POST /api/ab/tags/{guid} 为 openapi 真实
+ * 端点，将来「标签颜色批量编辑」类功能可直接复用；接入前不计入覆盖矩阵
+ * 的「已覆盖」口径（见 docs/web-api-coverage-matrix.md MIN-02 修订）。
+ */
 export async function replaceAddressBookTags(
   abGuid: string,
   tags: { name: string; color: number }[],

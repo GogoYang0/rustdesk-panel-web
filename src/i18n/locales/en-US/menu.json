@@ -23,5 +23,14 @@
   "settingsOidc": "Single Sign-On",
   "settingsLdap": "LDAP",
   "settingsFrontend": "Frontend",
-  "profile": "Profile"
+  "profile": "Profile",
+  "groupDevices": "Device Management",
+  "groupUsers": "User Management",
+  "groupAddressBook": "Address Book",
+  "groupAudit": "Audit",
+  "groupSettings": "Settings",
+  "myDevices": "My Devices",
+  "auditLogin": "Login Audit",
+  "settingsMfa": "MFA Enforcement",
+  "groupProfile": "Account"
 }

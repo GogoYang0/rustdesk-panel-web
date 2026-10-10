@@ -31,6 +31,7 @@ import {
 import { toDisplayMessage } from "@/api/error";
 import { useTableQuery } from "@/hooks/useTableQuery";
 import { usePermission } from "@/hooks/usePermission";
+import { AssignUserModal } from "@/pages/devices/AssignUserModal";
 
 /** 可选状态筛选。 */
 type StatusFilter = "enabled" | "disabled" | "";
@@ -53,11 +54,14 @@ export function DeviceList() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("");
   const [onlineFilter, setOnlineFilter] = useState<OnlineFilter>("");
   const [selectedGuids, setSelectedGuids] = useState<readonly string[]>([]);
+  // GAP2：分配用户弹窗目标设备（null = 关闭）。
+  const [assignTarget, setAssignTarget] = useState<DeviceView | null>(null);
 
   const query = useDevices({
     ...pageParams,
     id: /^\d+$/.test(state.keyword) ? state.keyword : undefined,
-    device_name: state.keyword.length > 0 && !/^\d+$/.test(state.keyword) ? state.keyword : undefined,
+    device_name:
+      state.keyword.length > 0 && !/^\d+$/.test(state.keyword) ? state.keyword : undefined,
     status: statusFilter === "" ? undefined : statusFilter === "enabled" ? "1" : "0",
     is_online: onlineFilter === "" ? undefined : onlineFilter === "online" ? "1" : "0",
   });
@@ -97,8 +101,18 @@ export function DeviceList() {
       dataIndex: "guid",
       render: (_v: unknown, row: DeviceView) => row.info.device_name || row.guid,
     },
-    { title: t("devices.field.username"), dataIndex: "guid", width: 110, render: (_v, row) => row.info.username },
-    { title: t("devices.field.os"), dataIndex: "guid", width: 100, render: (_v, row) => row.info.os },
+    {
+      title: t("devices.field.username"),
+      dataIndex: "guid",
+      width: 110,
+      render: (_v, row) => row.info.username,
+    },
+    {
+      title: t("devices.field.os"),
+      dataIndex: "guid",
+      width: 100,
+      render: (_v, row) => row.info.os,
+    },
     {
       title: t("devices.field.user"),
       dataIndex: "user_name",
@@ -151,6 +165,16 @@ export function DeviceList() {
             }
           >
             {t("devices.action.disconnect")}
+          </PermissionButton>
+          {/* GAP2：分配给用户（devices.assign；转移/解绑共用同一弹窗） */}
+          <PermissionButton
+            size="small"
+            theme="borderless"
+            code="devices.assign"
+            deviceGroupGuid={row.deviceGroupGuid ?? null}
+            onClick={() => setAssignTarget(row)}
+          >
+            {t("devices.action.assign")}
           </PermissionButton>
           <PermissionButton
             size="small"
@@ -296,6 +320,9 @@ export function DeviceList() {
           onChange: (keys) => setSelectedGuids(keys as string[]),
         }}
       />
+
+      {/* GAP2：设备「分配给用户」弹窗（列表数据源随缓存前缀自动刷新） */}
+      <AssignUserModal device={assignTarget} onClose={() => setAssignTarget(null)} />
     </div>
   );
 }

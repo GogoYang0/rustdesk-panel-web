@@ -31,6 +31,9 @@ export type UpdateUserSecurityRequest = components["schemas"]["UpdateUserSecurit
 export type CreateUserRequest = components["schemas"]["CreateUserRequest"];
 /** 邀请用户请求。 */
 export type InviteUserRequest = components["schemas"]["InviteUserRequest"];
+
+/** 邀请结果（message 必返；邮件发送失败时降级带 token 明文）。 */
+export type InviteResult = components["schemas"]["InviteResult"];
 /** 用户角色指派列表。 */
 export type UserRolesResult = components["schemas"]["UserRolesResult"];
 /** 全量替换用户角色指派请求。 */
@@ -161,3 +164,6 @@ export async function userRoleEligibility(guid: string): Promise<{ data: Eligibi
   const res = await api.GET("/api/users/{guid}/roles/eligibility", { params: { path: { guid } } });
   return unwrap(res);
 }
+
+/** 按用户查设备分页（GET /api/users/{guid}/devices；users.view；GAP2）。 */
+export type UserDevicePage = components["schemas"]["DevicePage"];

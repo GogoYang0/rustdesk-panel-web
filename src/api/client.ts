@@ -28,6 +28,19 @@ function isProbeEndpoint(url: string): boolean {
 }
 
 /**
+ * 判断某 URL 是否为「401 属业务语义」的端点。
+ *
+ * `PATCH /api/users/me/password` 当前密码错误返回 401（业务校验失败），
+ * 不是会话过期，不应触发清会话 + 跳登录；错误由表单 Toast 呈现。
+ *
+ * @param url 请求 URL
+ * @returns 是否应跳过 401 统一跳转
+ */
+function isBusiness401Endpoint(url: string): boolean {
+  return url.includes("/api/users/me/password");
+}
+
+/**
  * 统一跳登录（保留 `returnTo`）。
  *
  * 使用 `location.assign` 而非 React Router navigate：本函数在非 React 上下文（中间件）调用，
@@ -61,7 +74,7 @@ export const authMiddleware: Middleware = {
   async onResponse({ response }) {
     if (response.status === 401) {
       const url = response.url ?? "";
-      if (!isProbeEndpoint(url)) {
+      if (!isProbeEndpoint(url) && !isBusiness401Endpoint(url)) {
         // 业务请求 401：清会话 + 跳登录
         clearSession();
         redirectToLogin(`${window.location.pathname}${window.location.search}`);

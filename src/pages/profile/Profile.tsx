@@ -15,6 +15,8 @@
  * ⚠️ 权限红线：前端只做 UI 拦截，**不是安全边界**；后端每次请求实时查库为准。
  */
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Avatar,
   Button,
@@ -39,6 +41,7 @@ import {
   useDeletePasskey,
   useDisableTfa,
   usePasskeys,
+  usePasskeyTfaToggle,
   useRevokeSession,
   useSessions,
   useSetupTfa,
@@ -212,10 +215,16 @@ function ProfileForm() {
 /**
  * 修改密码表单。
  *
+ * 成功后后端撤销该用户全部会话（旧 token 一律失效），
+ * 前端清空本地会话并跳转登录页强制重新登录。
+ *
  * @returns 密码分页内容
  */
 function PasswordForm() {
   const { t } = useTranslation("pages");
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const logout = useSessionStore((s) => s.logout);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -228,8 +237,13 @@ function PasswordForm() {
             current_password: String(values.current_password ?? ""),
             new_password: String(values.new_password ?? ""),
           });
-          Toast.success(t("profile.passwordChanged"));
+          // 改密成功：本地会话与缓存一并清空，跳登录页重新认证。
+          logout();
+          queryClient.clear();
+          Toast.success(t("profile.passwordChangedRelogin"));
+          navigate("/login", { replace: true });
         } catch (err) {
+          // 当前密码错误（401）为业务校验失败：仅 Toast，不跳转。
           Toast.error(toDisplayMessage(err));
         } finally {
           setSubmitting(false);
@@ -275,6 +289,9 @@ function SecurityPanel() {
   const disableTfa = useDisableTfa();
   const passkeys = usePasskeys();
   const deletePasskey = useDeletePasskey();
+  const passkeyTfaToggle = usePasskeyTfaToggle();
+  // 契约无 passkey_tfa 读取端点（状态仅由客户端登录流程消费），初始态保守置否
+  const [passkeyTfaOn, setPasskeyTfaOn] = useState<boolean>(false);
 
   const [setupResult, setSetupResult] = useState<{ secret: string; otpauth_url: string } | null>(null);
   const [tfaEnabled, setTfaEnabled] = useState<boolean>(user?.tfa_enabled === true);
@@ -439,6 +456,24 @@ function SecurityPanel() {
           pagination={false}
           empty={t("profile.passkey.empty")}
         />
+        <div className="flex items-center gap-3">
+          <Switch
+            checked={passkeyTfaOn}
+            loading={passkeyTfaToggle.isPending}
+            onChange={(next) =>
+              passkeyTfaToggle.mutate(next, {
+                onSuccess: () => {
+                  setPasskeyTfaOn(next);
+                  Toast.success(t(next ? "profile.passkey.tfaEnabled" : "profile.passkey.tfaDisabled"));
+                },
+                onError: (err) => Toast.error(toDisplayMessage(err)),
+              })
+            }
+            aria-label={t("profile.passkey.tfaTitle")}
+          />
+          <Typography.Text>{t("profile.passkey.tfaTitle")}</Typography.Text>
+          <Typography.Text type="tertiary">{t("profile.passkey.tfaDescription")}</Typography.Text>
+        </div>
       </div>
     </div>
   );

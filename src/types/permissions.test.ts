@@ -15,15 +15,15 @@ import {
 } from "@/types/permissions";
 
 describe("权限码目录", () => {
-  it("总条数为 36", () => {
-    expect(PERMISSION_CODE_COUNT).toBe(36);
-    expect(PERMISSION_CATALOG).toHaveLength(36);
+  it("总条数为 37", () => {
+    expect(PERMISSION_CODE_COUNT).toBe(37);
+    expect(PERMISSION_CATALOG).toHaveLength(37);
   });
 
-  it("可分配码 33 个 + system_only 码 3 个", () => {
+  it("可分配码 34 个 + system_only 码 3 个", () => {
     const assignable = PERMISSION_CATALOG.filter((m) => m.assignable);
     const systemOnly = PERMISSION_CATALOG.filter((m) => m.systemOnly);
-    expect(assignable).toHaveLength(33);
+    expect(assignable).toHaveLength(34);
     expect(systemOnly).toHaveLength(3);
     expect(SYSTEM_ONLY_CODES).toHaveLength(3);
   });
@@ -32,11 +32,19 @@ describe("权限码目录", () => {
     expect([...SYSTEM_ONLY_CODES].sort()).toEqual(["roles.create", "roles.delete", "roles.edit"]);
   });
 
-  it("device_group scope 码恰为 6 个", () => {
+  it("device_group scope 码恰为 7 个", () => {
     const dg = PERMISSION_CATALOG.filter((m) => m.scope === "device_group");
-    expect(dg).toHaveLength(6);
+    expect(dg).toHaveLength(7);
     expect([...DEVICE_GROUP_CODES].sort()).toEqual(
-      ["devices.delete", "devices.disconnect", "devices.edit", "devices.status", "devices.view", "strategies.assign"].sort(),
+      [
+        "devices.delete",
+        "devices.disconnect",
+        "devices.edit",
+        "devices.status",
+        "devices.view",
+        "devices.assign",
+        "strategies.assign",
+      ].sort(),
     );
   });
 

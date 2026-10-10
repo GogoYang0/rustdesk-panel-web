@@ -129,3 +129,58 @@ export async function disconnectDevice(uuid: string, connIds?: number[]): Promis
   });
   return unwrap(res);
 }
+
+// ---------------------------------------------------------------------------
+// GAP2 设备个人归属（设计 §2.3）
+// ---------------------------------------------------------------------------
+
+/** 我的设备精简视图（OQ-4：不含管理面字段）。 */
+export type MyDeviceView = components["schemas"]["MyDeviceView"];
+/** 我的设备分页。 */
+export type MyDevicePage = components["schemas"]["MyDevicePage"];
+/** 归属分配载荷（userGuid 空/缺省 = 解绑）。 */
+export type DeviceAssignRequest = components["schemas"]["DeviceAssignRequest"];
+
+/** 我的设备查询参数。 */
+export interface MyDeviceListParams extends PageParams {
+  [key: string]: unknown;
+}
+
+/**
+ * 我的设备列表（GET /api/users/me/devices；auth 档，登录即用）。
+ *
+ * @param params 分页参数
+ */
+export async function listMyDevices(params: MyDeviceListParams): Promise<MyDevicePage> {
+  const res = await api.GET("/api/users/me/devices", { params: { query: { ...params } } });
+  return unwrap(res);
+}
+
+/**
+ * 按用户查设备（GET /api/users/{guid}/devices；users.view）。
+ *
+ * @param guid 用户 guid
+ * @param params 分页参数
+ */
+export async function listUserDevices(guid: string, params: PageParams): Promise<DevicePage> {
+  const res = await api.GET("/api/users/{guid}/devices", {
+    params: { path: { guid }, query: { ...params } },
+  });
+  return unwrap(res);
+}
+
+/**
+ * 分配/转移/解绑设备个人归属（PATCH /api/devices/{guid}/assign；devices.assign）。
+ *
+ * 转移 = 对同一设备再次 assign 新 userGuid；解绑 = 空 body 或 userGuid 置 null。
+ *
+ * @param guid 设备 guid（peer.uuid）
+ * @param body 归属载荷（可省略，等价解绑）
+ */
+export async function assignDevice(guid: string, body?: DeviceAssignRequest): Promise<DeviceView> {
+  const res = await api.PATCH("/api/devices/{guid}/assign", {
+    params: { path: { guid } },
+    body: (body ?? {}) as DeviceAssignRequest,
+  });
+  return unwrap(res);
+}

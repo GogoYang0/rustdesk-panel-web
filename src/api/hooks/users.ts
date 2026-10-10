@@ -8,10 +8,12 @@ import {
   batchForceUserLogout,
   batchUpdateUserSecurity,
   batchUpdateUserStatus,
+  createUser,
   deleteUser,
   forceUserLogout,
   getUser,
   getUserRoles,
+  inviteUser,
   listAdminUsers,
   replaceUserRoles,
   updateUser,
@@ -21,6 +23,9 @@ import {
   type BatchResult,
   type MessageResult,
   type BatchSecurityRequest,
+  type CreateUserRequest,
+  type InviteResult,
+  type InviteUserRequest,
   type ReplaceRolesRequest,
   type UpdateUserRequest,
   type UpdateUserSecurityRequest,
@@ -33,6 +38,7 @@ export type {
   AdminUserPage,
   BatchResult,
   EligibilityRow,
+  InviteResult,
 } from "@/api/endpoints/users";
 
 /** 管理员用户分页（分页 + 筛选）。 */
@@ -83,6 +89,24 @@ export function useRoleProtectionImpact(guid: string, enabled = true) {
 
 function invalidateUsers(queryClient: ReturnType<typeof useQueryClient>): void {
   void queryClient.invalidateQueries({ queryKey: ["users"] });
+}
+
+/** 创建用户（users.create；重名/邮箱冲突 400）。 */
+export function useCreateUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: CreateUserRequest) => createUser(body),
+    onSuccess: () => invalidateUsers(queryClient),
+  });
+}
+
+/** 邀请用户（users.create 语义；返回 message，邮件失败降级带 token 明文）。 */
+export function useInviteUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: InviteUserRequest) => inviteUser(body) as Promise<InviteResult>,
+    onSuccess: () => invalidateUsers(queryClient),
+  });
 }
 
 /** 更新用户 → 失效用户前缀。 */

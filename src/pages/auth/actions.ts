@@ -11,6 +11,9 @@
  * 2. **登录成功**：写入 `sessionStore`（token），随后拉取 `POST /api/currentUser` 与
  *    `GET /api/permissions/me`，写入 `sessionStore.user` / `permissionStore.eff`，
  *    并 `setQueryData` 预热 TanStack Query 缓存（避免受保护页首屏重复请求）；
+ *    ★ 兼容说明：v0.1.1 起服务端成功登录返回 `type="access_token"`（对齐官方
+ *    RustDesk 客户端判定条件），弃用值 `"account"` 仅为旧版服务端保留；前端
+ *    登录收口以 `access_token` 非空为准，天然兼容新旧两种响应 type；
  * 3. **错误**：统一走 `ApiError.display`（message 三形态归一化，共享知识 15）。
  *
  * ⚠️ 权限红线：前端只做 UI 拦截，**不是安全边界**；后端每次请求实时查库为准。
